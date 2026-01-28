@@ -78,7 +78,7 @@ import { RippleModule } from 'primeng/ripple';
                             ></button>
                         </div>
 
-                        <!-- Stats modernes -->
+                        <!-- Stats modernessssssss -->
                         <div class="grid grid-cols-3 gap-6 mt-12">
                             <div class="text-center">
                                 <div class="text-3xl font-bold text-white mb-1">200+</div>
