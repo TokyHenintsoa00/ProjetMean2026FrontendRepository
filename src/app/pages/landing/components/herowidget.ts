@@ -47,12 +47,15 @@ import { RippleModule } from 'primeng/ripple';
                         </div>
 
                         <!-- Titre avec animation -->
-                        <h1 class="text-5xl md:text-7xl font-bold text-white leading-tight mb-6 animate-fade-in">
-                            Bienvenue dans
-                            <span class="block bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                        <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6 animate-fade-in">
+                            <span class="text-white">
+                                Bienvenue dans
+                            </span>
+                            <span class="block text-white">
                                 Notre Centre Commercial
                             </span>
                         </h1>
+
 
                         <!-- Description -->
                         <p class="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
@@ -67,9 +70,10 @@ import { RippleModule } from 'primeng/ripple';
                                 pRipple 
                                 type="button" 
                                 label="Explorer maintenant" 
-                                class="!bg-gradient-to-r !from-emerald-500 !to-cyan-500 !border-none !px-8 !py-4 !text-lg !font-semibold hover:!scale-105 transition-transform"
+                                style="background-color: #161d2b !important;"
+                                class="!border !border-blue-500/30 !px-8 !py-4 !text-lg !font-semibold !text-white hover:!border-blue-400/50 hover:brightness-110 transition-all"
                             ></button>
-                            <button 
+                                <button 
                                 pButton 
                                 pRipple 
                                 type="button" 
