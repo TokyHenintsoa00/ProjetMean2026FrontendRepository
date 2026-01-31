@@ -11,7 +11,7 @@ export class UserService{
 
     constructor(private http:HttpClient){};
 
-     saveUsers(users:any):Observable<any>
+    signUp(users:any):Observable<any>
     {
         return this.http.post(`${this.apiUrl}/register/user`, users);
     }
