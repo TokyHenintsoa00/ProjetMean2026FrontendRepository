@@ -443,6 +443,7 @@ export class Login {
             
                 console.log(res);
                 this.loginUser = {email:'',pwd:''};
+                this.router.navigate(['/membre/client']);
             },
             error:(err)=>{
                 console.log(err);
