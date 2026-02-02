@@ -3,11 +3,20 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { Router, RouterModule } from '@angular/router';
 import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from 'primeng/button';
-import {AppFloatingConfigurator} from "@/layout/component/app.floatingconfigurator";
+import { MenuItem } from 'primeng/api';
+import { MenuModule } from 'primeng/menu';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'topbar-widget',
-    imports: [RouterModule, StyleClassModule, ButtonModule, RippleModule, AppFloatingConfigurator],
+    imports: [
+        CommonModule,
+        RouterModule, 
+        StyleClassModule,
+        MenuModule, 
+        ButtonModule, 
+        RippleModule
+    ],
     template: `<a class="flex items-center" href="#">
             <svg viewBox="0 0 54 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-12 mr-2">
                 <path
@@ -37,7 +46,7 @@ import {AppFloatingConfigurator} from "@/layout/component/app.floatingconfigurat
             <ul class="list-none p-0 m-0 flex lg:items-center select-none flex-col lg:flex-row cursor-pointer gap-8">
                 <li>
                     <a (click)="router.navigate(['/landing'], { fragment: 'home' })" pRipple class="px-0 py-4 text-surface-900 dark:text-surface-0 font-medium text-xl">
-                        <span>Acceil</span>
+                        <span>Accueil</span>
                     </a>
                 </li>
                 <li>
@@ -47,18 +56,72 @@ import {AppFloatingConfigurator} from "@/layout/component/app.floatingconfigurat
                 </li>
                 <li>
                     <a (click)="router.navigate(['/landing'], { fragment: 'highlights' })" pRipple class="px-0 py-4 text-surface-900 dark:text-surface-0 font-medium text-xl">
-                        <span>Nouvauté</span>
+                        <span>Nouveauté</span>
                     </a>
                 </li>
-                
             </ul>
-            <div class="flex border-t lg:border-t-0 border-surface py-4 lg:py-0 mt-4 lg:mt-0 gap-2">
-                <button pButton pRipple label="Login" routerLink="/logIn" [rounded]="true" [text]="true"></button>
-                <button pButton pRipple label="Register" routerLink="/signUp" [rounded]="true"></button>
-                <app-floating-configurator [float]="false"/>
+            
+            <div class="flex items-center gap-4">
+                <button 
+                    pButton
+                    type="button" 
+                    class="p-button-text flex items-center gap-2"
+                    (click)="profileMenu.toggle($event)">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white">
+                        <i class="pi pi-user text-xl"></i>
+                    </div>
+                    <div class="flex flex-col items-start">
+                        <span class="text-surface-900 dark:text-surface-0 font-semibold text-sm">{{userName}}</span>
+                        <span class="text-surface-500 dark:text-surface-400 text-xs">{{userRole}}</span>
+                    </div>
+                    <i class="pi pi-angle-down text-surface-500 dark:text-surface-400"></i>
+                </button>
+                <p-menu #profileMenu [model]="getProfileMenuItems()" [popup]="true"></p-menu>
             </div>
-        </div> `
+        </div>`
 })
 export class TopbarWidget {
+    userName: string = 'Utilisateur';
+    userRole: string = 'Membre';
+
     constructor(public router: Router) {}
+
+    getProfileMenuItems(): MenuItem[] {
+        return [
+            {
+                label: 'Mon Profil',
+                icon: 'pi pi-user',
+                command: () => this.navigateToProfile()
+            },
+            {
+                label: 'Paramètres',
+                icon: 'pi pi-cog',
+                command: () => this.navigateToSettings()
+            },
+            {
+                separator: true
+            },
+            {
+                label: 'Déconnexion',
+                icon: 'pi pi-sign-out',
+                command: () => this.logout()
+            }
+        ];
+    }
+
+    navigateToProfile() {
+        console.log('Navigation vers le profil');
+        // this.router.navigate(['/profile']);
+    }
+
+    navigateToSettings() {
+        console.log('Navigation vers les paramètres');
+        // this.router.navigate(['/settings']);
+    }
+
+    logout() {
+        console.log('Déconnexion');
+        // this.authService.logout();
+        this.router.navigate(['/']);
+    }
 }

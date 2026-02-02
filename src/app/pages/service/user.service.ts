@@ -11,9 +11,37 @@ export class UserService{
 
     constructor(private http:HttpClient){};
 
-    signUp(users:any):Observable<any>
-    {
-        return this.http.post(`${this.apiUrl}/register/user`, users);
+    // signUp(credentials:{nom:string,prenom:string,dateNaissance:Date,role:string,telephone:string,email:string,pwd:string,avatar:null,rememberMe?:boolean}):Observable<any>
+    // {
+    //     return this.http.post(`${this.apiUrl}/register/user`, credentials,{
+    //         withCredentials: true
+    //     });
+    // }
+
+     signUp(credentials: {
+        nom_client: string,
+        prenom_client: string,
+        date_naissance: string,
+        role: string,
+        numero_telephone: string,
+        email: string,
+        pwd: string,
+        avatar: null,
+        rememberMe?: boolean
+    }): Observable<any> {
+        return this.http.post(`${this.apiUrl}/register/user`, credentials, {
+            withCredentials: true
+        });
     }
 
+    // signIn(users:any):Observable<any>
+    // {
+    //     return this.http.post(`${this.apiUrl}/login/user`,users,);
+    // }
+
+    signIn(credentials: { email: string; pwd: string; rememberMe?: boolean }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login/user`, credentials, {
+      withCredentials: true
+    });
+  }
 }

@@ -508,6 +508,7 @@ export class SignUp{
     };
     checked: boolean = false;
     passwordError: string | null = null;
+     formErrors: any = {};
     constructor(private userservice:UserService , private router:Router){}
     signUp()
     {
@@ -521,7 +522,8 @@ export class SignUp{
             date_naissance:this.loginUser.dateNaissance,
             role:"697b0d46b784b5da2ab3ba24",
             numero_telephone:this.loginUser.telephone,
-            avatar:null
+            avatar:null,
+            rememberMe:this.checked
         }
         console.log(newUserClient.pwd);
         
@@ -534,9 +536,22 @@ export class SignUp{
                                     telephone: '',
                                     email: '',
                                     pwd: ''};
-                this
+                
             },
             error: (err) => {
+                //structure reel de err
+                //err = {
+                //   status: 400,
+                //   error: {
+                //     message: "Erreur de validation",
+                //     errors: [ ... ]
+                //   }
+                // }
+                // Donc :
+                // Expression	Contenu
+                // err	HttpErrorResponse
+                // err.error	body JSON du backend
+                // err.error.errors	tableau d’erreurs express-validator
                 console.error('Erreur lors de l\'ajout', err);
                 if (err.error?.errors) {
                     const pwdError = err.error.errors.find(

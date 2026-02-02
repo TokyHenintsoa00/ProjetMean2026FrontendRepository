@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { AppFloatingConfigurator } from '../../layout/component/app.floatingconfigurator';
+import { UserService } from '../service/user.service';
 
 @Component({
     selector: 'app-login',
@@ -423,10 +424,30 @@ import { AppFloatingConfigurator } from '../../layout/component/app.floatingconf
 export class Login {
 
     loginUser = {email:'',pwd:''};
- checked: boolean = false;
+    checked: boolean = false;
+
+    constructor(private userservice:UserService,private router:Router){};
+
     login()
     {
+        console.log("clique login");
+        const logUser = {
+            email:this.loginUser.email,
+            pwd:this.loginUser.pwd,
+            rememberMe:this.checked
+        }
 
+        this.userservice.signIn(logUser).subscribe({
+            next:(res) =>{
+                console.log("log user");
+            
+                console.log(res);
+                this.loginUser = {email:'',pwd:''};
+            },
+            error:(err)=>{
+                console.log(err);
+            }
+        });
     }
 
     // email: string = '';
