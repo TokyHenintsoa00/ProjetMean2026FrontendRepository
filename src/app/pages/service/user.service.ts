@@ -18,6 +18,19 @@ export class UserService{
     //     });
     // }
 
+    findRoleUserByEmail(credentials:{email:string}):Observable<any>{
+        return this.http.post(`${this.apiUrl}/find/role/by/email`,credentials,{
+            withCredentials:true
+        });
+    }
+
+    forgotPassword(credentials:{email:string}):Observable<any>{
+        return this.http.post(`${this.apiUrl}/password/forgotPassword`,credentials,{
+            withCredentials:true
+        });
+    }
+
+
      signUp(credentials: {
         nom_client: string,
         prenom_client: string,

@@ -8,12 +8,13 @@ import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { AppFloatingConfigurator } from '../../layout/component/app.floatingconfigurator';
 import { UserService } from '../service/user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-login',
-    standalone: true,
-    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, AppFloatingConfigurator],
-    template: `<app-floating-configurator />
+    selector:'app-forgotPassword',
+    standalone:true,
+    imports: [ButtonModule, CheckboxModule,CommonModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, AppFloatingConfigurator],
+    template:`<app-floating-configurator />
 <div class="min-h-screen min-w-screen overflow-hidden flex items-center justify-center p-4" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
     <div class="login-container">
         <div class="login-split-card">
@@ -49,11 +50,11 @@ import { UserService } from '../service/user.service';
             <div class="right-panel">
                 <div class="form-content">
                     <div class="text-center mb-8">
-                        <h2 class="text-4xl font-bold text-surface-900 dark:text-surface-0 mb-3">Se connecter</h2>
-                        <p class="text-muted-color text-lg">à votre compte</p>
+                        <h2 class="text-4xl font-bold text-surface-900 dark:text-surface-0 mb-3">Mots de passe oublié</h2>
+                        <p class="text-muted-color text-lg">Entrer votre mail</p>
                     </div>
 
-                    <form (ngSubmit)="login()" #myForm="ngForm">
+                    <form (ngSubmit)="forgotPassword()" #myForm="ngForm">
                         <div class="mb-6">
                             <label for="email1" class="block text-surface-900 dark:text-surface-0 text-base font-semibold mb-2">Email</label>
                             <input 
@@ -62,42 +63,17 @@ import { UserService } from '../service/user.service';
                                 type="text" 
                                 placeholder="votre@email.com" 
                                 class="w-full split-input" 
-                                [(ngModel)]="loginUser.email" 
+                                [(ngModel)]="forgotpwd.email" 
                                 [ngModelOptions]="{standalone: true}" 
                                 name="email" 
                             />
                         </div>
-
-                        <div class="mb-6">
-                            <label for="password1" class="block text-surface-900 dark:text-surface-0 font-semibold text-base mb-2">Mot de passe</label>
-                            <p-password 
-                                id="password1" 
-                                [(ngModel)]="loginUser.pwd" 
-                                [ngModelOptions]="{standalone: true}" 
-                                placeholder="••••••••" 
-                                [toggleMask]="true" 
-                                styleClass="split-password" 
-                                [fluid]="true" 
-                                [feedback]="false"
-                            ></p-password>
-                        </div>
-
-                        <div class="flex items-center justify-between mb-8">
-                            <div class="flex items-center">
-                                <p-checkbox 
-                                    [(ngModel)]="checked" 
-                                    [ngModelOptions]="{standalone: true}" 
-                                    id="rememberme1" 
-                                    binary 
-                                    class="mr-2"
-                                ></p-checkbox>
-                                <label for="rememberme1" class="text-surface-700 dark:text-surface-300">Se souvenir de moi</label>
-                            </div>
-                            <a routerLink="/forgotPassword" class="font-medium no-underline cursor-pointer text-primary hover:underline">Mot de passe oublié?</a>
-                        </div>
+                        <small *ngIf="emailError" class="text-red-500 mt-2 block">
+                                    {{ emailError }}
+                        </small>
 
                         <p-button 
-                            label="CONNEXION" 
+                            label="Envoyer" 
                             styleClass="w-full split-button" 
                             type="submit"
                         ></p-button>
@@ -106,9 +82,9 @@ import { UserService } from '../service/user.service';
                     <div class="text-center mt-8">
                         <p class="text-muted-color mb-4">Pas encore de compte?</p>
                         <p-button 
-                            label="Créer un compte" 
+                            label="Retour" 
                             styleClass="w-full p-button-outlined split-button-outlined" 
-                            routerLink="/signUp"
+                            routerLink="/logIn"
                         ></p-button>
                     </div>
 
@@ -421,57 +397,25 @@ import { UserService } from '../service/user.service';
 }
 </style>`
 })
-export class Login {
 
-    loginUser = {email:'',pwd:''};
-    checked: boolean = false;
+export class forgotPassword{
 
+    forgotpwd = {email:''};
+    emailError:string | null = null;
     constructor(private userservice:UserService,private router:Router){};
 
-    login()
+    forgotPassword()
     {
-        console.log("clique login");
-        const logUser = {
-            email:this.loginUser.email,
-            pwd:this.loginUser.pwd,
-            rememberMe:this.checked
-        }
-
-        const role_by_email = {email:logUser.email};
-
-        this.userservice.signIn(logUser).subscribe({
+        const getEmail = {email:this.forgotpwd.email};
+        this.userservice.forgotPassword(getEmail).subscribe({
             next:(res) =>{
-
-                this.userservice.findRoleUserByEmail(role_by_email).subscribe({
-                    next:(role)=>{
-                        if (role.nom_role === 'Client') {
-                            this.router.navigate(['/membre/client'])
-                        } else if(role.nom_role === 'Manager') {
-                            this.router.navigate(['/boutique/home']);
-                        }
-                        else{
-
-                        }
-                    }
-                });
-
-                
-
-                // console.log("log user");
-            
-                // console.log(res);
-                // this.loginUser = {email:'',pwd:''};
-                // this.router.navigate(['/membre/client']);
+                console.log("forgotting pwd");
+                console.log(res);
+                this.forgotpwd = {email:''};
             },
-            error:(err)=>{
+            error(err) {
                 console.log(err);
             }
-        });
+        })
     }
-
-    // email: string = '';
-
-    // password: string = '';
-
-    
 }
