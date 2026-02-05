@@ -10,6 +10,7 @@ import { LandingClient } from '@/landingClientMembre/landing';
 import { forgotPassword } from '@/pages/auth/forgotPassword';
 import { Component } from '@angular/core';
 import { BoutiqueDashboard } from '@/pages/boutique/dashboard/boutiquedashboard';
+import { AjoutProduit } from '@/pages/boutique/gestionBoutique/ajoutProduit/ajoutProduit';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
@@ -21,7 +22,9 @@ export const appRoutes: Routes = [
     {path: 'boutique/home',
         component: AppLayout,
         children: [
-            { path: '', component: BoutiqueDashboard }
+            { path: '', component: BoutiqueDashboard },
+            { path:'ajoutProduit', component: AjoutProduit }
+            
             
     ]},
     { path: 'notfound', component: Notfound },

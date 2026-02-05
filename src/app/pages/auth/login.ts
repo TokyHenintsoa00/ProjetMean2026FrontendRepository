@@ -444,9 +444,15 @@ export class Login {
 
                 this.userservice.findRoleUserByEmail(role_by_email).subscribe({
                     next:(role)=>{
-                        if (role.nom_role === 'Client') {
-                            this.router.navigate(['/membre/client'])
-                        } else if(role.nom_role === 'Manager') {
+                        //console.log("id "+role._id);
+                        
+                        if (role._id === '697b0d46b784b5da2ab3ba24') {
+                            console.log("navigate client");
+                            
+                            //this.router.navigate(['/membre/client'])
+                        } else if(role._id === '697b0d19b784b5da2ab3ba22') {
+                            console.log("nagivate manager boutique");
+                            
                             this.router.navigate(['/boutique/home']);
                         }
                         else{
