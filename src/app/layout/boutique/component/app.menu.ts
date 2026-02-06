@@ -26,7 +26,7 @@ export class AppMenu {
             },
             {
                 label:'Gestion produit',
-                items:[{label:'Ajouter un produit', icon:'',routerLink:['/boutique/home/ajoutProduit']}]
+                items:[{label:'Ajouter un produit', icon:'pi pi-plus',routerLink:['/boutique/home/ajoutProduit']}]
             }
             // {
             //     label: 'UI Components',

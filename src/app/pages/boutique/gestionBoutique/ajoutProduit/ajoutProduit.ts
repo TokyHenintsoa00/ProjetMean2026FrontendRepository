@@ -1,9 +1,276 @@
+// import { Component } from "@angular/core";
+// import { MessageService } from "primeng/api";
+// import { UserService } from "@/pages/service/user.service";
+// import { Router } from "@angular/router";
+// import { BoutiqueService } from "@/pages/service/boutique.service";
+// import { CommonModule } from "@angular/common";
+// import { FormsModule } from "@angular/forms";
+// import { ButtonModule } from "primeng/button";
+// import { DatePickerModule } from "primeng/datepicker";
+// import { FileUploadModule } from "primeng/fileupload";
+// import { FluidModule } from "primeng/fluid";
+// import { InputTextModule } from "primeng/inputtext";
+// import { SelectModule } from "primeng/select";
+// import { TextareaModule } from "primeng/textarea";
+
+// @Component({
+//     selector: 'app-ajoutProduit',
+//     imports: [
+//         CommonModule,
+//         FormsModule,
+//         InputTextModule,
+//         ButtonModule,
+//         SelectModule,
+//         FluidModule,
+//         TextareaModule,
+//         FileUploadModule,
+//         DatePickerModule
+//     ],
+//     template:`<p-fluid>
+//     <div class="flex flex-col md:flex-row gap-8">
+//         <div class="md:w-1/1">
+//             <div class="card flex flex-col gap-6 shadow-2 border-round-xl p-6">
+//                 <!-- Header -->
+//                 <div class="flex align-items-center gap-3 pb-3 border-bottom-1 surface-border">
+//                     <i class="pi pi-shopping-bag text-4xl text-primary"></i>
+//                     <div>
+//                         <div class="font-semibold text-2xl text-primary">
+//                             Ajouter un produit
+//                         </div>
+//                         <p class="text-600 text-sm mt-1">Complétez les informations de votre produit</p>
+//                     </div>
+//                 </div>
+                
+//                 <form (ngSubmit)="addRdv()">
+//                     <!-- Informations générales -->
+//                     <div class="surface-50 border-round-lg p-4 mb-4">
+//                         <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
+//                             <i class="pi pi-info-circle"></i>
+//                             Informations générales
+//                         </h3>
+                        
+//                         <div class="flex flex-wrap gap-4">
+//                             <div class="flex flex-col grow basis-0 gap-2">
+//                                 <label for="name" class="font-semibold text-900">
+//                                     Nom du produit <span class="text-red-500">*</span>
+//                                 </label>
+//                                 <input 
+//                                     pInputText 
+//                                     id="name" 
+//                                     type="text" 
+//                                     [(ngModel)]="newRdv.nomProduit" 
+//                                     name="nomProduit"
+//                                     placeholder="Ex: iPhone 15 Pro"
+//                                     class="p-inputtext-lg" />
+//                             </div>
+                            
+//                             <div class="flex flex-col grow basis-0 gap-2">
+//                                 <label for="category" class="font-semibold text-900">
+//                                     Catégorie produit <span class="text-red-500">*</span>
+//                                 </label>
+//                                 <p-select 
+//                                     id="category"
+//                                     [options]="categories" 
+//                                     [(ngModel)]="newRdv.categorie"
+//                                     name="categorie"
+//                                     optionLabel="name" 
+//                                     optionValue="value"
+//                                     placeholder="Sélectionnez une catégorie"
+//                                     styleClass="w-full">
+//                                 </p-select>
+//                             </div>
+//                         </div>
+//                     </div>
+
+//                     <!-- Prix et stock -->
+//                     <div class="surface-50 border-round-lg p-4 mb-4">
+//                         <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
+//                             <i class="pi pi-dollar"></i>
+//                             Prix et disponibilité
+//                         </h3>
+                        
+//                         <div class="flex flex-wrap gap-4">
+//                             <div class="flex flex-col grow basis-0 gap-2">
+//                                 <label for="prix" class="font-semibold text-900">
+//                                     Prix hors taxe (€) <span class="text-red-500">*</span>
+//                                 </label>
+//                                 <input 
+//                                     pInputText
+//                                     id="prix"
+//                                     type="number"
+//                                     [(ngModel)]="newRdv.prix" 
+//                                     name="prix"
+//                                     step="0.01"
+//                                     min="0"
+//                                     placeholder="0.00"
+//                                     class="p-inputtext-lg" />
+//                             </div>
+                            
+//                             <div class="flex flex-col grow basis-0 gap-2">
+//                                 <label for="stock" class="font-semibold text-900">
+//                                     Stock disponible <span class="text-red-500">*</span>
+//                                 </label>
+//                                 <input 
+//                                     pInputText
+//                                     id="stock"
+//                                     type="number"
+//                                     [(ngModel)]="newRdv.stock" 
+//                                     name="stock"
+//                                     min="0"
+//                                     placeholder="0"
+//                                     class="p-inputtext-lg" />
+//                             </div>
+                            
+//                             <div class="flex flex-col grow basis-0 gap-2">
+//                                 <label for="statut" class="font-semibold text-900">
+//                                     Statut
+//                                 </label>
+//                                 <p-select 
+//                                     id="statut"
+//                                     [options]="statuts" 
+//                                     [(ngModel)]="newRdv.statut"
+//                                     name="statut"
+//                                     optionLabel="name" 
+//                                     optionValue="value"
+//                                     placeholder="Sélectionnez un statut"
+//                                     styleClass="w-full">
+//                                     <ng-template #selectedItem let-item>
+//                                         <span [ngClass]="item?.class" class="px-2 py-1 border-round text-sm font-semibold">
+//                                             {{item?.name}}
+//                                         </span>
+//                                     </ng-template>
+//                                     <ng-template #item let-option>
+//                                         <span [ngClass]="option?.class" class="px-2 py-1 border-round text-sm font-semibold">
+//                                             {{option?.name}}
+//                                         </span>
+//                                     </ng-template>
+//                                 </p-select>
+//                             </div>
+//                         </div>
+//                     </div>
+
+//                     <!-- Description -->
+//                     <div class="surface-50 border-round-lg p-4 mb-4">
+//                         <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
+//                             <i class="pi pi-align-left"></i>
+//                             Description
+//                         </h3>
+                        
+//                         <div class="flex flex-col gap-2">
+//                             <label for="description" class="font-semibold text-900">
+//                                 Description du produit
+//                             </label>
+//                             <textarea
+//                                 pTextarea
+//                                 id="description"
+//                                 [(ngModel)]="newRdv.description"
+//                                 name="description"
+//                                 rows="6"
+//                                 placeholder="Décrivez votre produit en détail..."
+//                                 class="w-full"
+//                                 [autoResize]="true">
+//                             </textarea>
+//                             <small class="text-500">Minimum 50 caractères recommandés</small>
+//                         </div>
+//                     </div>
+
+//                     <!-- Photos -->
+//                     <div class="surface-50 border-round-lg p-4 mb-4">
+//                         <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
+//                             <i class="pi pi-images"></i>
+//                             Photos du produit
+//                         </h3>
+                        
+//                         <p-fileUpload
+//                             (onSelect)="onFileSelected($event)"
+//                             name="photos"
+//                             [multiple]="true"
+//                             accept="image/*"
+//                             [maxFileSize]="10000000"
+//                             [showUploadButton]="false"
+//                             [showCancelButton]="false"
+//                             chooseLabel="Choisir des images"
+//                             class="w-full">
+//                             <ng-template pTemplate="content">
+//                                 <div class="text-center p-6 border-2 border-dashed surface-border border-round-lg">
+//                                     <i class="pi pi-cloud-upload text-6xl text-400 mb-3"></i>
+//                                     <p class="text-600 font-medium mb-2">
+//                                         Glissez-déposez vos images ici
+//                                     </p>
+//                                     <p class="text-500 text-sm">
+//                                         PNG, JPG jusqu'à 10MB
+//                                     </p>
+//                                 </div>
+//                             </ng-template>
+//                         </p-fileUpload>
+//                     </div>
+
+//                     <!-- Buttons -->
+//                     <div class="flex justify-content-between align-items-center pt-4 border-top-1 surface-border">
+//                         <button 
+//                             pButton 
+//                             label="Annuler" 
+//                             icon="pi pi-times" 
+//                             severity="secondary"
+//                             [text]="true"
+//                             type="button">
+//                         </button>
+//                         <button 
+//                             pButton 
+//                             label="Publier le produit" 
+//                             icon="pi pi-check" 
+//                             size="large"
+//                             type="submit">
+//                         </button>
+//                     </div>
+//                 </form>
+//             </div>
+//         </div>
+//     </div>
+// </p-fluid>`,
+//     providers: [MessageService]
+// })
+// export class AjoutProduit {
+
+//     newRdv: any = {};
+    
+//     categories = [
+//         { name: 'Électronique', value: 'electronique' },
+//         { name: 'Vêtements', value: 'vetements' },
+//         { name: 'Alimentation', value: 'alimentation' },
+//         { name: 'Maison & Jardin', value: 'maison-jardin' },
+//         { name: 'Sport & Loisirs', value: 'sport-loisirs' },
+//         { name: 'Beauté & Santé', value: 'beaute-sante' },
+//         { name: 'Livres & Médias', value: 'livres-medias' },
+//         { name: 'Automobile', value: 'automobile' }
+//     ];
+
+//     statuts = [
+//         { name: 'En stock', value: 'en-stock', class: 'bg-green-100 text-green-900' },
+//         { name: 'Stock limité', value: 'stock-limite', class: 'bg-orange-100 text-orange-900' },
+//         { name: 'Rupture de stock', value: 'rupture', class: 'bg-red-100 text-red-900' },
+//         { name: 'Pré-commande', value: 'precommande', class: 'bg-blue-100 text-blue-900' }
+//     ];
+
+//     constructor(
+//         private userservice: UserService, 
+//         private boutiqueService: BoutiqueService,
+//         private router: Router
+//     ) {}
+
+//     addRdv() {
+//         console.log('Produit ajouté:', this.newRdv);
+//         // Votre logique d'ajout
+//     }
+
+//     onFileSelected(event: any) {
+//         console.log('Fichiers sélectionnés:', event.files);
+//         // Votre logique de gestion des fichiers
+//     }
+// }
+
+
 import { Component } from "@angular/core";
-import { BestSellingWidget } from "../../dashboard/components/bestsellingwidget";
-import { NotificationsWidget } from "../../dashboard/components/notificationswidget";
-import { RecentSalesWidget } from "../../dashboard/components/recentsaleswidget";
-import { RevenueStreamWidget } from "../../dashboard/components/revenuestreamwidget";
-import { StatsWidget } from "../../dashboard/components/statswidget";
 import { MessageService } from "primeng/api";
 import { UserService } from "@/pages/service/user.service";
 import { Router } from "@angular/router";
@@ -19,7 +286,6 @@ import { SelectModule } from "primeng/select";
 import { TextareaModule } from "primeng/textarea";
 
 @Component({
-
     selector: 'app-ajoutProduit',
     imports: [
         CommonModule,
@@ -34,191 +300,323 @@ import { TextareaModule } from "primeng/textarea";
     ],
     template:`<p-fluid>
     <div class="flex flex-col md:flex-row gap-8">
-        <div class="md:w-1/1 ">
-            <div class="card flex flex-col gap-6 shadow-2 border-round-xl">
-                <div class="font-semibold text-xl text-primary">
-                    Ajouter un produit dans votre boutique
+        <div class="md:w-1/1">
+            <div class="card flex flex-col gap-6 shadow-2 border-round-xl p-6">
+                <!-- Header -->
+                <div class="flex align-items-center gap-3 pb-3 border-bottom-1 surface-border">
+                    <i class="pi pi-shopping-bag text-4xl text-primary"></i>
+                    <div>
+                        <div class="font-semibold text-2xl text-primary">
+                            Ajouter un produit
+                        </div>
+                        <p class="text-600 text-sm mt-1">Complétez les informations de votre produit</p>
+                    </div>
                 </div>
                 
-                <form (ngSubmit) = "addRdv()">
-                    <div class="flex flex-wrap gap-6">
-                        <div class="flex flex-col grow basis-0 gap-2">
-                            <label for="name" class="font-medium">Nom du produit</label>
-                            <input pInputText id="name" type="text" [(ngModel)] = "newRdv.nomClient" [ngModelOptions]="{standalone: true}" placeholder="Enter your name" />
-                        </div>
-
-                        <div class="flex flex-col grow basis-0 gap-2">
-                            <label for="email" class="font-medium">Categorie produit</label>
-                            <input pInputText id="email" type="email" [(ngModel)] = "newRdv.emailClient" [ngModelOptions]="{standalone: true}" placeholder="Enter your email" />
-                        </div>
-                    </div>
-
-                    <div>
-                    <br>
-                    <div class="flex flex-wrap gap-6">
-                        <div class="flex flex-col grow basis-0 gap-2">
-                            <label for="name" class="font-medium">Prix hors taxe</label>
-                            <input pInputText id="nom" type="text" [(ngModel)] = "newRdv.modelVoiture" [ngModelOptions]="{standalone: true}" placeholder="Constructeur-XXX-XXX" class="w-full md:w-120 mb-8"/>
-                        </div>
-
-                        <div class="flex flex-col grow basis-0 gap-2">
-                            <label for="name" class="font-medium">Stock</label>
-                            <input pInputText id="nom" type="text" [(ngModel)] = "newRdv.modelVoiture" [ngModelOptions]="{standalone: true}" placeholder="Constructeur-XXX-XXX" class="w-full md:w-120 mb-8"/>
-                        </div>
+                <form (ngSubmit)="addProduit()">
+                    <!-- Informations générales -->
+                    <div class="surface-50 border-round-lg p-4 mb-4">
+                        <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
+                            <i class="pi pi-info-circle"></i>
+                            Informations générales
+                        </h3>
                         
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex flex-col grow basis-0 gap-2">
+                                <label for="name" class="font-semibold text-900">
+                                    Nom du produit <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    pInputText 
+                                    id="name" 
+                                    type="text" 
+                                    [(ngModel)]="newRdv.nomProduit" 
+                                    name="nomProduit"
+                                    placeholder="Ex: iPhone 15 Pro"
+                                    class="p-inputtext-lg" />
+                            </div>
+                            
+                            <div class="flex flex-col grow basis-0 gap-2">
+                                <label for="category" class="font-semibold text-900">
+                                    Catégorie produit <span class="text-red-500">*</span>
+                                </label>
+                                <p-select 
+                                    id="category"
+                                    [options]="categories" 
+                                    [(ngModel)]="newRdv.categorie"
+                                    name="categorie"
+                                    optionLabel="name" 
+                                    optionValue="value"
+                                    placeholder="Sélectionnez une catégorie"
+                                    styleClass="w-full">
+                                </p-select>
+                            </div>
+                        </div>
                     </div>
-                        <label for="name" class="font-medium">Description du produit</label>
-                        <textarea
-                            pInputTextarea
-                            id="description"
-                            [(ngModel)] = "newRdv.problemeVoiture"
-                            [ngModelOptions]="{standalone: true}"
-                            rows="4"
-                            placeholder="Dscription du probleme de voiture"
-                            class="w-full md:w-120 mb-8">
-                        </textarea>
-        
-                        <label class="font-medium">Photo de votre voiture</label>
 
-                        <p-fileupload
+                    <!-- Prix et stock -->
+                    <div class="surface-50 border-round-lg p-4 mb-4">
+                        <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
+                            <i class="pi pi-dollar"></i>
+                            Prix et disponibilité
+                        </h3>
+                        
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex flex-col grow basis-0 gap-2">
+                                <label for="prix" class="font-semibold text-900">
+                                    Prix hors taxe (€) <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    pInputText
+                                    id="prix"
+                                    type="number"
+                                    [(ngModel)]="newRdv.prix" 
+                                    name="prix"
+                                    step="0.01"
+                                    min="0"
+                                    placeholder="0.00"
+                                    class="p-inputtext-lg" />
+                            </div>
+                            
+                            <div class="flex flex-col grow basis-0 gap-2">
+                                <label for="stock" class="font-semibold text-900">
+                                    Stock disponible <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    pInputText
+                                    id="stock"
+                                    type="number"
+                                    [(ngModel)]="newRdv.stock" 
+                                    name="stock"
+                                    min="0"
+                                    placeholder="0"
+                                    class="p-inputtext-lg" />
+                            </div>
+                            
+                            <div class="flex flex-col grow basis-0 gap-2">
+                                <label for="statut" class="font-semibold text-900">
+                                    Statut
+                                </label>
+                                <p-select 
+                                    id="statut"
+                                    [options]="statuts" 
+                                    [(ngModel)]="newRdv.statut"
+                                    name="statut"
+                                    optionLabel="name" 
+                                    optionValue="value"
+                                    placeholder="Sélectionnez un statut"
+                                    styleClass="w-full">
+                                    <ng-template #selectedItem let-item>
+                                        <span [ngClass]="item?.class" class="px-2 py-1 border-round text-sm font-semibold">
+                                            {{item?.name}}
+                                        </span>
+                                    </ng-template>
+                                    <ng-template #item let-option>
+                                        <span [ngClass]="option?.class" class="px-2 py-1 border-round text-sm font-semibold">
+                                            {{option?.name}}
+                                        </span>
+                                    </ng-template>
+                                </p-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="surface-50 border-round-lg p-4 mb-4">
+                        <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
+                            <i class="pi pi-align-left"></i>
+                            Description
+                        </h3>
+                        
+                        <div class="flex flex-col gap-2">
+                            <label for="description" class="font-semibold text-900">
+                                Description du produit
+                            </label>
+                            <textarea
+                                pTextarea
+                                id="description"
+                                [(ngModel)]="newRdv.description"
+                                name="description"
+                                rows="6"
+                                placeholder="Décrivez votre produit en détail..."
+                                class="w-full"
+                                [autoResize]="true">
+                            </textarea>
+                            <small class="text-500">Minimum 50 caractères recommandés</small>
+                        </div>
+                    </div>
+
+                    <!-- Photos -->
+                    <div class="surface-50 border-round-lg p-4 mb-4">
+                        <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
+                            <i class="pi pi-images"></i>
+                            Photos du produit
+                        </h3>
+                        
+                        <p-fileUpload
                             (onSelect)="onFileSelected($event)"
-                            type = "file"
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)] = "newRdv.photoVoiture"
+                            name="photos"
                             [multiple]="true"
                             accept="image/*"
-                            maxFileSize="100000000"
-                            mode="advanced"
-                            url="https://www.primefaces.org/cdn/api/upload.php"
+                            [maxFileSize]="10000000"
+                            [showUploadButton]="false"
+                            [showCancelButton]="false"
+                            chooseLabel="Choisir des images"
                             class="w-full">
-                            <ng-template #empty>
-                                <div class="text-center p-4">
-                                    Glissez-déposez les fichiers ici
+                            <ng-template pTemplate="content">
+                                <div *ngIf="selectedPhotos.length === 0" class="text-center p-6 border-2 border-dashed surface-border border-round-lg">
+                                    <i class="pi pi-cloud-upload text-6xl text-400 mb-3"></i>
+                                    <p class="text-600 font-medium mb-2">
+                                        Glissez-déposez vos images ici
+                                    </p>
+                                    <p class="text-500 text-sm">
+                                        PNG, JPG jusqu'à 10MB
+                                    </p>
+                                </div>
+                                
+                                <!-- Affichage des photos sélectionnées -->
+                                <div *ngIf="selectedPhotos.length > 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+                                    <div *ngFor="let photo of selectedPhotos; let i = index" 
+                                         class="relative border-2 border-round-lg overflow-hidden hover:shadow-4 transition-all">
+                                        <img [src]="photo.objectURL" 
+                                             [alt]="photo.name" 
+                                             class="w-full h-full object-cover"
+                                             style="aspect-ratio: 1; max-height: 200px;">
+                                        
+                                        <!-- Badge numéro -->
+                                        <div class="absolute top-2 left-2 bg-primary text-white px-2 py-1 border-round text-xs font-semibold">
+                                            {{i + 1}}
+                                        </div>
+                                        
+                                        <!-- Bouton supprimer -->
+                                        <button 
+                                            type="button"
+                                            (click)="removePhoto(i)"
+                                            class="absolute top-2 right-2 bg-red-500 text-white border-circle w-2rem h-2rem flex align-items-center justify-content-center hover:bg-red-600 transition-colors border-none cursor-pointer">
+                                            <i class="pi pi-times"></i>
+                                        </button>
+                                        
+                                        <!-- Info fichier -->
+                                        <div class="absolute bottom-0 left-0 right-0 bg-black-alpha-60 text-white p-2">
+                                            <p class="text-xs truncate m-0">{{photo.name}}</p>
+                                            <p class="text-xs text-300 m-0">{{formatFileSize(photo.size)}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Compteur de photos -->
+                                <div *ngIf="selectedPhotos.length > 0" class="text-center pt-3 border-top-1 surface-border mt-3">
+                                    <p class="text-600 m-0">
+                                        <i class="pi pi-images mr-2"></i>
+                                        {{selectedPhotos.length}} photo(s) sélectionnée(s)
+                                    </p>
                                 </div>
                             </ng-template>
-                        </p-fileupload>
+                        </p-fileUpload>
                     </div>
-                    <br>
-                    <!-- Button -->
-                    <div class="flex justify-end pt-2">
-                        <button pButton label="Submit" icon="pi pi-check"></button>
+
+                    <!-- Buttons -->
+                    <div class="flex justify-content-between align-items-center pt-4 border-top-1 surface-border">
+                        <button 
+                            pButton 
+                            label="Annuler" 
+                            icon="pi pi-times" 
+                            severity="secondary"
+                            [text]="true"
+                            type="button">
+                        </button>
+                        <button 
+                            pButton 
+                            label="Publier le produit" 
+                            icon="pi pi-check" 
+                            size="large"
+                            type="submit">
+                        </button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
 </p-fluid>`,
-providers: [MessageService]
+    providers: [MessageService]
 })
-export class AjoutProduit{
+export class AjoutProduit {
 
-        constructor(private userservice:UserService , private boutiqueService:BoutiqueService,private router:Router){};
-
-
-    //newRdv = {nomClient:'',emailClient:'',modelVoiture:'',problemeVoiture:'',photoVoiture:[] as File[]};
-    newRdv = {
-        nomClient: null as string|null,
-        emailClient:'',
-        modelVoiture:'',
-        dateRdv: null as Date|null,
-        dateRdvDispo:null,
-        problemeVoiture:'',
-        photoVoiture:[] as File[]
-    };
+    newRdv: any = {};
+    selectedPhotos: any[] = [];
     
-  
-    // minDate!: Date ; // Date minimale => now aujourd'hui
-    
-    // ngOnInit() {
-    //     this.minDate = new Date();
+    categories = [
+        { name: 'Électronique', value: 'electronique' },
+        { name: 'Vêtements', value: 'vetements' },
+        { name: 'Alimentation', value: 'alimentation' },
+        { name: 'Maison & Jardin', value: 'maison-jardin' },
+        { name: 'Sport & Loisirs', value: 'sport-loisirs' },
+        { name: 'Beauté & Santé', value: 'beaute-sante' },
+        { name: 'Livres & Médias', value: 'livres-medias' },
+        { name: 'Automobile', value: 'automobile' }
+    ];
+
+    statuts = [
+        { name: 'En stock', value: 'en-stock', class: 'bg-green-100 text-green-900' },
+        { name: 'Stock limité', value: 'stock-limite', class: 'bg-orange-100 text-orange-900' },
+        { name: 'Rupture de stock', value: 'rupture', class: 'bg-red-100 text-red-900' },
+        { name: 'Pré-commande', value: 'precommande', class: 'bg-blue-100 text-blue-900' }
+    ];
+
+    constructor(
+        private userservice: UserService, 
+        private boutiqueService: BoutiqueService,
+        private router: Router
+    ) {}
+
+    addProduit(){
+        
+    }
+
+    // addRdv() {
+    //     // console.log('Produit ajouté:', this.newRdv);
+    //     // console.log('Photos:', this.selectedPhotos);
+    //     // Votre logique d'ajout
     // }
 
-    
-    onFileSelected(event:any){
-
-        try 
-        {
-            let getFile = event.files;
-            console.log(getFile);
-            //  let newGetfile;
-            //  newGetfile = this.newRdv.photoVoiture = Array.from(getFile);
-            // console.log(newGetfile);
-            for (let i = 0; i <= getFile.length-1; i++) {
-                this.newRdv.photoVoiture.push(getFile[i]);
-                console.log(getFile[i]);      
-            };
-        } catch (error) {
-            console.error(error);   
-        }
-       
-    }
-    
-    addRdv(){
+    onFileSelected(event: any) {
+        console.log('Fichiers sélectionnés:', event);
         
-        console.log("click btn");
-        try 
-        {
-            const date_Rendez_vous = this.newRdv.dateRdv;
-            const problemeVoiture = this.newRdv.problemeVoiture;
-            if (date_Rendez_vous !=null && date_Rendez_vous < new Date) {
-                alert("la date ne doit pas etre moin que adj");
-                console.log("error");  
-            }
-            this.createRdvWithVoitureProblem(problemeVoiture);  
+        // Gérer les différents formats de event (event.files peut être FileList ou Array)
+        const files = event.currentFiles || event.files;
+        
+        if (files) {
+            // Convertir FileList en Array si nécessaire
+            const filesArray = Array.from(files) as File[];
             
-        } catch (error) {
-            console.error(error);    
+            // Ajouter les nouvelles photos à la liste existante
+            filesArray.forEach((file: File) => {
+                this.selectedPhotos.push({
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    objectURL: URL.createObjectURL(file),
+                    file: file
+                });
+            });
         }
+    }
+
+    removePhoto(index: number) {
+        // Libérer l'URL de l'objet pour éviter les fuites mémoire
+        URL.revokeObjectURL(this.selectedPhotos[index].objectURL);
         
+        // Supprimer la photo de la liste
+        this.selectedPhotos.splice(index, 1);
     }
 
-    // with no probleme voiture
-    private createRdvWithVoitureProblem(problemeVoiture:String):void
-    {
-        const rdv = {
-                        
-            nom_client:this.newRdv.nomClient,
-            email_client:this.newRdv.emailClient,
-            model_voiture:this.newRdv.modelVoiture,
-            probleme_voiture:this.newRdv.problemeVoiture,
-            date_rendez_vous:this.newRdv.dateRdv,
-            date_rendez_vous_disponible:null,
-            photo_voiture:this.newRdv.photoVoiture
-            
-        }
-        this.boutiqueService.getBoutiques().subscribe({
-            next:(res) =>{
-                console.log("mety");
-                this.resetForm();
-                location.reload();
-                //this.router.navigate(['/homePage/homeClient/rdvClient']);
-               
-            },
-            error: (err) => {
-                console.error('Erreur lors de la création du rendez-vous:', err);
-                alert('Erreur lors de la création du rendez-vous');
-            }
-        });
-    }   
-
-    
-
-    private resetForm(): void {
-        this.newRdv = {
-           nomClient: null as string|null,
-            emailClient:'',
-            modelVoiture:'',
-            dateRdv: null as Date|null,
-            dateRdvDispo:null,
-            problemeVoiture:'',
-            photoVoiture:[] as File[]
-        };
-    }
- 
-    addRdvProblem()
-    {
+    formatFileSize(bytes: number): string {
+        if (bytes === 0) return '0 Bytes';
         
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        
+        return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
     }
-
 }
