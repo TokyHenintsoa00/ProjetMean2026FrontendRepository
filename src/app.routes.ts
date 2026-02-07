@@ -11,6 +11,9 @@ import { forgotPassword } from '@/pages/auth/forgotPassword';
 import { Component } from '@angular/core';
 import { BoutiqueDashboard } from '@/pages/boutique/dashboard/boutiquedashboard';
 import { AjoutProduit } from '@/pages/boutique/gestionBoutique/ajoutProduit/ajoutProduit';
+import { AppLayoutAdmin } from '@/layout/administrateur/component/app.layout';
+import { ValidationBoutique } from '@/pages/administrateur/gestionBoutique/validationBoutique';
+import { LoginAdmin } from '@/pages/auth/loginAdmin';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
@@ -23,10 +26,16 @@ export const appRoutes: Routes = [
         component: AppLayout,
         children: [
             { path: '', component: BoutiqueDashboard },
-            { path:'ajoutProduit', component: AjoutProduit }
-            
-            
+            { path:'ajoutProduit', component: AjoutProduit }    
     ]},
+    {path:'/administrator/connect/logIn',component:LoginAdmin},
+    // {
+    //     path:'admin/home',
+    //     component:AppLayoutAdmin,
+    //     children:[
+    //         {path:'',component: ValidationBoutique}
+    //     ]
+    // },
     { path: 'notfound', component: Notfound },
     { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
     { path: '**', redirectTo: '/notfound' },

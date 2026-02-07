@@ -456,7 +456,7 @@ export class Login {
                             this.router.navigate(['/boutique/home']);
                         }
                         else{
-
+                            this.router.navigate(['/admin/home']);
                         }
                     }
                 });
