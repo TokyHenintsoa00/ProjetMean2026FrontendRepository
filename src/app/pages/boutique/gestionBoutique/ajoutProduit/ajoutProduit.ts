@@ -1,275 +1,3 @@
-// import { Component } from "@angular/core";
-// import { MessageService } from "primeng/api";
-// import { UserService } from "@/pages/service/user.service";
-// import { Router } from "@angular/router";
-// import { BoutiqueService } from "@/pages/service/boutique.service";
-// import { CommonModule } from "@angular/common";
-// import { FormsModule } from "@angular/forms";
-// import { ButtonModule } from "primeng/button";
-// import { DatePickerModule } from "primeng/datepicker";
-// import { FileUploadModule } from "primeng/fileupload";
-// import { FluidModule } from "primeng/fluid";
-// import { InputTextModule } from "primeng/inputtext";
-// import { SelectModule } from "primeng/select";
-// import { TextareaModule } from "primeng/textarea";
-
-// @Component({
-//     selector: 'app-ajoutProduit',
-//     imports: [
-//         CommonModule,
-//         FormsModule,
-//         InputTextModule,
-//         ButtonModule,
-//         SelectModule,
-//         FluidModule,
-//         TextareaModule,
-//         FileUploadModule,
-//         DatePickerModule
-//     ],
-//     template:`<p-fluid>
-//     <div class="flex flex-col md:flex-row gap-8">
-//         <div class="md:w-1/1">
-//             <div class="card flex flex-col gap-6 shadow-2 border-round-xl p-6">
-//                 <!-- Header -->
-//                 <div class="flex align-items-center gap-3 pb-3 border-bottom-1 surface-border">
-//                     <i class="pi pi-shopping-bag text-4xl text-primary"></i>
-//                     <div>
-//                         <div class="font-semibold text-2xl text-primary">
-//                             Ajouter un produit
-//                         </div>
-//                         <p class="text-600 text-sm mt-1">Complétez les informations de votre produit</p>
-//                     </div>
-//                 </div>
-                
-//                 <form (ngSubmit)="addRdv()">
-//                     <!-- Informations générales -->
-//                     <div class="surface-50 border-round-lg p-4 mb-4">
-//                         <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
-//                             <i class="pi pi-info-circle"></i>
-//                             Informations générales
-//                         </h3>
-                        
-//                         <div class="flex flex-wrap gap-4">
-//                             <div class="flex flex-col grow basis-0 gap-2">
-//                                 <label for="name" class="font-semibold text-900">
-//                                     Nom du produit <span class="text-red-500">*</span>
-//                                 </label>
-//                                 <input 
-//                                     pInputText 
-//                                     id="name" 
-//                                     type="text" 
-//                                     [(ngModel)]="newRdv.nomProduit" 
-//                                     name="nomProduit"
-//                                     placeholder="Ex: iPhone 15 Pro"
-//                                     class="p-inputtext-lg" />
-//                             </div>
-                            
-//                             <div class="flex flex-col grow basis-0 gap-2">
-//                                 <label for="category" class="font-semibold text-900">
-//                                     Catégorie produit <span class="text-red-500">*</span>
-//                                 </label>
-//                                 <p-select 
-//                                     id="category"
-//                                     [options]="categories" 
-//                                     [(ngModel)]="newRdv.categorie"
-//                                     name="categorie"
-//                                     optionLabel="name" 
-//                                     optionValue="value"
-//                                     placeholder="Sélectionnez une catégorie"
-//                                     styleClass="w-full">
-//                                 </p-select>
-//                             </div>
-//                         </div>
-//                     </div>
-
-//                     <!-- Prix et stock -->
-//                     <div class="surface-50 border-round-lg p-4 mb-4">
-//                         <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
-//                             <i class="pi pi-dollar"></i>
-//                             Prix et disponibilité
-//                         </h3>
-                        
-//                         <div class="flex flex-wrap gap-4">
-//                             <div class="flex flex-col grow basis-0 gap-2">
-//                                 <label for="prix" class="font-semibold text-900">
-//                                     Prix hors taxe (€) <span class="text-red-500">*</span>
-//                                 </label>
-//                                 <input 
-//                                     pInputText
-//                                     id="prix"
-//                                     type="number"
-//                                     [(ngModel)]="newRdv.prix" 
-//                                     name="prix"
-//                                     step="0.01"
-//                                     min="0"
-//                                     placeholder="0.00"
-//                                     class="p-inputtext-lg" />
-//                             </div>
-                            
-//                             <div class="flex flex-col grow basis-0 gap-2">
-//                                 <label for="stock" class="font-semibold text-900">
-//                                     Stock disponible <span class="text-red-500">*</span>
-//                                 </label>
-//                                 <input 
-//                                     pInputText
-//                                     id="stock"
-//                                     type="number"
-//                                     [(ngModel)]="newRdv.stock" 
-//                                     name="stock"
-//                                     min="0"
-//                                     placeholder="0"
-//                                     class="p-inputtext-lg" />
-//                             </div>
-                            
-//                             <div class="flex flex-col grow basis-0 gap-2">
-//                                 <label for="statut" class="font-semibold text-900">
-//                                     Statut
-//                                 </label>
-//                                 <p-select 
-//                                     id="statut"
-//                                     [options]="statuts" 
-//                                     [(ngModel)]="newRdv.statut"
-//                                     name="statut"
-//                                     optionLabel="name" 
-//                                     optionValue="value"
-//                                     placeholder="Sélectionnez un statut"
-//                                     styleClass="w-full">
-//                                     <ng-template #selectedItem let-item>
-//                                         <span [ngClass]="item?.class" class="px-2 py-1 border-round text-sm font-semibold">
-//                                             {{item?.name}}
-//                                         </span>
-//                                     </ng-template>
-//                                     <ng-template #item let-option>
-//                                         <span [ngClass]="option?.class" class="px-2 py-1 border-round text-sm font-semibold">
-//                                             {{option?.name}}
-//                                         </span>
-//                                     </ng-template>
-//                                 </p-select>
-//                             </div>
-//                         </div>
-//                     </div>
-
-//                     <!-- Description -->
-//                     <div class="surface-50 border-round-lg p-4 mb-4">
-//                         <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
-//                             <i class="pi pi-align-left"></i>
-//                             Description
-//                         </h3>
-                        
-//                         <div class="flex flex-col gap-2">
-//                             <label for="description" class="font-semibold text-900">
-//                                 Description du produit
-//                             </label>
-//                             <textarea
-//                                 pTextarea
-//                                 id="description"
-//                                 [(ngModel)]="newRdv.description"
-//                                 name="description"
-//                                 rows="6"
-//                                 placeholder="Décrivez votre produit en détail..."
-//                                 class="w-full"
-//                                 [autoResize]="true">
-//                             </textarea>
-//                             <small class="text-500">Minimum 50 caractères recommandés</small>
-//                         </div>
-//                     </div>
-
-//                     <!-- Photos -->
-//                     <div class="surface-50 border-round-lg p-4 mb-4">
-//                         <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
-//                             <i class="pi pi-images"></i>
-//                             Photos du produit
-//                         </h3>
-                        
-//                         <p-fileUpload
-//                             (onSelect)="onFileSelected($event)"
-//                             name="photos"
-//                             [multiple]="true"
-//                             accept="image/*"
-//                             [maxFileSize]="10000000"
-//                             [showUploadButton]="false"
-//                             [showCancelButton]="false"
-//                             chooseLabel="Choisir des images"
-//                             class="w-full">
-//                             <ng-template pTemplate="content">
-//                                 <div class="text-center p-6 border-2 border-dashed surface-border border-round-lg">
-//                                     <i class="pi pi-cloud-upload text-6xl text-400 mb-3"></i>
-//                                     <p class="text-600 font-medium mb-2">
-//                                         Glissez-déposez vos images ici
-//                                     </p>
-//                                     <p class="text-500 text-sm">
-//                                         PNG, JPG jusqu'à 10MB
-//                                     </p>
-//                                 </div>
-//                             </ng-template>
-//                         </p-fileUpload>
-//                     </div>
-
-//                     <!-- Buttons -->
-//                     <div class="flex justify-content-between align-items-center pt-4 border-top-1 surface-border">
-//                         <button 
-//                             pButton 
-//                             label="Annuler" 
-//                             icon="pi pi-times" 
-//                             severity="secondary"
-//                             [text]="true"
-//                             type="button">
-//                         </button>
-//                         <button 
-//                             pButton 
-//                             label="Publier le produit" 
-//                             icon="pi pi-check" 
-//                             size="large"
-//                             type="submit">
-//                         </button>
-//                     </div>
-//                 </form>
-//             </div>
-//         </div>
-//     </div>
-// </p-fluid>`,
-//     providers: [MessageService]
-// })
-// export class AjoutProduit {
-
-//     newRdv: any = {};
-    
-//     categories = [
-//         { name: 'Électronique', value: 'electronique' },
-//         { name: 'Vêtements', value: 'vetements' },
-//         { name: 'Alimentation', value: 'alimentation' },
-//         { name: 'Maison & Jardin', value: 'maison-jardin' },
-//         { name: 'Sport & Loisirs', value: 'sport-loisirs' },
-//         { name: 'Beauté & Santé', value: 'beaute-sante' },
-//         { name: 'Livres & Médias', value: 'livres-medias' },
-//         { name: 'Automobile', value: 'automobile' }
-//     ];
-
-//     statuts = [
-//         { name: 'En stock', value: 'en-stock', class: 'bg-green-100 text-green-900' },
-//         { name: 'Stock limité', value: 'stock-limite', class: 'bg-orange-100 text-orange-900' },
-//         { name: 'Rupture de stock', value: 'rupture', class: 'bg-red-100 text-red-900' },
-//         { name: 'Pré-commande', value: 'precommande', class: 'bg-blue-100 text-blue-900' }
-//     ];
-
-//     constructor(
-//         private userservice: UserService, 
-//         private boutiqueService: BoutiqueService,
-//         private router: Router
-//     ) {}
-
-//     addRdv() {
-//         console.log('Produit ajouté:', this.newRdv);
-//         // Votre logique d'ajout
-//     }
-
-//     onFileSelected(event: any) {
-//         console.log('Fichiers sélectionnés:', event.files);
-//         // Votre logique de gestion des fichiers
-//     }
-// }
-
-
 import { Component } from "@angular/core";
 import { MessageService } from "primeng/api";
 import { UserService } from "@/pages/service/user.service";
@@ -284,6 +12,8 @@ import { FluidModule } from "primeng/fluid";
 import { InputTextModule } from "primeng/inputtext";
 import { SelectModule } from "primeng/select";
 import { TextareaModule } from "primeng/textarea";
+import { CategorieService } from "@/pages/service/categorie.service";
+import { StatusService } from "@/pages/service/status.service";
 
 @Component({
     selector: 'app-ajoutProduit',
@@ -330,7 +60,7 @@ import { TextareaModule } from "primeng/textarea";
                                     pInputText 
                                     id="name" 
                                     type="text" 
-                                    [(ngModel)]="newRdv.nomProduit" 
+                                    [(ngModel)]="produit.nomProduit" 
                                     name="nomProduit"
                                     placeholder="Ex: iPhone 15 Pro"
                                     class="p-inputtext-lg" />
@@ -343,7 +73,7 @@ import { TextareaModule } from "primeng/textarea";
                                 <p-select 
                                     id="category"
                                     [options]="categories" 
-                                    [(ngModel)]="newRdv.categorie"
+                                    [(ngModel)]="produit.categorie"
                                     name="categorie"
                                     optionLabel="name" 
                                     optionValue="value"
@@ -351,6 +81,21 @@ import { TextareaModule } from "primeng/textarea";
                                     styleClass="w-full">
                                 </p-select>
                             </div>
+
+                            <div class="flex flex-col grow basis-0 gap-2">
+                                <label for="name" class="font-semibold text-900">
+                                    Categorie du produit <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    pInputText 
+                                    id="name" 
+                                    type="text" 
+                                    [(ngModel)]="produit.sous_categorie" 
+                                    name="souscategorie"
+                                    placeholder="Ex: Telephone portable"
+                                    class="p-inputtext-lg" />
+                            </div>
+
                         </div>
                     </div>
 
@@ -364,17 +109,17 @@ import { TextareaModule } from "primeng/textarea";
                         <div class="flex flex-wrap gap-4">
                             <div class="flex flex-col grow basis-0 gap-2">
                                 <label for="prix" class="font-semibold text-900">
-                                    Prix hors taxe (€) <span class="text-red-500">*</span>
+                                    Prix hors taxe (Ar) <span class="text-red-500">*</span>
                                 </label>
                                 <input 
                                     pInputText
                                     id="prix"
                                     type="number"
-                                    [(ngModel)]="newRdv.prix" 
+                                    [(ngModel)]="produit.prix" 
                                     name="prix"
                                     step="0.01"
                                     min="0"
-                                    placeholder="0.00"
+                                    placeholder="2000Ar"
                                     class="p-inputtext-lg" />
                             </div>
                             
@@ -386,38 +131,14 @@ import { TextareaModule } from "primeng/textarea";
                                     pInputText
                                     id="stock"
                                     type="number"
-                                    [(ngModel)]="newRdv.stock" 
+                                    [(ngModel)]="produit.stock" 
                                     name="stock"
                                     min="0"
                                     placeholder="0"
                                     class="p-inputtext-lg" />
                             </div>
                             
-                            <div class="flex flex-col grow basis-0 gap-2">
-                                <label for="statut" class="font-semibold text-900">
-                                    Statut
-                                </label>
-                                <p-select 
-                                    id="statut"
-                                    [options]="statuts" 
-                                    [(ngModel)]="newRdv.statut"
-                                    name="statut"
-                                    optionLabel="name" 
-                                    optionValue="value"
-                                    placeholder="Sélectionnez un statut"
-                                    styleClass="w-full">
-                                    <ng-template #selectedItem let-item>
-                                        <span [ngClass]="item?.class" class="px-2 py-1 border-round text-sm font-semibold">
-                                            {{item?.name}}
-                                        </span>
-                                    </ng-template>
-                                    <ng-template #item let-option>
-                                        <span [ngClass]="option?.class" class="px-2 py-1 border-round text-sm font-semibold">
-                                            {{option?.name}}
-                                        </span>
-                                    </ng-template>
-                                </p-select>
-                            </div>
+                            
                         </div>
                     </div>
 
@@ -435,7 +156,7 @@ import { TextareaModule } from "primeng/textarea";
                             <textarea
                                 pTextarea
                                 id="description"
-                                [(ngModel)]="newRdv.description"
+                                [(ngModel)]="produit.description"
                                 name="description"
                                 rows="6"
                                 placeholder="Décrivez votre produit en détail..."
@@ -542,42 +263,82 @@ import { TextareaModule } from "primeng/textarea";
 })
 export class AjoutProduit {
 
-    newRdv: any = {};
+    produit: any = {};
     selectedPhotos: any[] = [];
     
-    categories = [
-        { name: 'Électronique', value: 'electronique' },
-        { name: 'Vêtements', value: 'vetements' },
-        { name: 'Alimentation', value: 'alimentation' },
-        { name: 'Maison & Jardin', value: 'maison-jardin' },
-        { name: 'Sport & Loisirs', value: 'sport-loisirs' },
-        { name: 'Beauté & Santé', value: 'beaute-sante' },
-        { name: 'Livres & Médias', value: 'livres-medias' },
-        { name: 'Automobile', value: 'automobile' }
-    ];
-
-    statuts = [
-        { name: 'En stock', value: 'en-stock', class: 'bg-green-100 text-green-900' },
-        { name: 'Stock limité', value: 'stock-limite', class: 'bg-orange-100 text-orange-900' },
-        { name: 'Rupture de stock', value: 'rupture', class: 'bg-red-100 text-red-900' },
-        { name: 'Pré-commande', value: 'precommande', class: 'bg-blue-100 text-blue-900' }
-    ];
-
+    categories: any[] = [];
+    statuts: any[] = [];
     constructor(
         private userservice: UserService, 
         private boutiqueService: BoutiqueService,
-        private router: Router
+        private router: Router,
+        private categorieService:CategorieService,
+        private StatusService:StatusService
     ) {}
 
-    addProduit(){
+    ngOnInit() {
+        this.loadStatus();
+        this.loadCategories();
         
     }
 
-    // addRdv() {
-    //     // console.log('Produit ajouté:', this.newRdv);
-    //     // console.log('Photos:', this.selectedPhotos);
-    //     // Votre logique d'ajout
-    // }
+    addProduit(){
+            
+    }
+
+    // statuts = [
+    //     { name: 'En stock', value: 'en-stock', class: 'bg-green-100 text-green-900' },
+    //     { name: 'Stock limité', value: 'stock-limite', class: 'bg-orange-100 text-orange-900' },
+    //     { name: 'Rupture de stock', value: 'rupture', class: 'bg-red-100 text-red-900' },
+    //     { name: 'Pré-commande', value: 'precommande', class: 'bg-blue-100 text-blue-900' }
+    // ];
+
+    loadStatus(){
+        this.StatusService.getAllStatus().subscribe({
+           next:(data)=> {
+               console.log('Status chargeee',data);
+               this.statuts.map((stat:any)=>({
+                    name:stat.nom_status,
+                    value: stat._id
+               }));
+               
+           }, 
+        });
+    }
+
+    loadCategories() {
+        this.categorieService.getAllCategorie().subscribe({
+            next: (data) => {
+                console.log('Catégories chargées:', data);
+                // Adaptez selon la structure de votre réponse API
+                this.categories = data.map((cat: any) => ({
+                    name: cat.nom_categorie,
+                    value: cat._id
+                }));
+            },
+            error: (error) => {
+                console.error('Erreur lors du chargement des catégories:', error);
+                // Gardez les catégories par défaut en cas d'erreur
+                this.categories = [
+                    { name: 'Électronique', value: 'electronique' },
+                    { name: 'Vêtements', value: 'vetements' },
+                    // ... etc
+                ];
+            }
+        });
+    }
+
+    
+    // categories = [
+    //     { name: 'Électronique', value: 'electronique' },
+    //     { name: 'Vêtements', value: 'vetements' },
+    //     { name: 'Alimentation', value: 'alimentation' },
+    //     { name: 'Maison & Jardin', value: 'maison-jardin' },
+    //     { name: 'Sport & Loisirs', value: 'sport-loisirs' },
+    //     { name: 'Beauté & Santé', value: 'beaute-sante' },
+    //     { name: 'Livres & Médias', value: 'livres-medias' },
+    //     { name: 'Automobile', value: 'automobile' }
+    // ];
 
     onFileSelected(event: any) {
         console.log('Fichiers sélectionnés:', event);
