@@ -14,12 +14,15 @@ import { AjoutProduit } from '@/pages/boutique/gestionBoutique/ajoutProduit/ajou
 import { AppLayoutAdmin } from '@/layout/administrateur/component/app.layout';
 import { ValidationBoutique } from '@/pages/administrateur/gestionBoutique/validationBoutique';
 import { LoginAdmin } from '@/pages/auth/loginAdmin';
+import { AdminDashboard } from '@/pages/administrateur/dashboard/adminDashboard';
+import { CreationBoutique } from '@/pages/administrateur/gestionBoutique/creationBoutique';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
     //{ path: 'landing', component: Landing },
     {path:'membre/client',component:LandingClient},
     { path:'logIn',component:Login},
+    {path:'administrator/logIn',component:LoginAdmin},
     {path:'signUp',component:SignUp},
     {path:'forgotPassword',component:forgotPassword},
     {path: 'boutique/home',
@@ -28,14 +31,15 @@ export const appRoutes: Routes = [
             { path: '', component: BoutiqueDashboard },
             { path:'ajoutProduit', component: AjoutProduit }    
     ]},
-    {path:'/administrator/connect/logIn',component:LoginAdmin},
-    // {
-    //     path:'admin/home',
-    //     component:AppLayoutAdmin,
-    //     children:[
-    //         {path:'',component: ValidationBoutique}
-    //     ]
-    // },
+    
+    {
+        path:'admin/home',
+        component:AppLayoutAdmin,
+        children:[
+            {path:'',component: AdminDashboard},
+            {path:'creationBoutique' , component: CreationBoutique}
+        ]
+    },
     { path: 'notfound', component: Notfound },
     { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
     { path: '**', redirectTo: '/notfound' },

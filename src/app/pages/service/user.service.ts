@@ -52,9 +52,17 @@ export class UserService{
     //     return this.http.post(`${this.apiUrl}/login/user`,users,);
     // }
 
+    // login client et boutique 
     signIn(credentials: { email: string; pwd: string; rememberMe?: boolean }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login/user`, credentials, {
-      withCredentials: true
-    });
-  }
+        return this.http.post(`${this.apiUrl}/login/user`, credentials, {
+        withCredentials: true
+        });
+    }
+
+    //login by admin
+    signInAdministrator(credentials:{email: string; pwd: string; rememberMe?: boolean }): Observable<any>{
+        return this.http.post(`${this.apiUrl}/administrator/login/user`, credentials, {
+        withCredentials: true
+        });
+    }
 }

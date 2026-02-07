@@ -21,12 +21,12 @@ export class AppMenu {
     ngOnInit() {
         this.model = [
             {
-                label: 'ergergergergergergergergergergeg',
-                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/boutique/home'] }]
+                label: 'Acceuil',
+                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/admin/home'] }]
             },
             {
-                label:'Gestion produit',
-                items:[{label:'Ajouter un produit', icon:'pi pi-plus',routerLink:['/boutique/home/ajoutProduit']}]
+                label:'Gestion boutique',
+                items:[{label:'Ajouter une boutique', icon:'pi pi-plus',routerLink:['/admin/home/creationBoutique']}]
             }
             // {
             //     label: 'UI Components',
