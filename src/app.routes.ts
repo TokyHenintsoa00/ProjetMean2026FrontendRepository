@@ -16,6 +16,7 @@ import { ValidationBoutique } from '@/pages/administrateur/gestionBoutique/valid
 import { LoginAdmin } from '@/pages/auth/loginAdmin';
 import { AdminDashboard } from '@/pages/administrateur/dashboard/adminDashboard';
 import { CreationBoutique } from '@/pages/administrateur/gestionBoutique/creationBoutique';
+import { GestionCategorie } from '@/pages/administrateur/gestionCategorie/gestionCategorie';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
@@ -37,7 +38,8 @@ export const appRoutes: Routes = [
         component:AppLayoutAdmin,
         children:[
             {path:'',component: AdminDashboard},
-            {path:'creationBoutique' , component: CreationBoutique}
+            {path:'creationBoutique' , component: CreationBoutique},
+            {path:'gestionCategorie', component: GestionCategorie}
         ]
     },
     { path: 'notfound', component: Notfound },

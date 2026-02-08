@@ -27,6 +27,10 @@ export class AppMenu {
             {
                 label:'Gestion boutique',
                 items:[{label:'Ajouter une boutique', icon:'pi pi-plus',routerLink:['/admin/home/creationBoutique']}]
+            },
+            {
+                label:'Gestion categories',
+                items:[{label:'Categories', icon:'pi pi-tags',routerLink:['/admin/home/gestionCategorie']}]
             }
             // {
             //     label: 'UI Components',

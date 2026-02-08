@@ -66,34 +66,21 @@ import { StatusService } from "@/pages/service/status.service";
                                     class="p-inputtext-lg" />
                             </div>
                             
-                            <div class="flex flex-col grow basis-0 gap-2">
-                                <label for="category" class="font-semibold text-900">
-                                    Catégorie produit <span class="text-red-500">*</span>
+                            <div *ngFor="let level of categoryLevels; let i = index" class="flex flex-col grow basis-0 gap-2">
+                                <label [for]="'category-' + i" class="font-semibold text-900">
+                                    {{ i === 0 ? 'Catégorie produit' : 'Sous-categorie niveau ' + i }} <span *ngIf="i === 0" class="text-red-500">*</span>
                                 </label>
-                                <p-select 
-                                    id="category"
-                                    [options]="categories" 
-                                    [(ngModel)]="produit.categorie"
-                                    name="categorie"
-                                    optionLabel="name" 
+                                <p-select
+                                    [id]="'category-' + i"
+                                    [options]="level.options"
+                                    [(ngModel)]="level.selected"
+                                    [name]="'categorie-' + i"
+                                    optionLabel="name"
                                     optionValue="value"
-                                    placeholder="Sélectionnez une catégorie"
+                                    [placeholder]="i === 0 ? 'Sélectionnez une catégorie' : 'Selectionnez une sous-categorie'"
+                                    (onChange)="onLevelChange(i, $event)"
                                     styleClass="w-full">
                                 </p-select>
-                            </div>
-
-                            <div class="flex flex-col grow basis-0 gap-2">
-                                <label for="name" class="font-semibold text-900">
-                                    Categorie du produit <span class="text-red-500">*</span>
-                                </label>
-                                <input 
-                                    pInputText 
-                                    id="name" 
-                                    type="text" 
-                                    [(ngModel)]="produit.sous_categorie" 
-                                    name="souscategorie"
-                                    placeholder="Ex: Telephone portable"
-                                    class="p-inputtext-lg" />
                             </div>
 
                         </div>
@@ -265,8 +252,9 @@ export class AjoutProduit {
 
     produit: any = {};
     selectedPhotos: any[] = [];
-    
-    categories: any[] = [];
+
+    categorieTree: any[] = [];
+    categoryLevels: { options: any[], selected: any, nodes: any[] }[] = [];
     statuts: any[] = [];
     constructor(
         private userservice: UserService, 
@@ -283,7 +271,9 @@ export class AjoutProduit {
     }
 
     addProduit(){
-            
+        console.log('Produit:', this.produit);
+        console.log('Categories selectionnees:', this.categoryLevels.map(l => l.selected));
+        console.log('Photos:', this.selectedPhotos);
     }
 
     // statuts = [
@@ -307,25 +297,41 @@ export class AjoutProduit {
     }
 
     loadCategories() {
-        this.categorieService.getAllCategorie().subscribe({
+        this.categorieService.getTree().subscribe({
             next: (data) => {
-                console.log('Catégories chargées:', data);
-                // Adaptez selon la structure de votre réponse API
-                this.categories = data.map((cat: any) => ({
-                    name: cat.nom_categorie,
-                    value: cat._id
-                }));
+                console.log('Categories chargees:', data);
+                this.categorieTree = data;
+                this.categoryLevels = [{
+                    options: data.map((cat: any) => ({ name: cat.nom, value: cat._id })),
+                    selected: null,
+                    nodes: data
+                }];
             },
             error: (error) => {
-                console.error('Erreur lors du chargement des catégories:', error);
-                // Gardez les catégories par défaut en cas d'erreur
-                this.categories = [
-                    { name: 'Électronique', value: 'electronique' },
-                    { name: 'Vêtements', value: 'vetements' },
-                    // ... etc
-                ];
+                console.error('Erreur lors du chargement des categories:', error);
+                this.categoryLevels = [];
             }
         });
+    }
+
+    onLevelChange(levelIndex: number, event: any) {
+        // Remove all levels after the current one
+        this.categoryLevels = this.categoryLevels.slice(0, levelIndex + 1);
+
+        const selectedId = event.value;
+        const selectedNode = this.categoryLevels[levelIndex].nodes.find((cat: any) => cat._id === selectedId);
+
+        // If the selected category has children, add a new level
+        if (selectedNode && selectedNode.sous_categorie) {
+            this.categoryLevels.push({
+                options: selectedNode.sous_categorie.map((cat: any) => ({ name: cat.nom, value: cat._id })),
+                selected: null,
+                nodes: selectedNode.sous_categorie
+            });
+        }
+
+        // Store the deepest selected category as the product's category
+        this.produit.categorie = selectedId;
     }
 
     
