@@ -11,6 +11,6 @@ import { Observable } from "rxjs";
     constructor(private http:HttpClient){};
 
     getAllCategorie(): Observable<any> {
-        return this.http.get(`${this.apiUrl}/getAll`); // Correction: parenthèses au lieu de backticks
+        return this.http.get(`${this.apiUrl}/getAll/boutique`); // Correction: parenthèses au lieu de backticks
     }
  }

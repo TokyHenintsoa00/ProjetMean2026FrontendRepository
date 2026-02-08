@@ -11,6 +11,12 @@ export class UserService{
 
     constructor(private http:HttpClient){};
 
+    findUserByEmail(credentials: {email: string}): Observable<any> {
+    return this.http.post(`${this.apiUrl}/findBy/email`, credentials, {
+        withCredentials: true
+    });
+}
+
     // signUp(credentials:{nom:string,prenom:string,dateNaissance:Date,role:string,telephone:string,email:string,pwd:string,avatar:null,rememberMe?:boolean}):Observable<any>
     // {
     //     return this.http.post(`${this.apiUrl}/register/user`, credentials,{
