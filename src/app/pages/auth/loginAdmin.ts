@@ -8,7 +8,7 @@ import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { AppFloatingConfigurator } from '../../layout/component/app.floatingconfigurator';
 import { UserService } from '../service/user.service';
-
+//egergergergegegjgoierjgoierjgioerjgioejrgiojergiojerogijeriogjeroigjeiorgj
 @Component({
      selector: 'app-loginAdmin',
     standalone: true,
