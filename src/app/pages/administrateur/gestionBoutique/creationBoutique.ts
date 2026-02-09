@@ -460,8 +460,8 @@ export class CreationBoutique{
         location:'',
         loyer:'',
         description:'',
-        photo_boutique:[] as File[] ,
-        boutique_logo:'',
+        photo_boutique:null as File | null,
+        boutique_logo:null as File | null,
     };
 
 
@@ -477,8 +477,8 @@ export class CreationBoutique{
         avatarFile: null as File | null
     }
 
-    selectedPhotos: any[] = [];
-    selectedLogo: any = null;
+    selectedPhotos: any;
+    selectedLogo: any ;
     categories: any[] = [];
     statuts: any[] = [];
     selectedAvatar: any ;
@@ -495,6 +495,17 @@ export class CreationBoutique{
         this.loadCategories();
     }
 
+
+    private addBoutiqueByAdmin():void{
+        const formData = new FormData();
+        formData.append('nom_boutique',this.boutique.nom_boutique);
+        formData.append('description_boutique',this.boutique.description);
+        if (this.boutique.boutique_logo) {
+            formData.append('boutique_logo',this.boutique.boutique_logo , this.boutique.boutique_logo.name);
+        } 
+
+        
+    }
 
      private addManagerBoutique(): void {
         const formData = new FormData();
@@ -532,7 +543,7 @@ export class CreationBoutique{
     addBoutique(){
        const formData = new FormData();
        this.addManagerBoutique();
-        
+
        
     }
 

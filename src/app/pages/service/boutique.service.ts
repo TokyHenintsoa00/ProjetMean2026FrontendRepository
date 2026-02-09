@@ -16,6 +16,18 @@ export class BoutiqueService{
         return this.http.get(`${this.apiUrl}/getAll`); // Correction ici
     }
 
+    registerBoutiqueV1(formData: FormData):Observable<any>{
+        formData.forEach((value, key) => {
+        if (value instanceof File) {
+            console.log(`${key}: [File] ${value.name} (${value.size} bytes)`);
+        } else {
+            console.log(`${key}:`, value);
+        }
+    });
+         return this.http.post(`${this.apiUrl}/register/addBoutique/byAdmin`, formData);
+    }
+
+
     registerBoutiqueByAdmin(credentials:{
         nom_boutique:string,
         manager_id:string,
