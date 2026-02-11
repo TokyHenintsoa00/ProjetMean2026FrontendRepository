@@ -829,20 +829,32 @@ export class ListeBoutique {
    loadBoutique() {
         this.boutiqueService.getAllBoutiqueForAdmin().subscribe({
             next: (data: any[]) => {
-                this.boutique = data.map((shop: any) => ({
+                    this.boutique = data.map((shop: any) => ({
                     id: shop._id,
                     name: shop.nom_boutique,
                     categorie: shop.id_categorie?.nom || 'Non défini',
                     location: shop.location || 'Non défini',
                     rating: shop.rating || 0,
+                
+                    managerId: shop.manager_id?._id || null,   
+                    
+                    
                     managerName: shop.manager_id 
                         ? `${shop.manager_id.nom_client || ''} ${shop.manager_id.prenom_client || ''}`.trim() || 'Non assigné'
                         : 'Non assigné',
-                    // ✅ Utiliser directement l'URL qui contient déjà /uploads/
+
+                    numero_telephone:shop.manager_id
+                        ?`${shop.manager_id.numero_telephone}`:'',
+                    
                     avatar: shop.manager_id?.avatar?.length
                         ? `${this.baseUrl}${shop.manager_id.avatar[0].url}`
-                        : null
+                        : null,
+
+                
+                    
                 }));
+
+
                 console.log('Boutiques chargées:', this.boutique);
             },
             error: (err) => {
@@ -857,8 +869,10 @@ export class ListeBoutique {
 
     
     viewProfile(shop: any) {
+        console.log(shop);
+        
         // Navigation vers la page de profil avec l'ID du manager
-        this.router.navigate(['#', shop.managerId], {
+        this.router.navigate(['/admin/home/infoPlusBoutique', shop.managerId], {
             state: { shopData: shop }
         });
     }

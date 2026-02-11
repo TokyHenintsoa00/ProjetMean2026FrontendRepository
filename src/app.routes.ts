@@ -17,6 +17,7 @@ import { LoginAdmin } from '@/pages/auth/loginAdmin';
 import { AdminDashboard } from '@/pages/administrateur/dashboard/adminDashboard';
 import { CreationBoutique } from '@/pages/administrateur/gestionBoutique/creationBoutique';
 import { ListeBoutique } from '@/pages/administrateur/gestionBoutique/listeBoutique';
+import { infoplusBoutique } from '@/pages/administrateur/gestionBoutique/infoPlusBoutique';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
@@ -39,7 +40,8 @@ export const appRoutes: Routes = [
         children:[
             {path:'',component: AdminDashboard},
             {path:'creationBoutique' , component: CreationBoutique},
-            {path:'listeBoutique', component:ListeBoutique}
+            {path:'listeBoutique', component:ListeBoutique},
+            {path:'infoPlusBoutique/:id', component:infoplusBoutique}
         ]
     },
     { path: 'notfound', component: Notfound },
