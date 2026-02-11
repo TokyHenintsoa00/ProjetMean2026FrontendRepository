@@ -14,6 +14,7 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { TabsModule } from "primeng/tabs";
 import { BoutiqueService } from "@/pages/service/boutique.service";
 import { FormsModule } from "@angular/forms";
+import { UserService } from "@/pages/service/user.service";
 
 @Component({
     selector: 'app-infoplusBoutique',
@@ -135,14 +136,7 @@ import { FormsModule } from "@angular/forms";
                         (click)="toggleAccountStatus()">
                     </button>
 
-                    <button 
-                        pButton 
-                        type="button"
-                        label="Modifier"
-                        icon="pi pi-pencil"
-                        class="p-button-outlined"
-                        (click)="editProfile()">
-                    </button>
+                    
                 </div>
             </div>
         </div>
@@ -834,11 +828,13 @@ export class infoplusBoutique{
 
     constructor(
         private route: ActivatedRoute,
+        private userService:UserService,
         private router: Router,
         private boutiqueService: BoutiqueService,
         private confirmationService: ConfirmationService,
         private messageService: MessageService
-    ) {
+    ) 
+    {
         // Récupérer les données passées via navigation
         const navigation = this.router.getCurrentNavigation();
         if (navigation?.extras.state) {
@@ -859,7 +855,7 @@ export class infoplusBoutique{
         this.boutiqueService.getAllBoutiqueForAdmin().subscribe({
             next: (data: any[]) => {
                 const shop = data.find((s: any) => s.manager_id?._id === this.managerId);
-                if (shop) {
+                if (shop) { 
                     this.boutique = {
                         id: shop._id,
                         name: shop.nom_boutique,
@@ -880,7 +876,7 @@ export class infoplusBoutique{
                         avatar: shop.manager_id.avatar?.length
                             ? `${this.baseUrl}${shop.manager_id.avatar[0].url}`
                             : null,
-                        isActive: shop.manager_id.isActive !== false,
+                        isActive: shop.manager_id.is_active,
                         createdAt: shop.manager_id.createdAt || null
                     };
                 }
@@ -898,6 +894,8 @@ export class infoplusBoutique{
         });
     }
 
+
+
     toggleAccountStatus() {
         const action = this.userData.isActive ? 'désactiver' : 'activer';
         
@@ -912,12 +910,30 @@ export class infoplusBoutique{
                 // Appel API pour changer le statut
                 // this.boutiqueService.updateManagerStatus(this.userData.id, !this.userData.isActive).subscribe({
                 //     next: () => {
-                        this.userData.isActive = !this.userData.isActive;
+                
+                const isActive = this.userData.isActive;
+                const id = this.userData.id;
+                const _id = id.toString();
+                    if (isActive == false) {
+                        
+                        //FUNCTION REACTIVATION
+
+                    } else {
+                        //FUNCTION DESACTIVER
+                        this.userService.updateToDisconnectAccount(_id);
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Succès',
-                            detail: `Compte ${this.userData.isActive ? 'activé' : 'désactivé'} avec succès`
+                            detail: `Compte désactivé avec succès`
                         });
+                    }
+                
+                        // this.userData.isActive = !this.userData.isActive;
+                        // this.messageService.add({
+                        //     severity: 'success',
+                        //     summary: 'Succès',
+                        //     detail: `Compte ${this.userData.isActive ? 'activé' : 'désactivé'} avec succès`
+                        // });
                 //     },
                 //     error: (err) => {
                 //         this.messageService.add({

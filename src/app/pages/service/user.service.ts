@@ -12,10 +12,18 @@ export class UserService{
     constructor(private http:HttpClient){};
 
     findUserByEmail(credentials: {email: string}): Observable<any> {
-    return this.http.post(`${this.apiUrl}/findBy/email`, credentials, {
-        withCredentials: true
-    });
-}
+        return this.http.post(`${this.apiUrl}/findBy/email`, credentials, {
+            withCredentials: true
+        });
+    }
+
+    updateToDisconnectAccount(credentials:{_id:string}):Observable<any>
+    {
+        return this.http.post(`${this.apiUrl}/account/desactive`, credentials, {
+            withCredentials: true
+        });
+    }
+
 
     // signUp(credentials:{nom:string,prenom:string,dateNaissance:Date,role:string,telephone:string,email:string,pwd:string,avatar:null,rememberMe?:boolean}):Observable<any>
     // {
@@ -72,6 +80,9 @@ signUpByAddAdmin(user: any): Observable<any> {
     
     return this.http.post(`${this.apiUrl}/register/managerBoutique/byAdmin`, format);
 }
+
+
+
 
 //     signUpByAddAdmin(user: any): Observable<any> {
 //     const format = new FormData();
