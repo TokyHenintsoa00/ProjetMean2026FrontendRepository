@@ -13,10 +13,14 @@ export class BoutiqueService{
     constructor(private http:HttpClient){};
     
     getBoutiques():Observable<any> {
-        return this.http.get(`${this.apiUrl}/getAll`); // Correction ici
+        return this.http.get(`${this.apiUrl}/getAll`); 
     }
 
-    registerBoutiqueV1(formData: FormData):Observable<any>{
+    getAllBoutiqueForAdmin():Observable<any>{
+        return this.http.get(`${this.apiUrl}/getAll/content`);
+    }
+
+    registerBoutiqueByAdminV1(formData: FormData):Observable<any>{
         formData.forEach((value, key) => {
         if (value instanceof File) {
             console.log(`${key}: [File] ${value.name} (${value.size} bytes)`);
