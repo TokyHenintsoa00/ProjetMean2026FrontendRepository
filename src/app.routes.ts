@@ -18,6 +18,7 @@ import { AdminDashboard } from '@/pages/administrateur/dashboard/adminDashboard'
 import { CreationBoutique } from '@/pages/administrateur/gestionBoutique/creationBoutique';
 import { ListeBoutique } from '@/pages/administrateur/gestionBoutique/listeBoutique';
 import { infoplusBoutique } from '@/pages/administrateur/gestionBoutique/infoPlusBoutique';
+import { demandeBoutique } from '@/pages/client/demandeBoutique';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
@@ -27,6 +28,7 @@ export const appRoutes: Routes = [
     {path:'administrator/logIn',component:LoginAdmin},
     {path:'signUp',component:SignUp},
     {path:'forgotPassword',component:forgotPassword},
+    {path:'demandeBoutiqueClient',component:demandeBoutique},
     {path: 'boutique/home',
         component: AppLayout,
         children: [

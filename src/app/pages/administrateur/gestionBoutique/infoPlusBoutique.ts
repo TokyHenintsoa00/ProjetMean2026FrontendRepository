@@ -914,18 +914,53 @@ export class infoplusBoutique{
                 const isActive = this.userData.isActive;
                 const id = this.userData.id;
                 const _id = id.toString();
-                    if (isActive == false) {
+                    if (isActive == false) 
+                    {
                         
-                        //FUNCTION REACTIVATION
-
+                        //FUNCTION REACTIVATION =>active account
+                        this.userService.updateToConnectAccount({_id}).subscribe(
+                        {
+                            next:(res)=>{
+                                console.log("activate account ",res);
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: 'Succès',
+                                    detail: `Compte active avec succès`
+                                });
+                            },
+                            error: (err) => {
+                                console.log("error",err);
+                                
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: 'Erreur',
+                                    detail: `Impossible de ${action} le compte`
+                                });
+                            }
+                        })
+                        
                     } else {
-                        //FUNCTION DESACTIVER
-                        this.userService.updateToDisconnectAccount(_id);
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Succès',
-                            detail: `Compte désactivé avec succès`
+                        //FUNCTION DESACTIVER => desactuv account 
+                        this.userService.updateToDisconnectAccount({_id}).subscribe({
+                            next:(res)=>{
+                                console.log("disactive account ",res);
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: 'Succès',
+                                    detail: `Compte désactivé avec succès`
+                                });
+                            },
+                            error:(err) =>{
+                                console.log("error",err);
+                                
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: 'Erreur',
+                                    detail: `Impossible de ${action} le compte`
+                                });
+                            }
                         });
+                        
                     }
                 
                         // this.userData.isActive = !this.userData.isActive;

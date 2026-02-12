@@ -29,6 +29,7 @@ export class AppMenu {
                 items:[
                     {label:'Ajouter une boutique', icon:'pi pi-plus',routerLink:['/admin/home/creationBoutique']},
                     {label:'Liste des boutiques', icon:'pi pi-list',routerLink:['/admin/home/listeBoutique']},
+                    {label:'Validation de nouveaux boutique', icon:'pi pi-verified',routerLink:['']},
                 ],
                 
             }

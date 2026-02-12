@@ -19,10 +19,19 @@ export class UserService{
 
     updateToDisconnectAccount(credentials:{_id:string}):Observable<any>
     {
-        return this.http.post(`${this.apiUrl}/account/desactive`, credentials, {
+        return this.http.put(`${this.apiUrl}/account/desactive`, credentials, {
             withCredentials: true
         });
     }
+
+    updateToConnectAccount(credentials:{_id:string}):Observable<any>
+    {
+        return this.http.put(`${this.apiUrl}/account/active`, credentials, {
+                withCredentials: true
+        })
+    }
+
+    
 
 
     // signUp(credentials:{nom:string,prenom:string,dateNaissance:Date,role:string,telephone:string,email:string,pwd:string,avatar:null,rememberMe?:boolean}):Observable<any>

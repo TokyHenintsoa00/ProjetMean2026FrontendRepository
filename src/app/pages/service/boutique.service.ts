@@ -20,6 +20,20 @@ export class BoutiqueService{
         return this.http.get(`${this.apiUrl}/getAll/content`);
     }
 
+    registerBoutiqueByClient(formData: FormData):Observable<any>
+    {
+        formData.forEach((value, key) => {
+        if (value instanceof File) {
+            console.log(`${key}: [File] ${value.name} (${value.size} bytes)`);
+        } else {
+            console.log(`${key}:`, value);
+        }
+        });
+
+        return this.http.post(`${this.apiUrl}/register/demandeBoutique/client`, formData);
+
+    }
+
     registerBoutiqueByAdminV1(formData: FormData):Observable<any>{
         formData.forEach((value, key) => {
         if (value instanceof File) {
@@ -27,7 +41,7 @@ export class BoutiqueService{
         } else {
             console.log(`${key}:`, value);
         }
-    });
+        });
          return this.http.post(`${this.apiUrl}/register/addBoutique/byAdmin`, formData);
     }
 
