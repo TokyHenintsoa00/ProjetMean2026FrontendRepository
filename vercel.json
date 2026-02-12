@@ -1,4 +1,7 @@
 {
+    "buildCommand": "ng build --configuration production",
+    "outputDirectory": "dist/sakai-ng/browser",
+    "framework": null,
     "rewrites": [
         {
             "source": "/:path*",
