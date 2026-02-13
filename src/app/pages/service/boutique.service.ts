@@ -24,6 +24,9 @@ export class BoutiqueService{
         return this.http.get(`${this.apiUrl}/getAll/content`);
     }
 
+  
+
+
     registerBoutiqueByClient(formData: FormData):Observable<any>
     {
         formData.forEach((value, key) => {
@@ -34,7 +37,7 @@ export class BoutiqueService{
         }
         });
 
-        return this.http.post(`${this.apiUrl}/register/demandeBoutique/client`, formData);
+        return this.http.post(`${this.apiUrl}/permission/demande/boutique/manager/byClient`, formData);
 
     }
 

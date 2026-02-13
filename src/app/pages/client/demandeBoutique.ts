@@ -1219,7 +1219,7 @@ import { ToastModule } from 'primeng/toast';
                         </button>
                         <button 
                             pButton 
-                            label="Publier la boutique" 
+                            label="Valider la demande" 
                             icon="pi pi-check" 
                             size="large"
                             type="submit"
@@ -1388,7 +1388,7 @@ export class demandeBoutique {
             console.log('Avatar ajouté au FormData:', this.user.avatarFile.name);
         }
         
-        this.userservice.signUpByAddAdminFormData(formData).subscribe({
+        this.userservice.signUpByAddClientFormData(formData).subscribe({
             next: (res) => {
                 console.log("✅ Manager créé avec succès", res);
                 

@@ -54,6 +54,7 @@ export class UserService{
     }
 
     // Nouvelle méthode qui accepte directement FormData
+    // insertion user par admin => pour faire une boutique
 signUpByAddAdminFormData(formData: FormData): Observable<any> {
     console.log('Envoi du FormData au backend...');
     
@@ -69,26 +70,43 @@ signUpByAddAdminFormData(formData: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}/register/managerBoutique/byAdmin`, formData);
 }
 
-// Gardez l'ancienne méthode si nécessaire ailleurs
-signUpByAddAdmin(user: any): Observable<any> {
-    const format = new FormData();
+
+//demande de boutique par client
+signUpByAddClientFormData(formData: FormData): Observable<any> {
+    console.log('Envoi du FormData au backend...');
     
-    format.append('nom_client', user.nom_client);
-    format.append('prenom_client', user.prenom_client);
-    format.append('date_naissance', user.date_naissance.toISOString());
-    format.append('role', user.role);
-    format.append('numero_telephone', user.numero_telephone);
-    format.append('email', user.email);
-    format.append('pwd', user.pwd);
+    // Vérifier le contenu (debugging)
+    formData.forEach((value, key) => {
+        if (value instanceof File) {
+            console.log(`${key}: [File] ${value.name} (${value.size} bytes)`);
+        } else {
+            console.log(`${key}:`, value);
+        }
+    });
     
-    if (user.avatar && user.avatar.length > 0) {
-        format.append('avatar', user.avatar[0], user.avatar[0].name);
-    }
-    
-    format.append('rememberMe', user.rememberMe.toString());
-    
-    return this.http.post(`${this.apiUrl}/register/managerBoutique/byAdmin`, format);
+    return this.http.post(`${this.apiUrl}/register/demandeManager/byClient`, formData);
 }
+    
+// Gardez l'ancienne méthode si nécessaire ailleurs
+// signUpByAddAdmin(user: any): Observable<any> {
+//     const format = new FormData();
+    
+//     format.append('nom_client', user.nom_client);
+//     format.append('prenom_client', user.prenom_client);
+//     format.append('date_naissance', user.date_naissance.toISOString());
+//     format.append('role', user.role);
+//     format.append('numero_telephone', user.numero_telephone);
+//     format.append('email', user.email);
+//     format.append('pwd', user.pwd);
+    
+//     if (user.avatar && user.avatar.length > 0) {
+//         format.append('avatar', user.avatar[0], user.avatar[0].name);
+//     }
+    
+//     format.append('rememberMe', user.rememberMe.toString());
+    
+//     return this.http.post(`${this.apiUrl}/register/managerBoutique/byAdmin`, format);
+// }
 
 
 
