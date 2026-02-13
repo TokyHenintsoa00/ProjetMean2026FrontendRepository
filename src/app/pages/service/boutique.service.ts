@@ -16,6 +16,10 @@ export class BoutiqueService{
         return this.http.get(`${this.apiUrl}/getAll`); 
     }
 
+    getAllActiveBoutique():Observable<any> {
+        return this.http.get(`${this.apiUrl}/getAll/status/active`)
+    }
+
     getAllBoutiqueForAdmin():Observable<any>{
         return this.http.get(`${this.apiUrl}/getAll/content`);
     }

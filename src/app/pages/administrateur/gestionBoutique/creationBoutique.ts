@@ -615,7 +615,7 @@ resestBoutiqueForm():void{
     
     async addBoutique() {
         await this.addManagerBoutique();
-        this.addBoutiqueByAdmin();
+        await this.addBoutiqueByAdmin();
     }
 
     // statuts = [
