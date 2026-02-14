@@ -84,7 +84,7 @@ signUpByAddClientFormData(formData: FormData): Observable<any> {
         }
     });
     
-    return this.http.post(`${this.apiUrl}/register/demandeManager/byClient`, formData);
+    return this.http.post(`${this.apiUrl}/register/permission/manager/boutique/byClient`, formData);
 }
     
 // Gardez l'ancienne méthode si nécessaire ailleurs

@@ -21,10 +21,12 @@ export class BoutiqueService{
     }
 
     getAllBoutiqueForAdmin():Observable<any>{
-        return this.http.get(`${this.apiUrl}/getAll/content`);
+        return this.http.get(`${this.apiUrl}/getAll/content/V1`);
     }
 
-  
+    getAllBoutiquePending():Observable<any>{
+        return this.http.get(`${this.apiUrl}/getAll/status/pending`);
+    }
 
 
     registerBoutiqueByClient(formData: FormData):Observable<any>
@@ -37,7 +39,7 @@ export class BoutiqueService{
         }
         });
 
-        return this.http.post(`${this.apiUrl}/permission/demande/boutique/manager/byClient`, formData);
+        return this.http.post(`${this.apiUrl}/register/demandeBoutique/client`, formData);
 
     }
 

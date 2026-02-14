@@ -19,6 +19,7 @@ import { CreationBoutique } from '@/pages/administrateur/gestionBoutique/creatio
 import { ListeBoutique } from '@/pages/administrateur/gestionBoutique/listeBoutique';
 import { infoplusBoutique } from '@/pages/administrateur/gestionBoutique/infoPlusBoutique';
 import { demandeBoutique } from '@/pages/client/demandeBoutique';
+import { viewDetailDemandeBoutique } from '@/pages/administrateur/gestionBoutique/viewDetailDemandeBoutique';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
@@ -43,7 +44,9 @@ export const appRoutes: Routes = [
             {path:'',component: AdminDashboard},
             {path:'creationBoutique' , component: CreationBoutique},
             {path:'listeBoutique', component:ListeBoutique},
-            {path:'infoPlusBoutique/:id', component:infoplusBoutique}
+            {path:'infoPlusBoutique/:id', component:infoplusBoutique},
+            {path:'validationBoutique',component:ValidationBoutique},
+            {path:'viewDetailDemandeBoutique/:id',component:viewDetailDemandeBoutique}
         ]
     },
     { path: 'notfound', component: Notfound },

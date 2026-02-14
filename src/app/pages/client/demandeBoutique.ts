@@ -888,14 +888,21 @@ import { ToastModule } from 'primeng/toast';
                                 <label for="pwd" class="font-semibold text-900">
                                     Mot de passe <span class="text-red-500">*</span>
                                 </label>
-                                <input 
-                                    pInputText 
-                                    id="pwd" 
-                                    type="password" 
-                                    [(ngModel)]="user.pwd" 
-                                    name="pwd"
-                                    placeholder="••••••••"
-                                    class="p-inputtext-lg" />
+                                <div class="relative">
+                                    <input 
+                                        pInputText 
+                                        id="pwd" 
+                                        [type]="showPassword ? 'text' : 'password'" 
+                                        [(ngModel)]="user.pwd" 
+                                        name="pwd"
+                                        placeholder="••••••••"
+                                        class="p-inputtext-lg w-full pr-10" />
+                                    <i 
+                                        [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'" 
+                                        (click)="showPassword = !showPassword"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500">
+                                    </i>
+                                </div>
                             </div>
 
                             <div class="flex flex-col grow basis-0 gap-2">
@@ -1023,46 +1030,7 @@ import { ToastModule } from 'primeng/toast';
 
                     
 
-                    <!-- Prix et stock -->
-                    <div class="surface-50 border-round-lg p-4 mb-4">
-                        <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
-                            <i class="pi pi-map-marker"></i>
-                            Localisation et loyer
-                        </h3>
-                        
-                        <div class="flex flex-wrap gap-4">
-                            <div class="flex flex-col grow basis-0 gap-2">
-                                <label for="prix" class="font-semibold text-900">
-                                    Location <span class="text-red-500">*</span>
-                                </label>
-                                <input 
-                                    pInputText
-                                    id="location"
-                                    type="text"
-                                    [(ngModel)]="boutique.location" 
-                                    name="location"
-                                    step="0.01"
-                                    min="0"
-                                    placeholder="P-001-A"
-                                    class="p-inputtext-lg" />
-                            </div>
-                            
-                            <div class="flex flex-col grow basis-0 gap-2">
-                                <label for="stock" class="font-semibold text-900">
-                                    Loyer <span class="text-red-500">*</span>
-                                </label>
-                                <input 
-                                    pInputText
-                                    id="loyer"
-                                    type="number"
-                                    [(ngModel)]="boutique.loyer" 
-                                    name="loyer"
-                                    min="0"
-                                    placeholder="0"
-                                    class="p-inputtext-lg" />
-                            </div>
-                        </div>
-                    </div>
+                   
 
                     <!-- Description -->
                     <div class="surface-50 border-round-lg p-4 mb-4">
@@ -1243,7 +1211,7 @@ export class demandeBoutique {
         photo_boutique: null as File | null,
         boutique_logo: null as File | null,
     };
-
+    showPassword = false;
     user = {
         nom_client: '',
         prenom_client: '',
@@ -1313,6 +1281,7 @@ export class demandeBoutique {
         this.resetUserForm();
     }
 
+    //creation 
     private addBoutiqueByAdmin(): void {
         const formData = new FormData();
         
@@ -1371,6 +1340,7 @@ export class demandeBoutique {
         });
     }
 
+    //creaction user manager
     private addManagerBoutique(): void {
         const formData = new FormData();
         
@@ -1416,21 +1386,21 @@ export class demandeBoutique {
     
     async addBoutique() {
         // Validation simple
-        if (!this.boutique.nom_boutique || !this.boutique.categorie) {
-            this.messageService.add({
-                severity: 'warn',
-                summary: 'Attention',
-                detail: 'Veuillez remplir tous les champs obligatoires',
-                life: 3000
-            });
-            return;
-        }
+        // if (!this.boutique.nom_boutique || !this.boutique.categorie) {
+        //     this.messageService.add({
+        //         severity: 'warn',
+        //         summary: 'Attention',
+        //         detail: 'Veuillez remplir tous les champs obligatoires',
+        //         life: 3000
+        //     });
+        //     return;
+        // }
 
-        this.isSubmitting = true;
+        // this.isSubmitting = true;
         
         // Si vous voulez créer le manager ET la boutique
         await this.addManagerBoutique();
-        this.addBoutiqueByAdmin();
+        await this.addBoutiqueByAdmin();
     }
 
     loadCategories() {
