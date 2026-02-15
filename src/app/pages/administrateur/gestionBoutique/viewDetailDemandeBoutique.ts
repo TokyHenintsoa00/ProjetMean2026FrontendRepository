@@ -16,12 +16,21 @@ import { TabsModule } from "primeng/tabs";
 import { TagModule } from "primeng/tag";
 import { ToastModule } from "primeng/toast";
 
+// Imports PrimeNG
+import { DialogModule } from 'primeng/dialog';
+
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+
 @Component({
     selector: 'app-infoplusBoutique',
     standalone: true,
     imports: [
         CommonModule,
         FormsModule,
+        DialogModule,
+        InputTextModule,
+        InputNumberModule,
         ButtonModule,
         CardModule,
         AvatarModule,
@@ -126,27 +135,28 @@ import { ToastModule } from "primeng/toast";
                 </div>
 
                 <div class="action-buttons">
-                    <!-- Bouton Valider -->
-                    <button 
-                        pButton 
-                        type="button"
-                        label="Valider"
-                        icon="pi pi-check"
-                        class="p-button-success"
-                        (click)="approveAccount()">
-                    </button>
+                <!-- Bouton Valider -->
+                <button 
+                    pButton 
+                    type="button"
+                    label="Valider"
+                    icon="pi pi-check"
+                    class="p-button-success"
+                    (click)="approveAccount()">
+                </button>
+                <!-- Bouton Refuser -->
+                <button 
+                    pButton 
+                    type="button"
+                    label="Refuser"
+                    icon="pi pi-times"
+                    class="p-button-danger"
+                    (click)="rejectAccount()">
+                </button>
+            </div>
 
-                    <!-- Bouton Refuser -->
-                    <button 
-                        pButton 
-                        type="button"
-                        label="Refuser"
-                        icon="pi pi-times"
-                        class="p-button-danger"
-                        (click)="rejectAccount()">
-                    </button>
 
-                </div>
+
             </div>
         </div>
 
@@ -250,7 +260,83 @@ import { ToastModule } from "primeng/toast";
             (click)="goBack()">
         </button>
     </div>
-</div>`,
+</div>
+
+<!-- Dialog pour loyer et location -->
+<p-dialog 
+    [(visible)]="showLoyerLocationDialog" 
+    [modal]="true" 
+    [closable]="true"
+    [style]="{width: '550px'}"
+    header="Informations de la boutique"
+    [draggable]="false"
+    [resizable]="false">
+    
+    <div class="dialog-content">
+        <p class="dialog-description">
+            <i class="pi pi-info-circle"></i>
+            Veuillez renseigner les informations suivantes pour valider la boutique
+        </p>
+        
+        <div class="form-grid">
+            <div class="form-field">
+                <label for="location" class="field-label">
+                    <i class="pi pi-map-marker"></i>
+                    Location
+                </label>
+                <input 
+                    id="location" 
+                    type="text" 
+                    pInputText 
+                    [(ngModel)]="loyerLocationData.location"
+                    placeholder="Ex: Antananarivo, Madagascar"
+                    class="w-full">
+            </div>
+            
+            <div class="form-field">
+                <label for="loyer" class="field-label">
+                    <i class="pi pi-money-bill"></i>
+                    Loyer mensuel
+                </label>
+                <p-inputNumber 
+                    id="loyer"
+                    [(ngModel)]="loyerLocationData.loyer"
+                    mode="currency"
+                    currency="MGA"
+                    locale="fr-MG"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="0"
+                    placeholder="Entrez le montant"
+                    class="w-full"
+                    styleClass="w-full">
+                </p-inputNumber>
+            </div>
+        </div>
+    </div>
+    
+    <ng-template pTemplate="footer">
+        <div class="dialog-footer">
+            <button 
+                pButton 
+                type="button"
+                label="Annuler" 
+                icon="pi pi-times"
+                class="p-button-outlined"
+                (click)="showLoyerLocationDialog = false">
+            </button>
+            <button 
+                pButton 
+                type="button"
+                label="Continuer" 
+                icon="pi pi-check"
+                class="p-button-success"
+                (click)="validateLoyerLocation()">
+            </button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+`,
     styles:[`/* ============================================
    VARIABLES DU THÈME
    ============================================ */
@@ -755,80 +841,220 @@ import { ToastModule } from "primeng/toast";
 /* ============================================
    RESPONSIVE
    ============================================ */
-@media (max-width: 1200px) {
-    .profile-content {
-        grid-template-columns: 1fr;
-    }
+/* Dialog */
+::ng-deep .p-dialog {
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(34, 197, 94, 0.15);
+    border: 1px solid #e8f5e9;
 }
 
-@media (max-width: 768px) {
-    .profile-container {
+::ng-deep .p-dialog-header {
+    background: #22c55e;
+    color: white;
+    border-radius: 16px 16px 0 0;
+    padding: 1.5rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+::ng-deep .p-dialog-header-icon {
+    color: white;
+}
+
+::ng-deep .p-dialog-header-icon:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+::ng-deep .p-dialog-content {
+    padding: 2rem;
+    background: white;
+}
+
+/* Contenu */
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.dialog-description {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #166534;
+    font-size: 0.95rem;
+    margin: 0;
+    padding: 1rem;
+    background: #f0fdf4;
+    border-radius: 8px;
+    border-left: 4px solid #22c55e;
+}
+
+.dialog-description i {
+    font-size: 1.25rem;
+    color: #22c55e;
+    flex-shrink: 0;
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.field-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #166534;
+    font-size: 0.95rem;
+}
+
+.field-label i {
+    color: #22c55e;
+    font-size: 1.1rem;
+}
+
+/* Inputs */
+::ng-deep .p-inputtext,
+::ng-deep .p-inputnumber-input {
+    border-radius: 8px;
+    border: 2px solid #d1fae5;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+::ng-deep .p-inputtext:hover,
+::ng-deep .p-inputnumber-input:hover {
+    border-color: #86efac;
+}
+
+::ng-deep .p-inputtext:focus,
+::ng-deep .p-inputnumber-input:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    background: #f9fafb;
+}
+
+::ng-deep .p-inputnumber-input {
+    width: 100%;
+}
+
+::ng-deep .p-inputtext::placeholder,
+::ng-deep .p-inputnumber-input::placeholder {
+    color: #86efac;
+}
+
+/* Boutons InputNumber */
+::ng-deep .p-inputnumber-button {
+    background: #f0fdf4;
+    border-color: #d1fae5;
+    color: #22c55e;
+}
+
+::ng-deep .p-inputnumber-button:hover {
+    background: #dcfce7;
+}
+
+/* Footer */
+.dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.5rem 2rem;
+    background: #f9fafb;
+    border-radius: 0 0 16px 16px;
+    margin: 1.5rem -2rem -2rem -2rem;
+    border-top: 1px solid #e8f5e9;
+}
+
+::ng-deep .p-dialog-footer {
+    padding: 0;
+    border: none;
+}
+
+/* Boutons */
+::ng-deep .p-button {
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+::ng-deep .p-button-success {
+    background: #22c55e;
+    border: none;
+    color: white;
+}
+
+::ng-deep .p-button-success:hover {
+    background: #16a34a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+::ng-deep .p-button-outlined {
+    border: 2px solid #d1fae5;
+    color: #166534;
+    background: white;
+}
+
+::ng-deep .p-button-outlined:hover {
+    background: #f0fdf4;
+    border-color: #86efac;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    ::ng-deep .p-dialog {
+        width: 95% !important;
+        margin: 0.5rem;
+    }
+    
+    ::ng-deep .p-dialog-header {
+        padding: 1.25rem 1.5rem;
+        font-size: 1.1rem;
+    }
+    
+    ::ng-deep .p-dialog-content {
         padding: 1.5rem;
     }
-
-    .profile-header {
+    
+    .dialog-footer {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+        padding: 1.25rem 1.5rem;
+        margin: 1.25rem -1.5rem -1.5rem -1.5rem;
     }
-
-    .page-title {
-        font-size: 1.5rem;
-    }
-
-    .avatar-section {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .user-name-section h3 {
-        font-size: 1.5rem;
-    }
-
-    .info-row {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-    }
-
-    .shop-info-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-    }
-
-    .shop-header-info {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .shop-rating {
-        align-items: flex-start;
+    
+    ::ng-deep .p-button {
+        width: 100%;
     }
 }
 
-@media (max-width: 480px) {
-    .card-header-custom {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
+/* Utilitaires */
+.w-full {
+    width: 100%;
+}
 
-    .avatar-large,
-    .avatar-placeholder-large {
-        width: 100px;
-        height: 100px;
-    }
 
-    .avatar-placeholder-large {
-        font-size: 2.5rem;
-    }
-}`],
+`],
     providers: [ConfirmationService, MessageService]
 })
 export class viewDetailDemandeBoutique{
+    showLoyerLocationDialog: boolean = false;
+    loyerLocationData = {
+    location: '',
+    loyer: 0
+    };
     managerId: string = '';
     shopData: any = null;
     userData: any = null;
@@ -862,23 +1088,95 @@ export class viewDetailDemandeBoutique{
     approveAccount() {
         console.log("approuved");
         
-    this.confirmationService.confirm({
-        message: 'Voulez-vous vraiment valider ce compte ?',
-        header: 'Confirmation',
-        icon: 'pi pi-check-circle',
-        accept: () => {
-            // Logique de validation
+        // Réinitialiser les données
+        this.loyerLocationData = {
+            location: '',
+            loyer: 0
+        };
+        
+        // Afficher le dialog pour loyer et location
+        this.showLoyerLocationDialog = true;
+    }
 
-            
+      validateLoyerLocation() {
+        // Fermer le dialog de saisie
+        this.showLoyerLocationDialog = false;
+        
+        // Afficher la confirmation
+        this.confirmationService.confirm({
+            message: `Voulez-vous vraiment valider ce compte avec les informations suivantes ?
+                      <br><strong>Location:</strong> ${this.loyerLocationData.location}
+                      <br><strong>Loyer:</strong> ${this.loyerLocationData.loyer}`,
+            header: 'Confirmation',
+            icon: 'pi pi-check-circle',
+            accept: () => {
+                this.processBoutiqueApproval();
+            }
+        });
+    }
 
-            this.messageService.add({
-                severity: 'success',
-                summary: 'Validé',
-                detail: 'Le compte a été validé avec succès'
-            });
-        }
-    });
-}
+    processBoutiqueApproval() {
+        console.log("approuve demande de boutique");
+        const id = this.userData.id;
+        const _id = id.toString();
+        const id_boutique = this.boutique.id;
+        console.log("id recu de boutique: " + id_boutique);
+        const loyer = this.loyerLocationData.loyer;
+        console.log("loyer "+ loyer);
+        const location = this.loyerLocationData.location;    
+        console.log("location" + location);
+
+        this.userService.updateToConnectAccount({_id}).subscribe({
+            next:(res)=> {
+                console.log("user update" + res);
+                this.boutiqueService.updateBoutiquePendingToActive({_id: id_boutique}).subscribe({
+                        next:(res)=>{
+                            
+                        }
+                })
+            },
+        })
+        
+        
+    }
+
+//     approveAccount() {
+//         console.log("approuved");
+        
+//         this.confirmationService.confirm({
+//             message: 'Voulez-vous vraiment valider ce compte ?',
+//             header: 'Confirmation',
+//             icon: 'pi pi-check-circle',
+//             accept: () => {
+//                 // Logique de validation
+
+//                 console.log("approuve demande de boutique");
+//                 const id_user = this.userData.id;
+//                 console.log("id recue de user :"+id_user);
+
+//                 const id_boutique = this.boutique.id;
+//                 console.log("id recu de boutique :"+id_boutique);
+                
+
+//                 // //get function update active boutique et user
+//                 // this.userService.updateToConnectAccount(id_user).subscribe({
+//                 //     next:(res)=> {
+//                 //         this.boutiqueService.updateBoutiquePendingToActive(id_boutique).subscribe({
+//                 //             next:(res)=> {
+//                 //                 console.log("Validation approuved" + res);
+//                 //                 this.messageService.add({
+//                 //                     severity: 'success',
+//                 //                     summary: 'Validé',
+//                 //                     detail: 'Le compte a été validé avec succès'
+//                 //                 });
+//                 //             },
+//                 //         })
+//                 //     },
+//                 //     }
+//                 // )
+//             }
+//         });
+// }
 
 rejectAccount() {
     this.confirmationService.confirm({
@@ -886,6 +1184,7 @@ rejectAccount() {
         header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
+
             // Logique de refus
             this.messageService.add({
                 severity: 'warn',

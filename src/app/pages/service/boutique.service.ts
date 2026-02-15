@@ -28,6 +28,16 @@ export class BoutiqueService{
         return this.http.get(`${this.apiUrl}/getAll/status/pending`);
     }
 
+    updateBoutiquePendingToActive(credentials:{_id:string}):Observable<any>{
+
+        return this.http.put(`${this.apiUrl}/boutique/update/status/to/active`,credentials);
+    }
+
+
+    updateBoutiqueActiveToSuspend(credentials:{_id:string}):Observable<any>
+    {
+        return this.http.put(`${this.apiUrl}/boutique/update/status/to/suspend`,credentials);
+    }
 
     registerBoutiqueByClient(formData: FormData):Observable<any>
     {

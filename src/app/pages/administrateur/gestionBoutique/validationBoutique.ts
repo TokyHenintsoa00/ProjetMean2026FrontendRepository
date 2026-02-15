@@ -880,7 +880,7 @@ export class ValidationBoutique{
 
     viewDetail(shop:any)
     {
-        console.log("detail log");
+        console.log(shop);
         this.router.navigate(['/admin/home/viewDetailDemandeBoutique', shop.managerId],{
             state:{ shopData:shop }
         });
