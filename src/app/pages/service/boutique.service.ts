@@ -33,7 +33,7 @@ export class BoutiqueService{
         return this.http.put(`${this.apiUrl}/update/status/to/active`,credentials);
     }
 
-    updateLocationAndLoyer(credentials: {_id: string, location?: string, loyer?: number}): Observable<any> {
+    updateLocationAndLoyer(credentials: {_id: string, location?: string, loyer?: number , commission?:number}): Observable<any> {
         return this.http.put(`${this.apiUrl}/update/location/and/loyer`, credentials);
     }
 

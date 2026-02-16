@@ -311,6 +311,26 @@ import { InputNumberModule } from 'primeng/inputnumber';
                     styleClass="w-full">
                 </p-inputNumber>
             </div>
+
+            <div class="form-field">
+                <label for="loyer" class="field-label">
+                    <i class="pi pi-money-bill"></i>
+                    comission
+                </label>
+                <p-inputNumber 
+                    id="loyer"
+                    [(ngModel)]="loyerLocationData.comission"
+                    mode="currency"
+                    currency="MGA"
+                    locale="fr-MG"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="0"
+                    placeholder="Entrez le montant"
+                    class="w-full"
+                    styleClass="w-full">
+                </p-inputNumber>
+            </div>
+
         </div>
     </div>
     
@@ -1053,7 +1073,8 @@ export class viewDetailDemandeBoutique{
     showLoyerLocationDialog: boolean = false;
     loyerLocationData = {
     location: '',
-    loyer: 0
+    loyer: 0,
+    comission:0
     };
     managerId: string = '';
     shopData: any = null;
@@ -1091,7 +1112,8 @@ export class viewDetailDemandeBoutique{
         // Réinitialiser les données
         this.loyerLocationData = {
             location: '',
-            loyer: 0
+            loyer: 0,
+            comission:0
         };
         
         // Afficher le dialog pour loyer et location
@@ -1105,8 +1127,10 @@ export class viewDetailDemandeBoutique{
         // Afficher la confirmation
         this.confirmationService.confirm({
             message: `Voulez-vous vraiment valider ce compte avec les informations suivantes ?
-                      <br><strong>Location:</strong> ${this.loyerLocationData.location}
-                      <br><strong>Loyer:</strong> ${this.loyerLocationData.loyer}`,
+                        <br><strong>Location:</strong> ${this.loyerLocationData.location}
+                        <br><strong>Loyer:</strong> ${this.loyerLocationData.loyer}
+                        <br><strong>Comission:</strong> ${this.loyerLocationData.comission}
+                      `,
             header: 'Confirmation',
             icon: 'pi pi-check-circle',
             accept: () => {
@@ -1125,7 +1149,9 @@ export class viewDetailDemandeBoutique{
         console.log("loyer "+ loyer);
         const location = this.loyerLocationData.location;    
         console.log("location" + location);
-
+        const comission = this.loyerLocationData.comission;
+        console.log("comission" + comission);
+        
         this.userService.updateToConnectAccount({_id:id}).subscribe({
             next:async (res)=> {
                 //console.log("user update successssss" + res);
@@ -1133,7 +1159,7 @@ export class viewDetailDemandeBoutique{
                         next: async(res)=>{
                             //console.log("boutique update successssss" , res);
                             
-                            await this.boutiqueService.updateLocationAndLoyer({_id:id_boutique,location:location,loyer:loyer}).subscribe({
+                            await this.boutiqueService.updateLocationAndLoyer({_id:id_boutique,location:location,loyer:loyer,commission:comission}).subscribe({
                                 next:(res)=> {
                                     //console.log( "location et loyer update successssss" + res);
                                     this.messageService.add({

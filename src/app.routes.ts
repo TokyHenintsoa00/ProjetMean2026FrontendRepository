@@ -20,15 +20,19 @@ import { ListeBoutique } from '@/pages/administrateur/gestionBoutique/listeBouti
 import { infoplusBoutique } from '@/pages/administrateur/gestionBoutique/infoPlusBoutique';
 import { demandeBoutique } from '@/pages/client/demandeBoutique';
 import { viewDetailDemandeBoutique } from '@/pages/administrateur/gestionBoutique/viewDetailDemandeBoutique';
+import { VoirAllBoutique } from '@/pages/landing/voirAllBoutique';
+import { resetPassword } from '@/pages/auth/resetPassword';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
     //{ path: 'landing', component: Landing },
     {path:'membre/client',component:LandingClient},
-    { path:'logIn',component:Login},
+    {path:'logIn',component:Login},
+    {path:'allboutique',component:VoirAllBoutique},
     {path:'administrator/logIn',component:LoginAdmin},
     {path:'signUp',component:SignUp},
     {path:'forgotPassword',component:forgotPassword},
+    {path:'reset-password',component:resetPassword},
     {path:'demandeBoutiqueClient',component:demandeBoutique},
     {path: 'boutique/home',
         component: AppLayout,
