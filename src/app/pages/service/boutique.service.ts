@@ -30,13 +30,16 @@ export class BoutiqueService{
 
     updateBoutiquePendingToActive(credentials:{_id:string}):Observable<any>{
 
-        return this.http.put(`${this.apiUrl}/boutique/update/status/to/active`,credentials);
+        return this.http.put(`${this.apiUrl}/update/status/to/active`,credentials);
     }
 
+    updateLocationAndLoyer(credentials: {_id: string, location?: string, loyer?: number}): Observable<any> {
+        return this.http.put(`${this.apiUrl}/update/location/and/loyer`, credentials);
+    }
 
     updateBoutiqueActiveToSuspend(credentials:{_id:string}):Observable<any>
     {
-        return this.http.put(`${this.apiUrl}/boutique/update/status/to/suspend`,credentials);
+        return this.http.put(`${this.apiUrl}/update/status/to/suspend`,credentials);
     }
 
     registerBoutiqueByClient(formData: FormData):Observable<any>

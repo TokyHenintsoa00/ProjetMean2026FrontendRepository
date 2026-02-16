@@ -1126,12 +1126,23 @@ export class viewDetailDemandeBoutique{
         const location = this.loyerLocationData.location;    
         console.log("location" + location);
 
-        this.userService.updateToConnectAccount({_id}).subscribe({
-            next:(res)=> {
-                console.log("user update" + res);
-                this.boutiqueService.updateBoutiquePendingToActive({_id: id_boutique}).subscribe({
-                        next:(res)=>{
+        this.userService.updateToConnectAccount({_id:id}).subscribe({
+            next:async (res)=> {
+                //console.log("user update successssss" + res);
+                await this.boutiqueService.updateBoutiquePendingToActive({_id: id_boutique}).subscribe({
+                        next: async(res)=>{
+                            //console.log("boutique update successssss" , res);
                             
+                            await this.boutiqueService.updateLocationAndLoyer({_id:id_boutique,location:location,loyer:loyer}).subscribe({
+                                next:(res)=> {
+                                    //console.log( "location et loyer update successssss" + res);
+                                    this.messageService.add({
+                                        severity: 'success',
+                                        summary: 'Validé',
+                                        detail: 'Le compte a été validé avec succès'
+                                    });
+                                },
+                            })
                         }
                 })
             },
@@ -1163,12 +1174,12 @@ export class viewDetailDemandeBoutique{
 //                 //     next:(res)=> {
 //                 //         this.boutiqueService.updateBoutiquePendingToActive(id_boutique).subscribe({
 //                 //             next:(res)=> {
-//                 //                 console.log("Validation approuved" + res);
-//                 //                 this.messageService.add({
-//                 //                     severity: 'success',
-//                 //                     summary: 'Validé',
-//                 //                     detail: 'Le compte a été validé avec succès'
-//                 //                 });
+                                // console.log("Validation approuved" + res);
+                                // this.messageService.add({
+                                //     severity: 'success',
+                                //     summary: 'Validé',
+                                //     detail: 'Le compte a été validé avec succès'
+                                // });
 //                 //             },
 //                 //         })
 //                 //     },

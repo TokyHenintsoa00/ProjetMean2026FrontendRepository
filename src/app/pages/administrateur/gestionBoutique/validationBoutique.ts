@@ -140,7 +140,7 @@ interface expandedRows {
                 </th>
 
                 
-                <th style="width: 150px; text-align: center;">Actions</th>
+               
             </tr>
         </ng-template>
 
@@ -175,30 +175,6 @@ interface expandedRows {
                         <i class="pi pi-map-marker"></i>
                         <span>{{ shop.location }}</span>
                     </div>
-                </td>
-
-                
-
-                <td style="text-align: center;">
-                    <button 
-                        pButton 
-                        type="button"
-                        icon="pi pi-check"
-                        class="p-button-rounded p-button-success p-button-text"
-                        (click)="approveShop(shop)"
-                        pTooltip="Valider"
-                        tooltipPosition="top"
-                        style="margin-right: 5px;">
-                    </button>
-                    <button 
-                        pButton 
-                        type="button"
-                        icon="pi pi-times"
-                        class="p-button-rounded p-button-danger p-button-text"
-                        (click)="rejectShop(shop)"
-                        pTooltip="Refuser"
-                        tooltipPosition="top">
-                    </button>
                 </td>
             </tr>
         </ng-template>
