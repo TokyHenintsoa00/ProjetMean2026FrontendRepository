@@ -10,7 +10,10 @@ import { LandingClient } from '@/landingClientMembre/landing';
 import { forgotPassword } from '@/pages/auth/forgotPassword';
 import { Component } from '@angular/core';
 import { BoutiqueDashboard } from '@/pages/boutique/dashboard/boutiquedashboard';
-import { AjoutProduit } from '@/pages/boutique/gestionBoutique/ajoutProduit/ajoutProduit';
+import { MesProduits } from '@/pages/boutique/gestionBoutique/mesProduits/mesProduits';
+import { GestionMaBoutique } from '@/pages/boutique/gestionBoutique/gestionMaBoutique/gestionMaBoutique';
+import { MesPrix } from '@/pages/boutique/gestionBoutique/mesPrix/mesPrix';
+import { MonStock } from '@/pages/boutique/gestionBoutique/monStock/monStock';
 import { AppLayoutAdmin } from '@/layout/administrateur/component/app.layout';
 import { ValidationBoutique } from '@/pages/administrateur/gestionBoutique/validationBoutique';
 import { LoginAdmin } from '@/pages/auth/loginAdmin';
@@ -41,7 +44,10 @@ export const appRoutes: Routes = [
         component: AppLayout,
         children: [
             { path: '', component: BoutiqueDashboard },
-            { path:'ajoutProduit', component: AjoutProduit }    
+            { path:'mesProduits', component: MesProduits },
+            { path:'mesPrix', component: MesPrix },
+            { path:'monStock', component: MonStock },
+            { path:'gestionMaBoutique', component: GestionMaBoutique }
     ]},
     
     {

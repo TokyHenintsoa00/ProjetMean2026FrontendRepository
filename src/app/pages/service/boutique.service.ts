@@ -84,5 +84,36 @@ export class BoutiqueService{
             withCredentials: true
         });
     }
-    
+
+    // ============ GESTION MA BOUTIQUE ============
+
+    getMyBoutique():Observable<any>{
+        return this.http.get(`${this.apiUrl}/my-boutique`, {
+            withCredentials: true
+        });
+    }
+
+    updateBoutiqueInfo(data: {nom_boutique?: string, description_boutique?: string, location?: string, id_categorie?: string}):Observable<any>{
+        return this.http.put(`${this.apiUrl}/update/info`, data, {
+            withCredentials: true
+        });
+    }
+
+    updateBoutiqueHoraires(data: {horaires: any[]}):Observable<any>{
+        return this.http.put(`${this.apiUrl}/update/horaires`, data, {
+            withCredentials: true
+        });
+    }
+
+    updateBoutiquePhotos(formData: FormData):Observable<any>{
+        return this.http.put(`${this.apiUrl}/update/photos`, formData, {
+            withCredentials: true
+        });
+    }
+
+    deleteBoutiquePhoto(photo_id: string):Observable<any>{
+        return this.http.put(`${this.apiUrl}/delete/photo`, { photo_id }, {
+            withCredentials: true
+        });
+    }
 }
