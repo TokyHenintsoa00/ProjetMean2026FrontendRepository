@@ -807,35 +807,10 @@ export class demandeBoutique {
     }
     
     async addBoutique() {
-        // Validation
-        // if (!this.boutique.nom_boutique || !this.boutique.categorie) {
-        //     this.messageService.add({
-        //         severity: 'warn',
-        //         summary: 'Attention',
-        //         detail: 'Veuillez remplir tous les champs obligatoires',
-        //         life: 3000
-        //     });
-        //     return;
-        // }
-
-        // // Vérifier que les horaires sont cohérents
-        // const horaireInvalide = this.boutique.horaires.find(h => 
-        //     !h.est_ferme && (!h.ouverture || !h.fermeture)
-        // );
-        
-        // if (horaireInvalide) {
-        //     this.messageService.add({
-        //         severity: 'warn',
-        //         summary: 'Horaires incomplets',
-        //         detail: `Veuillez compléter les horaires pour ${horaireInvalide.jour} ou marquer le jour comme fermé`,
-        //         life: 3000
-        //     });
-        //     return;
-        // }
-
-        // this.isSubmitting = true;
         
         await this.addManagerBoutique();
+        //temps 2 seconde 
+        await new Promise(resolve => setTimeout(resolve, 2000));
         await this.addBoutiqueByAdmin();
     }
 

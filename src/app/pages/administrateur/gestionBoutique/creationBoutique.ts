@@ -662,7 +662,10 @@ export class CreationBoutique{
         boutique_logo:null ,
         horaires: [] as Horaire[],
         commission:''
-        }
+        };
+        this.initializeHoraires();
+        this.selectedPhotos = [];
+        this.selectedLogo = null;
     }
 
     user = {
@@ -768,6 +771,7 @@ export class CreationBoutique{
                      life: 5000
                 });
                 this.resetBoutiqueForm();
+                this.isSubmitting = false;
             },
             error: (err) => {
                 console.error("Erreur", err);
@@ -777,6 +781,7 @@ export class CreationBoutique{
                     detail: 'Erreur lors de la création de la boutique',
                      life: 5000
                 });
+                this.isSubmitting = false;
             }
         });
 
@@ -813,16 +818,30 @@ export class CreationBoutique{
         this.userservice.signUpByAddAdminFormData(formData).subscribe({
             next: (res) => {
                 console.log("Manager inséré avec succès", res);
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Manager créé',
+                    detail: 'Le manager a été créé avec succès',
+                    life: 3000
+                });
                 this.resetUserForm();
             },
             error: (err) => {
                 console.error('Erreur lors de l\'ajout', err);
+                 this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur Manager',
+                    detail: 'Erreur lors de la création du manager',
+                    life: 5000
+                });
             }
         });
     }
     
     async addBoutique() {
         await this.addManagerBoutique();
+        //temps 2 seconde 
+        await new Promise(resolve => setTimeout(resolve, 2000));
         await this.addBoutiqueByAdmin();
     }
 

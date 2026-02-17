@@ -4,15 +4,27 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BoutiqueService } from '../service/boutique.service';
+import { Route, Router } from '@angular/router';
 
 @Component({
     selector: 'app-voir-all-boutique',
     standalone: true,
     imports: [CommonModule, FormsModule],
-    template: `<div class="boutiques-page">
+    template: `
+
+        <div class="boutiques-page">
         <!-- En-tête -->
         <div class="page-header">
+            <div class="header-bg-decor"></div>
+            <button class="back-home-btn" (click)="goHome()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span>Accueil</span>
+            </button>
             <div class="container">
+                <div class="header-eyebrow">Collection 2025</div>
                 <h1 class="page-title">Nos Boutiques Partenaires</h1>
                 <p class="page-subtitle">Découvrez toutes nos boutiques de confiance</p>
             </div>
@@ -70,11 +82,11 @@ import { BoutiqueService } from '../service/boutique.service';
                     <p>Essayez avec d'autres mots-clés</p>
                 </div>
 
-                <!-- Grille des boutiques - Style Westfield -->
+                <!-- Grille des boutiques -->
                 <div class="boutiques-grid" *ngIf="!loading && filteredBoutiques.length > 0">
                     <div *ngFor="let boutique of filteredBoutiques" class="boutique-card">
                         
-                        <!-- Logo principal - Style Westfield -->
+                        <!-- Logo principal -->
                         <div class="logo-header">
                             <div class="logo-wrapper">
                                 <img 
@@ -154,6 +166,18 @@ import { BoutiqueService } from '../service/boutique.service';
     </div>
     `,
     styles: [`
+        :host {
+            --color-dark:   #1e2832;
+            --color-green:  #10b981;
+            --color-green-dark: #059669;
+            --color-green-deeper: #047857;
+            --color-white:  #ffffff;
+            --color-light:  #f4f6f8;
+            --color-border: #e2e8f0;
+            --color-muted:  #6b7280;
+            --color-dark-80: rgba(30, 40, 50, 0.08);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -162,8 +186,8 @@ import { BoutiqueService } from '../service/boutique.service';
 
         .boutiques-page {
             min-height: 100vh;
-            background: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--color-light);
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .container {
@@ -172,38 +196,127 @@ import { BoutiqueService } from '../service/boutique.service';
             padding: 0 24px;
         }
 
-        /* En-tête */
+        /* ───────────── BOUTON RETOUR ───────────── */
+        .back-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .back-home-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--color-green);
+            transform: translateX(-100%);
+            transition: transform 0.25s ease;
+            z-index: 0;
+        }
+
+        .back-home-btn:hover::before {
+            transform: translateX(0);
+        }
+
+        .back-home-btn:hover {
+            color: var(--color-white);
+            border-color: var(--color-green);
+        }
+
+        .back-home-btn svg,
+        .back-home-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-home-btn svg {
+            transition: transform 0.25s ease;
+        }
+
+        .back-home-btn:hover svg {
+            transform: translateX(-3px);
+        }
+
+        /* ───────────── EN-TÊTE ───────────── */
         .page-header {
-            background: #10b981;
-            color: white;
-            padding: 80px 24px;
+            background: var(--color-dark);
+            color: var(--color-white);
+            padding: 80px 24px 72px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Décoration géométrique en fond */
+        .header-bg-decor {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 80% at 80% 50%, rgba(16,185,129,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 60% at 10% 80%, rgba(16,185,129,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .page-header .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-eyebrow {
+            display: inline-block;
+            font-size: 11px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-green);
+            border: 1px solid rgba(16,185,129,0.35);
+            padding: 6px 18px;
+            margin-bottom: 28px;
         }
 
         .page-title {
-            font-size: 48px;
-            font-weight: 300;
-            margin: 0 0 16px 0;
-            letter-spacing: -1px;
+            font-size: 52px;
+            font-weight: 400;
+            margin: 0 0 18px 0;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            color: var(--color-white);
         }
 
         .page-subtitle {
-            font-size: 16px;
-            font-weight: 300;
-            opacity: 0.9;
+            font-size: 15px;
+            font-weight: 400;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: rgba(255,255,255,0.55);
             margin: 0;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
 
-        /* Barre de recherche */
+        /* ───────────── RECHERCHE ───────────── */
         .search-section {
-            background: #f9fafb;
-            padding: 32px 24px;
-            border-bottom: 1px solid #e5e7eb;
+            background: var(--color-dark);
+            padding: 0 24px 36px;
+            border-bottom: 3px solid var(--color-green);
         }
 
         .search-wrapper {
-            max-width: 700px;
+            max-width: 680px;
             margin: 0 auto;
         }
 
@@ -211,31 +324,37 @@ import { BoutiqueService } from '../service/boutique.service';
             position: relative;
             display: flex;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .search-icon {
             position: absolute;
             left: 18px;
-            color: #6b7280;
+            color: var(--color-green);
             pointer-events: none;
         }
 
         .search-input {
             width: 100%;
-            padding: 14px 18px 14px 48px;
-            font-size: 15px;
-            border: 1px solid #d1d5db;
+            padding: 15px 18px 15px 50px;
+            font-size: 14px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            border: 1px solid rgba(255,255,255,0.12);
             border-radius: 0;
             outline: none;
-            transition: all 0.2s ease;
-            font-family: inherit;
-            background: white;
+            transition: all 0.25s ease;
+            background: rgba(255,255,255,0.07);
+            color: var(--color-white);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.35);
         }
 
         .search-input:focus {
-            border-color: #10b981;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            border-color: var(--color-green);
+            background: rgba(255,255,255,0.10);
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.15);
         }
 
         .clear-btn {
@@ -249,12 +368,12 @@ import { BoutiqueService } from '../service/boutique.service';
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            color: #6b7280;
+            color: rgba(255,255,255,0.4);
             transition: color 0.2s ease;
         }
 
         .clear-btn:hover {
-            color: #10b981;
+            color: var(--color-green);
         }
 
         .results-info {
@@ -262,13 +381,14 @@ import { BoutiqueService } from '../service/boutique.service';
         }
 
         .results-count {
-            color: #6b7280;
-            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             font-weight: 400;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.5px;
         }
 
-        /* États de chargement et vide */
+        /* ───────────── ÉTATS VIDE / CHARGEMENT ───────────── */
         .loading-state,
         .empty-state {
             text-align: center;
@@ -278,8 +398,8 @@ import { BoutiqueService } from '../service/boutique.service';
         .spinner {
             width: 40px;
             height: 40px;
-            border: 2px solid #e5e7eb;
-            border-top-color: #10b981;
+            border: 2px solid var(--color-border);
+            border-top-color: var(--color-green);
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
             margin: 0 auto 24px;
@@ -290,61 +410,85 @@ import { BoutiqueService } from '../service/boutique.service';
         }
 
         .empty-state svg {
-            color: #d1d5db;
+            color: #cbd5e1;
             margin-bottom: 24px;
         }
 
         .empty-state h3 {
             font-size: 20px;
-            color: #374151;
+            color: var(--color-dark);
             margin: 0 0 8px 0;
             font-weight: 400;
         }
 
         .empty-state p {
-            color: #6b7280;
+            color: var(--color-muted);
             margin: 0;
             font-size: 14px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
-        /* Grille des boutiques */
+        /* ───────────── GRILLE ───────────── */
         .boutiques-container {
-            padding: 48px 24px 80px;
-            background: #f9fafb;
+            padding: 52px 24px 80px;
+            background: var(--color-light);
         }
 
         .boutiques-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
             gap: 24px;
         }
 
-        /* Card Boutique - Style Westfield avec couleur verte */
+        /* ───────────── CARD ───────────── */
         .boutique-card {
-            background: #ffffff;
-            border: 1px solid #e5e7eb;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             cursor: pointer;
+            position: relative;
+        }
+
+        /* Accent bar au bas de la card au hover */
+        .boutique-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--color-green);
+            transition: width 0.35s ease;
+        }
+
+        .boutique-card:hover::after {
+            width: 100%;
         }
 
         .boutique-card:hover {
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
-            transform: translateY(-4px);
-            border-color: #10b981;
+            box-shadow: 0 12px 32px rgba(30, 40, 50, 0.12);
+            transform: translateY(-5px);
+            border-color: transparent;
         }
 
-        /* Logo Header */
+        /* ───────────── LOGO HEADER ───────────── */
         .logo-header {
-            background: #ffffff;
-            padding: 48px 32px;
+            background: var(--color-white);
+            padding: 40px 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-bottom: 1px solid #f3f4f6;
             min-height: 200px;
             position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid var(--color-dark);
+            transition: border-color 0.35s ease;
+        }
+
+        .boutique-card:hover .logo-header {
+            border-bottom-color: var(--color-green);
         }
 
         .logo-wrapper {
@@ -360,118 +504,126 @@ import { BoutiqueService } from '../service/boutique.service';
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            transition: all 0.3s ease;
-            filter: grayscale(0%);
+            transition: transform 0.35s ease;
         }
 
         .boutique-card:hover .brand-logo {
             transform: scale(1.05);
         }
 
-        /* Badge de catégorie */
+        /* ───────────── BADGE CATÉGORIE ───────────── */
         .category-badge {
             position: absolute;
-            top: 16px;
-            left: 16px;
+            top: 14px;
+            left: 14px;
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 14px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 500;
-            color: #059669;
-            text-transform: capitalize;
-            letter-spacing: 0.3px;
-            backdrop-filter: blur(4px);
+            padding: 5px 12px;
+            background: var(--color-green);
+            border-radius: 0;
+            font-size: 10px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-weight: 600;
+            color: var(--color-white);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            z-index: 2;
         }
 
         .category-badge svg {
             flex-shrink: 0;
         }
 
-        /* Corps de la card */
+        /* ───────────── CORPS ───────────── */
         .card-body {
             padding: 24px;
             display: flex;
             flex-direction: column;
             flex: 1;
+            background: var(--color-white);
         }
 
         .header-section {
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .brand-name {
-            font-size: 18px;
-            font-weight: 500;
-            color: #111827;
-            margin: 0 0 12px 0;
-            letter-spacing: 0.3px;
+            font-size: 19px;
+            font-weight: 400;
+            color: var(--color-dark);
+            margin: 0;
+            letter-spacing: 0.2px;
             line-height: 1.3;
         }
 
-        /* Status indicator avec couleur verte */
+        /* ───────────── STATUS ───────────── */
         .status-indicator {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
             padding: 4px 12px;
-            border-radius: 2px;
             font-size: 10px;
-            font-weight: 500;
-            letter-spacing: 0.8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
             text-transform: uppercase;
+            width: fit-content;
         }
 
         .status-indicator .dot {
             width: 5px;
             height: 5px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .status-indicator.active {
-            background: #d1fae5;
+            background: rgba(16,185,129,0.1);
             color: #065f46;
+            border-left: 3px solid var(--color-green);
         }
 
         .status-indicator.active .dot {
-            background: #10b981;
+            background: var(--color-green);
         }
 
         .status-indicator.inactive {
-            background: #fee2e2;
+            background: #fef2f2;
             color: #991b1b;
+            border-left: 3px solid #dc2626;
         }
 
         .status-indicator.inactive .dot {
             background: #dc2626;
         }
 
-        /* Description */
+        /* ───────────── DESCRIPTION ───────────── */
         .description {
-            color: #6b7280;
+            color: #4b5563;
             font-size: 13px;
-            line-height: 1.6;
+            line-height: 1.65;
             margin: 0 0 20px 0;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             flex: 1;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             font-weight: 300;
         }
 
-        /* Meta info */
+        /* ───────────── META INFO ───────────── */
         .meta-info {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             padding-top: 16px;
-            border-top: 1px solid #f3f4f6;
+            border-top: 1px solid var(--color-border);
         }
 
         .location-row,
@@ -480,10 +632,15 @@ import { BoutiqueService } from '../service/boutique.service';
             align-items: center;
             gap: 8px;
             font-size: 12px;
-            color: #6b7280;
+            color: var(--color-muted);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
-        .location-row svg,
+        .location-row svg {
+            flex-shrink: 0;
+            color: var(--color-green);
+        }
+
         .rating-row svg {
             flex-shrink: 0;
             color: #9ca3af;
@@ -506,16 +663,16 @@ import { BoutiqueService } from '../service/boutique.service';
         }
 
         .star.filled {
-            color: #10b981;
+            color: var(--color-green);
         }
 
         .rating-value {
             font-size: 11px;
             font-weight: 500;
-            color: #6b7280;
+            color: var(--color-muted);
         }
 
-        /* CTA Button avec couleur verte */
+        /* ───────────── CTA BUTTON ───────────── */
         .cta-button {
             width: 100%;
             display: flex;
@@ -523,25 +680,46 @@ import { BoutiqueService } from '../service/boutique.service';
             justify-content: center;
             gap: 8px;
             padding: 14px 24px;
-            background: #10b981;
-            color: white;
+            background: var(--color-dark);
+            color: var(--color-white);
             border: none;
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 11px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de remplissage vert au hover */
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--color-green);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover::before {
+            transform: translateX(0);
+        }
+
+        .cta-button span,
+        .cta-button svg {
+            position: relative;
+            z-index: 1;
         }
 
         .cta-button:hover {
-            background: #059669;
-            gap: 12px;
+            gap: 14px;
         }
 
         .cta-button:active {
-            background: #047857;
+            background: var(--color-green-deeper);
         }
 
         .cta-button svg {
@@ -552,7 +730,7 @@ import { BoutiqueService } from '../service/boutique.service';
             transform: translateX(4px);
         }
 
-        /* Responsive */
+        /* ───────────── RESPONSIVE ───────────── */
         @media (max-width: 1024px) {
             .boutiques-grid {
                 grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -562,11 +740,7 @@ import { BoutiqueService } from '../service/boutique.service';
 
         @media (max-width: 768px) {
             .page-title {
-                font-size: 36px;
-            }
-
-            .page-subtitle {
-                font-size: 14px;
+                font-size: 38px;
             }
 
             .boutiques-grid {
@@ -587,11 +761,6 @@ import { BoutiqueService } from '../service/boutique.service';
             .card-body {
                 padding: 20px;
             }
-
-            .category-badge {
-                font-size: 10px;
-                padding: 5px 12px;
-            }
         }
 
         @media (max-width: 480px) {
@@ -609,7 +778,11 @@ import { BoutiqueService } from '../service/boutique.service';
             }
 
             .page-header {
-                padding: 60px 16px;
+                padding: 56px 16px 48px;
+            }
+
+            .page-title {
+                font-size: 30px;
             }
 
             .brand-name {
@@ -617,6 +790,9 @@ import { BoutiqueService } from '../service/boutique.service';
             }
         }
     `]
+
+
+    
 })
 export class VoirAllBoutique implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
@@ -627,7 +803,10 @@ export class VoirAllBoutique implements OnInit {
     loading: boolean = true;
     baseUrl: string = 'http://localhost:5000'; // Ajustez selon votre API
 
-    constructor(private boutiqueService: BoutiqueService) {}
+    constructor(
+        private boutiqueService: BoutiqueService,
+        private router:Router
+    ) {}
 
     ngOnInit(): void {
         this.loadBoutiques();
@@ -759,5 +938,10 @@ export class VoirAllBoutique implements OnInit {
 
     onImageError(event: any): void {
         event.target.src = this.getPlaceholderImage();
+    }
+
+    goHome()
+    {
+        this.router.navigate(['']);
     }
 }
