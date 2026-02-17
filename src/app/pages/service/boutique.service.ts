@@ -84,5 +84,9 @@ export class BoutiqueService{
             withCredentials: true
         });
     }
+
+    getBoutiqueById(id: string) {
+    return this.http.get(`${this.apiUrl}/getInfo/byId?id=${id}`);
+}
     
 }

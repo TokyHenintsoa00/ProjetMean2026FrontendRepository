@@ -425,7 +425,7 @@ export class FeaturesWidget implements OnInit, OnDestroy {
                         status: statusValue
                     };
                     
-                    console.log('Mapped boutique:', mapped);
+                    //console.log('Mapped boutique:', mapped);
                     return mapped;
                 });
 
@@ -534,7 +534,7 @@ export class FeaturesWidget implements OnInit, OnDestroy {
     {
        
         console.log("id :"+id);
-        this.router.navigate(['visiteBoutique',id]);
+        this.router.navigate(['/visiteBoutique',id]);
         
     }
 
