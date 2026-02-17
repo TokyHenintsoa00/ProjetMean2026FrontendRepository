@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BoutiqueService } from '../service/boutique.service';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-voir-all-boutique',
@@ -940,11 +940,6 @@ export class VoirAllBoutique implements OnInit {
         event.target.src = this.getPlaceholderImage();
     }
 
-    goHome()
-    {
-        this.router.navigate(['']);
-    }
-
     visiterBoutique(id:string)
     {
        
@@ -953,4 +948,8 @@ export class VoirAllBoutique implements OnInit {
         
     }
 
+    goHome()
+    {
+         this.router.navigate(['']);
+    }
 }

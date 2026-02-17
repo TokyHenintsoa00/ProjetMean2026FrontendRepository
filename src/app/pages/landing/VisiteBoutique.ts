@@ -437,7 +437,7 @@
 
 
 import { Component, OnInit } from "@angular/core";
-import { RouterModule, ActivatedRoute } from "@angular/router";
+import { RouterModule, ActivatedRoute, Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { BoutiqueService } from "../service/boutique.service";
@@ -447,6 +447,9 @@ import { BoutiqueService } from "../service/boutique.service";
     standalone: true,
     imports: [RouterModule, CommonModule, FormsModule],
     template: `
+
+    
+
     <div *ngIf="boutique" class="page-container">
 
       <!-- HEADER -->
@@ -823,7 +826,11 @@ export class VisiteBoutique implements OnInit {
         return this.products.filter(p => p.categorie === this.selectedCategory);
     }
 
-    constructor(private route: ActivatedRoute, private boutiqueService: BoutiqueService) {}
+    constructor(
+        private route: ActivatedRoute, 
+        private boutiqueService: BoutiqueService,
+        private router:Router
+    ) {}
 
     ngOnInit(): void {
         const id = this.route.snapshot.paramMap.get('id');
@@ -877,6 +884,11 @@ export class VisiteBoutique implements OnInit {
 
     onImageError(event: any) {
         event.target.src = 'https://placehold.co/400x400?text=No+Image';
+    }
+
+    goHome()
+    {
+         this.router.navigate(['/visiteBoutique']);
     }
 }
 
