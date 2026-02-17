@@ -25,8 +25,18 @@ export class AppMenu {
                 items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/boutique/home'] }]
             },
             {
-                label:'Gestion produit',
-                items:[{label:'Ajouter un produit', icon:'pi pi-plus',routerLink:['/boutique/home/ajoutProduit']}]
+                label: 'Gestion produit',
+                items: [
+                    { label: 'Mes Produits', icon: 'pi pi-box',      routerLink: ['/boutique/home/mesProduits'] },
+                    { label: 'Prix',         icon: 'pi pi-tag',       routerLink: ['/boutique/home/mesPrix'] },
+                    { label: 'Stock',        icon: 'pi pi-warehouse', routerLink: ['/boutique/home/monStock'] }
+                ]
+            },
+            {
+                label: 'Gestion de ma Boutique',
+                items: [
+                    { label: 'Ma boutique', icon: 'pi pi-shop', routerLink: ['/boutique/home/gestionMaBoutique'] }
+                ]
             }
             // {
             //     label: 'UI Components',
