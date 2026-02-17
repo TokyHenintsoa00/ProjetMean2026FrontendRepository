@@ -16,6 +16,14 @@ import { StatusService } from "@/pages/service/status.service";
 import { FileUploadModule } from 'primeng/fileupload';  // ← Changez ici
 import { FileUpload } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';  // ← Importez le module
+import { CheckboxModule } from 'primeng/checkbox';
+interface Horaire {
+    jour: string;
+    ouverture: string;
+    fermeture: string;
+    est_ferme: boolean;
+}
+
 @Component({
     selector: 'app-creationBoutique',
     imports: [
@@ -29,7 +37,8 @@ import { ToastModule } from 'primeng/toast';  // ← Importez le module
          FileUploadModule,
         FileUpload,
         DatePickerModule,
-        ToastModule 
+        ToastModule,
+        CheckboxModule
     ],
     providers: [MessageService],
     template:`<p-fluid>
@@ -104,14 +113,21 @@ import { ToastModule } from 'primeng/toast';  // ← Importez le module
                                 <label for="pwd" class="font-semibold text-900">
                                     Mot de passe <span class="text-red-500">*</span>
                                 </label>
-                                <input 
-                                    pInputText 
-                                    id="pwd" 
-                                    type="password" 
-                                    [(ngModel)]="user.pwd" 
-                                    name="pwd"
-                                    placeholder="••••••••"
-                                    class="p-inputtext-lg" />
+                                <div class="relative">
+                                    <input 
+                                        pInputText 
+                                        id="pwd" 
+                                        [type]="showPassword ? 'text' : 'password'" 
+                                        [(ngModel)]="user.pwd" 
+                                        name="pwd"
+                                        placeholder="••••••••"
+                                        class="p-inputtext-lg w-full pr-10" />
+                                    <i 
+                                        [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'" 
+                                        (click)="showPassword = !showPassword"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500">
+                                    </i>
+                                </div>
                             </div>
 
                             <div class="flex flex-col grow basis-0 gap-2">
@@ -237,13 +253,168 @@ import { ToastModule } from 'primeng/toast';  // ← Importez le module
                         </div>
                     </div>
 
+
+                    
+        <!-- Horaires d'ouverture -->
+        <div class="surface-50 border-round-lg p-4 mb-4">
+            <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
+                <i class="pi pi-clock"></i>
+                Horaires d'ouverture
+            </h3>
+            
+            <div class="bg-white border-round-lg p-4">
+                <!-- Actions rapides -->
+                <div class="flex flex-wrap gap-2 mb-4 pb-3 border-bottom-1 surface-border">
+                    <button 
+                        pButton 
+                        type="button"
+                        label="Ouvrir tous les jours" 
+                        icon="pi pi-check-circle"
+                        size="small"
+                        severity="success"
+                        [outlined]="true"
+                        (click)="setAllDaysOpen()">
+                    </button>
+                    <button 
+                        pButton 
+                        type="button"
+                        label="Dupliquer le lundi" 
+                        icon="pi pi-copy"
+                        size="small"
+                        severity="info"
+                        [outlined]="true"
+                        (click)="copyFirstDayToAll()">
+                    </button>
+                    <button 
+                        pButton 
+                        type="button"
+                        label="Fermer week-end" 
+                        icon="pi pi-times-circle"
+                        size="small"
+                        severity="warn"
+                        [outlined]="true"
+                        (click)="closeWeekend()">
+                    </button>
+                </div>
+                
+                <!-- Liste des jours -->
+                <div class="flex flex-col gap-2">
+                    <div *ngFor="let horaire of boutique.horaires; let i = index" 
+                        [class]="getHoraireCardClass(horaire)"
+                        class="p-3 border-round-lg transition-all duration-200">
+                        
+                        <div class="flex flex-wrap align-items-center gap-3">
+                            <!-- Jour et checkbox -->
+                            <div class="flex align-items-center gap-3 min-w-10rem">
+                                <p-checkbox 
+                                    [(ngModel)]="horaire.est_ferme"
+                                    [name]="'ferme_' + i"
+                                    [binary]="true"
+                                    (onChange)="onFermeChange(i)"
+                                    inputId="'cb_' + i">
+                                </p-checkbox>
+                                <label [for]="'cb_' + i" class="cursor-pointer select-none">
+                                    <div class="flex align-items-center gap-2">
+                                        <i [class]="getJourIcon(horaire.jour)" class="text-xl"></i>
+                                        <span class="font-semibold text-900">{{horaire.jour}}</span>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <!-- Horaires ou message fermé -->
+                            <div class="flex-1 flex align-items-center gap-3">
+                                <div *ngIf="!horaire.est_ferme" class="flex align-items-center gap-3 flex-1">
+                                    <!-- Ouverture -->
+                                    <div class="flex flex-col gap-1 flex-1 max-w-10rem">
+                                        <label class="text-xs text-500 font-medium uppercase">Ouverture</label>
+                                        <div class="p-inputgroup">
+                                            <span class="p-inputgroup-addon bg-primary-50">
+                                                <i class="pi pi-sun text-primary"></i>
+                                            </span>
+                                            <input 
+                                                pInputText 
+                                                type="time"
+                                                [(ngModel)]="horaire.ouverture"
+                                                [name]="'ouverture_' + i"
+                                                class="text-center font-semibold" />
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Séparateur -->
+                                    <i class="pi pi-arrow-right text-400 text-xl mt-3"></i>
+                                    
+                                    <!-- Fermeture -->
+                                    <div class="flex flex-col gap-1 flex-1 max-w-10rem">
+                                        <label class="text-xs text-500 font-medium uppercase">Fermeture</label>
+                                        <div class="p-inputgroup">
+                                            <span class="p-inputgroup-addon bg-orange-50">
+                                                <i class="pi pi-moon text-orange-500"></i>
+                                            </span>
+                                            <input 
+                                                pInputText 
+                                                type="time"
+                                                [(ngModel)]="horaire.fermeture"
+                                                [name]="'fermeture_' + i"
+                                                class="text-center font-semibold" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Message fermé -->
+                                <div *ngIf="horaire.est_ferme" class="flex-1">
+                                    <div class="bg-red-50 border-1 border-red-200 border-round p-2 text-center">
+                                        <i class="pi pi-lock text-red-500 mr-2"></i>
+                                        <span class="text-red-600 font-semibold">Fermé toute la journée</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Badge statut -->
+                            <div class="min-w-7rem text-right">
+                                <span *ngIf="horaire.est_ferme" 
+                                    class="inline-flex align-items-center gap-1 px-3 py-1 bg-red-100 text-red-700 border-round-full font-semibold text-sm">
+                                    <i class="pi pi-times-circle"></i>
+                                    Fermé
+                                </span>
+                                <span *ngIf="!horaire.est_ferme && horaire.ouverture && horaire.fermeture" 
+                                    class="inline-flex align-items-center gap-1 px-3 py-1 bg-green-100 text-green-700 border-round-full font-semibold text-sm">
+                                    <i class="pi pi-check-circle"></i>
+                                    Ouvert
+                                </span>
+                                <span *ngIf="!horaire.est_ferme && (!horaire.ouverture || !horaire.fermeture)" 
+                                    class="inline-flex align-items-center gap-1 px-3 py-1 bg-orange-100 text-orange-700 border-round-full font-semibold text-sm">
+                                    <i class="pi pi-exclamation-circle"></i>
+                                    Incomplet
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Info footer -->
+                <div class="mt-4 p-3 bg-blue-50 border-1 border-blue-200 border-round-lg">
+                    <div class="flex align-items-start gap-2">
+                        <i class="pi pi-info-circle text-blue-500 mt-1"></i>
+                        <div class="text-sm text-700">
+                            <p class="m-0 mb-1 font-semibold">Conseils :</p>
+                            <ul class="m-0 pl-3 text-600">
+                                <li>Cochez la case pour marquer un jour comme fermé</li>
+                                <li>Utilisez les boutons rapides pour gagner du temps</li>
+                                <li>Tous les horaires doivent être complétés pour les jours ouverts</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
                     
 
                     <!-- Prix et stock -->
                     <div class="surface-50 border-round-lg p-4 mb-4">
                         <h3 class="text-lg font-semibold text-700 mb-3 flex align-items-center gap-2">
                             <i class="pi pi-map-marker"></i>
-                            Localisation et loyer
+                            Localisation et loyer et comission
                         </h3>
                         
                         <div class="flex flex-wrap gap-4">
@@ -273,6 +444,21 @@ import { ToastModule } from 'primeng/toast';  // ← Importez le module
                                     type="number"
                                     [(ngModel)]="boutique.loyer" 
                                     name="loyer"
+                                    min="0"
+                                    placeholder="0"
+                                    class="p-inputtext-lg" />
+                            </div>
+
+                            <div class="flex flex-col grow basis-0 gap-2">
+                                <label for="stock" class="font-semibold text-900">
+                                    Comission <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    pInputText
+                                    id="comission"
+                                    type="number"
+                                    [(ngModel)]="boutique.commission" 
+                                    name="commission"
                                     min="0"
                                     placeholder="0"
                                     class="p-inputtext-lg" />
@@ -434,10 +620,11 @@ import { ToastModule } from 'primeng/toast';  // ← Importez le module
                         </button>
                         <button 
                             pButton 
-                            label="Publier le produit" 
+                            label="Valider" 
                             icon="pi pi-check" 
                             size="large"
-                            type="submit">
+                            type="submit"
+                            [loading]="isSubmitting">
                         </button>
                     </div>
                 </form>
@@ -458,9 +645,11 @@ export class CreationBoutique{
         description:'',
         photo_boutique:null as File | null,
         boutique_logo:null as File | null,
+        horaires: [] as Horaire[],
+        commission:''
     };
 
-
+    showPassword = false;
     resetBoutiqueForm():void{
         this.boutique ={
         nom_boutique:'',
@@ -471,6 +660,8 @@ export class CreationBoutique{
         description:'',
         photo_boutique:null ,
         boutique_logo:null ,
+        horaires: [] as Horaire[],
+        commission:''
         }
     }
 
@@ -501,18 +692,18 @@ export class CreationBoutique{
     }
 
 
-resestBoutiqueForm():void{
-    this.boutique = {
-        nom_boutique:'',
-        categorie:'',
-        email_manager:'',
-        location:'',
-        loyer:'',
-        description:'',
-        photo_boutique:null as File | null,
-        boutique_logo:null as File | null,
-    }    
-}
+    // resestBoutiqueForm():void{
+    //     this.boutique = {
+    //         nom_boutique:'',
+    //         categorie:'',
+    //         email_manager:'',
+    //         location:'',
+    //         loyer:'',
+    //         description:'',
+    //         photo_boutique:null as File | null,
+    //         boutique_logo:null as File | null,
+    //     }    
+    // }
 
 
     selectedPhotos: any[] = []
@@ -520,7 +711,7 @@ resestBoutiqueForm():void{
     categories: any[] = [];
     statuts: any[] = [];
     selectedAvatar: any ;
-
+ isSubmitting: boolean = false;
     constructor(
         private userservice: UserService, 
         private boutiqueService: BoutiqueService,
@@ -532,51 +723,68 @@ resestBoutiqueForm():void{
 
     ngOnInit() {
         this.loadCategories();
+        this.initializeHoraires();
     }
 
     private addBoutiqueByAdmin(): void {
-    const formData = new FormData();
-    
-    formData.append('nom_boutique', this.boutique.nom_boutique);
-    formData.append('description_boutique', this.boutique.description);
-    formData.append('loyer', this.boutique.loyer);
-    formData.append('location', this.boutique.location);
-    formData.append('id_categorie', this.boutique.categorie);
-    
-    // ✅ Logo boutique
-    if (this.boutique.boutique_logo) {
-        formData.append('logo_boutique', this.boutique.boutique_logo, this.boutique.boutique_logo.name);
-    }
-    
-    // ✅ Photos boutique - utiliser this.selectedPhotos au lieu de this.boutique.photo_boutique
-    if (this.selectedPhotos && this.selectedPhotos.length > 0) {
-        this.selectedPhotos.forEach((photo) => {
-            formData.append('photo_boutique', photo.file, photo.file.name);
-        });
-    }
-    
-    console.log('📤 Envoi de', this.selectedPhotos.length, 'photos');
-    
-    this.boutiqueService.registerBoutiqueByAdminV1(formData).subscribe({
-        next: (res) => {
-            console.log("Boutique créée", res);
-            this.messageService.add({
-                severity: 'success',
-                summary: 'Succès',
-                detail: 'Boutique créée avec succès'
-            });
-            this.resetBoutiqueForm();
-        },
-        error: (err) => {
-            console.error("Erreur", err);
-            this.messageService.add({
-                severity: 'error',
-                summary: 'Erreur',
-                detail: 'Erreur lors de la création de la boutique'
+        try {
+            
+        
+        const formData = new FormData();
+        
+        formData.append('nom_boutique', this.boutique.nom_boutique);
+        formData.append('description_boutique', this.boutique.description);
+        formData.append('loyer', this.boutique.loyer);
+        formData.append('location', this.boutique.location);
+        formData.append('id_categorie', this.boutique.categorie);
+        
+        // Ajouter les horaires
+        formData.append('horaires', JSON.stringify(this.boutique.horaires));
+        
+
+        // ✅ Logo boutique
+        if (this.boutique.boutique_logo) {
+            formData.append('logo_boutique', this.boutique.boutique_logo, this.boutique.boutique_logo.name);
+        }
+        
+        // ✅ Photos boutique - utiliser this.selectedPhotos au lieu de this.boutique.photo_boutique
+        if (this.selectedPhotos && this.selectedPhotos.length > 0) {
+            this.selectedPhotos.forEach((photo) => {
+                formData.append('photo_boutique', photo.file, photo.file.name);
             });
         }
-    });
-}
+        
+        formData.append('commission',this.boutique.commission);
+
+        console.log('📤 Envoi de', this.selectedPhotos.length, 'photos');
+        
+        this.boutiqueService.registerBoutiqueByAdminV1(formData).subscribe({
+            next: (res) => {
+                console.log("Boutique créée", res);
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Succès',
+                    detail: 'Boutique créée avec succès',
+                     life: 5000
+                });
+                this.resetBoutiqueForm();
+            },
+            error: (err) => {
+                console.error("Erreur", err);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Erreur lors de la création de la boutique',
+                     life: 5000
+                });
+            }
+        });
+
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
 
 
 
@@ -618,14 +826,6 @@ resestBoutiqueForm():void{
         await this.addBoutiqueByAdmin();
     }
 
-    // statuts = [
-    //     { name: 'En stock', value: 'en-stock', class: 'bg-green-100 text-green-900' },
-    //     { name: 'Stock limité', value: 'stock-limite', class: 'bg-orange-100 text-orange-900' },
-    //     { name: 'Rupture de stock', value: 'rupture', class: 'bg-red-100 text-red-900' },
-    //     { name: 'Pré-commande', value: 'precommande', class: 'bg-blue-100 text-blue-900' }
-    // ];
-
-   
 
     loadCategories() {
         this.categorieService.getAllCategorie().subscribe({
@@ -649,17 +849,6 @@ resestBoutiqueForm():void{
         });  
     }
 
-    
-    // categories = [
-    //     { name: 'Électronique', value: 'electronique' },
-    //     { name: 'Vêtements', value: 'vetements' },
-    //     { name: 'Alimentation', value: 'alimentation' },
-    //     { name: 'Maison & Jardin', value: 'maison-jardin' },
-    //     { name: 'Sport & Loisirs', value: 'sport-loisirs' },
-    //     { name: 'Beauté & Santé', value: 'beaute-sante' },
-    //     { name: 'Livres & Médias', value: 'livres-medias' },
-    //     { name: 'Automobile', value: 'automobile' }
-    // ];
 
 
   onPhotosSelected(event: any, fileUpload: FileUpload): void {
@@ -705,80 +894,35 @@ resestBoutiqueForm():void{
     }
 }
     
-// onPhotosSelected(event: any, fileUpload: FileUpload) {
-//     const newFiles = event.currentFiles;
-    
-//     // Vérifier que le total ne dépasse pas 3
-//     if (this.selectedPhotos.length + newFiles.length > 3) {
-//         alert("les photos doit etre moins ou egale a 3")
-//         fileUpload.clear();
-//         return;
-//     }
-    
-//     console.log(newFiles);
-    
 
-//     // Vérifier la taille de chaque fichier (50MB = 52428800 bytes)
-//     const invalidFiles = newFiles.filter((file: File) => file.size > 52428800);
-//     if (invalidFiles.length > 0) {
-//         this.messageService.add({
-//             severity: 'error',
-//             summary: 'Fichier trop volumineux',
-//             detail: 'Certains fichiers dépassent 50MB'
-//         });
-//         fileUpload.clear();
-//         return;
-//     }
-    
-//     // Ajouter les nouvelles photos avec leur preview
-//     newFiles.forEach((file: File) => {
-//         const reader = new FileReader();
-//         reader.onload = (e: any) => {
-//             this.selectedPhotos.push({
-//                 file: file,
-//                 name: file.name,
-//                 size: file.size,
-//                 objectURL: e.target.result // URL de prévisualisation
-//             });
-//         };
-//         reader.readAsDataURL(file);
-//     });
-    
-//     // IMPORTANT: Toujours vider le composant fileUpload
-//     fileUpload.clear();
-// }
 
 
 removePhoto(index: number) {
     this.selectedPhotos.splice(index, 1);
     this.selectedPhotos = [...this.selectedPhotos]; // Pour déclencher la détection de changement
 }
- // Gestion de l'avatar
-onAvatarSelected(event: any): void {
-    if (event.currentFiles && event.currentFiles.length > 0) {
-        const file = event.currentFiles[0];
-        
-        // Stocker le fichier directement
-        this.user.avatarFile = file;
-        
-        // Créer l'aperçu
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-            this.selectedAvatar = {
-                name: file.name,
-                size: file.size,
-                objectURL: e.target.result
+    // Gestion de l'avatar
+    onAvatarSelected(event: any): void {
+        if (event.currentFiles && event.currentFiles.length > 0) {
+            const file = event.currentFiles[0];
+            
+            // Stocker le fichier directement
+            this.user.avatarFile = file;
+            
+            // Créer l'aperçu
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+                this.selectedAvatar = {
+                    name: file.name,
+                    size: file.size,
+                    objectURL: e.target.result
+                };
             };
-        };
-        reader.readAsDataURL(file);
-        
-        console.log('Fichier avatar sélectionné:', file.name, file.size);
+            reader.readAsDataURL(file);
+            
+            console.log('Fichier avatar sélectionné:', file.name, file.size);
+        }
     }
-}
-
-
-
-
 
 
     // // Pour le logo unique
@@ -807,27 +951,115 @@ onAvatarSelected(event: any): void {
     }
 
 
-
     removeLogo() {
         this.selectedLogo = null;
         this.boutique.boutique_logo = null;
     }
 
-formatFileSize(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-}
+    formatFileSize(bytes: number): string {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    }
 
 
-
-
-
-     removeAvatar(): void {
+    removeAvatar(): void {
         this.selectedAvatar = null;
         this.user.avatarFile = null;
     }
+
+
+     private initializeHoraires(): void {
+        const jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+        this.boutique.horaires = jours.map(jour => ({
+            jour: jour,
+            ouverture: '09:00',
+            fermeture: '18:00',
+            est_ferme: false
+        }));
+    }
+
+    onFermeChange(index: number): void {
+        if (this.boutique.horaires[index].est_ferme) {
+            this.boutique.horaires[index].ouverture = '';
+            this.boutique.horaires[index].fermeture = '';
+        } else {
+            this.boutique.horaires[index].ouverture = '09:00';
+            this.boutique.horaires[index].fermeture = '18:00';
+        }
+    }
+
+    setAllDaysOpen(): void {
+        this.boutique.horaires.forEach(horaire => {
+            horaire.est_ferme = false;
+            horaire.ouverture = '09:00';
+            horaire.fermeture = '18:00';
+        });
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Horaires mis à jour',
+            detail: 'Tous les jours sont ouverts de 09:00 à 18:00',
+            life: 2000
+        });
+    }
+
+    copyFirstDayToAll(): void {
+        const firstDay = this.boutique.horaires[0];
+        this.boutique.horaires.forEach((horaire, index) => {
+            if (index !== 0) {
+                horaire.ouverture = firstDay.ouverture;
+                horaire.fermeture = firstDay.fermeture;
+                horaire.est_ferme = firstDay.est_ferme;
+            }
+        });
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Horaires copiés',
+            detail: 'Les horaires du lundi ont été appliqués à tous les jours',
+            life: 2000
+        });
+    }
+
+    getHoraireCardClass(horaire: Horaire): string {
+    if (horaire.est_ferme) {
+        return 'bg-red-50 border-1 border-red-200';
+    }
+    if (horaire.ouverture && horaire.fermeture) {
+        return 'bg-green-50 border-1 border-green-200 hover:bg-green-100';
+    }
+    return 'bg-orange-50 border-1 border-orange-200';
+}
+
+getJourIcon(jour: string): string {
+    const icons: { [key: string]: string } = {
+        'Lundi': 'pi pi-calendar text-blue-500',
+        'Mardi': 'pi pi-calendar text-cyan-500',
+        'Mercredi': 'pi pi-calendar text-green-500',
+        'Jeudi': 'pi pi-calendar text-yellow-500',
+        'Vendredi': 'pi pi-calendar text-orange-500',
+        'Samedi': 'pi pi-calendar text-purple-500',
+        'Dimanche': 'pi pi-calendar text-red-500'
+    };
+    return icons[jour] || 'pi pi-calendar';
+}
+
+closeWeekend(): void {
+    this.boutique.horaires.forEach(horaire => {
+        if (horaire.jour === 'Samedi' || horaire.jour === 'Dimanche') {
+            horaire.est_ferme = true;
+            horaire.ouverture = '';
+            horaire.fermeture = '';
+        }
+    });
+    this.messageService.add({
+        severity: 'success',
+        summary: 'Week-end fermé',
+        detail: 'Samedi et dimanche ont été marqués comme fermés',
+        life: 2000
+    });
+}
+
 
 }
