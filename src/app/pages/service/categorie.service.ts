@@ -10,7 +10,13 @@ import { Observable } from "rxjs";
 
     constructor(private http:HttpClient){};
 
+    // Categories racines uniquement (pour boutique)
     getAllCategorie(): Observable<any> {
-        return this.http.get(`${this.apiUrl}/getAll/boutique`); // Correction: parenthèses au lieu de backticks
+        return this.http.get(`${this.apiUrl}/getAll/boutique`);
+    }
+
+    // Arbre hierarchique complet (pour produit)
+    getCategorieTree(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/tree`);
     }
  }
