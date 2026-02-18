@@ -64,18 +64,7 @@ import { Router } from '@angular/router';
                             restaurants et espaces de loisirs pour toute la famille.
                         </p>
 
-                        <!-- Boutons modernes -->
-                        <div class="flex flex-wrap gap-4">
-                            <button 
-                                pButton 
-                                pRipple 
-                                type="button" 
-                                label="Demande de boutique" 
-                                style="background-color: #161d2b !important;"
-                                (click)="createBoutiqueByClient()"
-                                class="!border !border-blue-500/30 !px-8 !py-4 !text-lg !font-semibold !text-white hover:!border-blue-400/50 hover:brightness-110 transition-all"
-                            ></button>
-                        </div>
+                        
 
                         <!-- Stats modernessssssss -->
                         <div class="grid grid-cols-3 gap-6 mt-12">

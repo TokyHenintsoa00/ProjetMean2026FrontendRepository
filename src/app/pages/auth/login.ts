@@ -42,7 +42,7 @@ import { UserService } from '../service/user.service';
         </div>
 
         <div class="brand-headline">
-          <div class="headline-tag">Espace client</div>
+          <div class="headline-tag">Espace personnel</div>
           <h1 class="headline-title">Bienvenue<br/>sur votre<br/><span class="headline-accent">espace</span></h1>
           <p class="headline-sub">Accédez à vos boutiques préférées, gérez vos commandes et découvrez les meilleures offres du moment.</p>
         </div>
