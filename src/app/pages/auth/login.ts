@@ -622,42 +622,43 @@ export class Login {
             rememberMe:this.checked
         }
 
-        const role_by_email = {email:logUser.email};
+        const role_by_email = {email :logUser.email};
+        console.log(logUser);
+        
+            this.userservice.signIn(logUser).subscribe({
+                 next:(res) =>{
 
-            // this.userservice.signIn(logUser).subscribe({
-            //     next:(res) =>{
-
-            //         this.userservice.findRoleUserByEmail(role_by_email).subscribe({
-            //             next:(role)=>{
-            //                 //console.log("id "+role._id);
+                    this.userservice.findRoleUserByEmail(role_by_email).subscribe({
+                        next:(role)=>{
+                            //console.log("id "+role._id);
                             
-            //                 if (role._id === '697b0d46b784b5da2ab3ba24') {
-            //                     console.log("navigate client");
+                            if (role._id === '697b0d46b784b5da2ab3ba24') {
+                                console.log("navigate client");
                                 
-            //                     this.router.navigate(['/membre/client'])
-            //                 } else if(role._id === '697b0d19b784b5da2ab3ba22') {
-            //                     console.log("nagivate manager boutique");
+                                this.router.navigate(['/membre/client'])
+                            } else if(role._id === '697b0d19b784b5da2ab3ba22') {
+                                console.log("nagivate manager boutique");
                                 
-            //                     this.router.navigate(['/boutique/home']);
-            //                 }
-            //                 else{
-            //                     this.router.navigate(['/admin/home']);
-            //                 }
-            //             }
-            //         });
+                                this.router.navigate(['/boutique/home']);
+                            }
+                            else{
+                                this.router.navigate(['/admin/home']);
+                            }
+                        }
+                    });
 
                     
 
-            //         // console.log("log user");
+                    // console.log("log user");
                 
-            //         // console.log(res);
-            //         // this.loginUser = {email:'',pwd:''};
-            //         // this.router.navigate(['/membre/client']);
-            //     },
-            //     error:(err)=>{
-            //         console.log(err);
-            //     }
-            // });
+                    // console.log(res);
+                    // this.loginUser = {email:'',pwd:''};
+                    // this.router.navigate(['/membre/client']);
+                },
+                error:(err)=>{
+                    console.log(err);
+                }
+            });
     }
 
     // email: string = '';
