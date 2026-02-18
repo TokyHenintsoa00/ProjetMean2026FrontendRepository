@@ -6,7 +6,7 @@ import { Landing } from './app/pages/landing/landing';
 import { Notfound } from './app/pages/notfound/notfound';
 import { Login } from '@/pages/auth/login';
 import { SignUp } from '@/pages/auth/signup';
-import { LandingClient } from '@/landingClientMembre/landing';
+import { LandingClient } from '@/pages/client/landingClientMembre/landing';
 import { forgotPassword } from '@/pages/auth/forgotPassword';
 import { Component } from '@angular/core';
 import { BoutiqueDashboard } from '@/pages/boutique/dashboard/boutiquedashboard';
@@ -18,7 +18,7 @@ import { AdminDashboard } from '@/pages/administrateur/dashboard/adminDashboard'
 import { CreationBoutique } from '@/pages/administrateur/gestionBoutique/creationBoutique';
 import { ListeBoutique } from '@/pages/administrateur/gestionBoutique/listeBoutique';
 import { infoplusBoutique } from '@/pages/administrateur/gestionBoutique/infoPlusBoutique';
-import { demandeBoutique } from '@/pages/client/demandeBoutique';
+import { demandeBoutique } from '@/pages/landing/demandeBoutique';
 import { viewDetailDemandeBoutique } from '@/pages/administrateur/gestionBoutique/viewDetailDemandeBoutique';
 import { VoirAllBoutique } from '@/pages/landing/voirAllBoutique';
 import { resetPassword } from '@/pages/auth/resetPassword';
