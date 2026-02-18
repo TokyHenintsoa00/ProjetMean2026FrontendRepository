@@ -3,12 +3,25 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { Router, RouterModule } from '@angular/router';
 import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from 'primeng/button';
-import {AppFloatingConfigurator} from "@/layout/component/app.floatingconfigurator";
+import { MenuItem } from 'primeng/api';
+import { MenuModule } from 'primeng/menu';
+import { CommonModule } from '@angular/common';
+import { AppFloatingConfigurator } from '@/layout/component/app.floatingconfigurator';
 
 @Component({
     selector: 'topbar-widget',
-    imports: [RouterModule, StyleClassModule, ButtonModule, RippleModule, AppFloatingConfigurator],
-    template: `<header class="topbar">
+    imports: [
+        CommonModule,
+        RouterModule, 
+        StyleClassModule,
+        MenuModule, 
+        ButtonModule, 
+        RippleModule,
+        AppFloatingConfigurator
+    ],
+    template: `<!-- Topbar 2 — même style que Topbar 1 (Angular template + CSS) -->
+
+<header class="topbar">
 
   <!-- Glow line top -->
   <div class="topbar-glow"></div>
@@ -20,7 +33,7 @@ import {AppFloatingConfigurator} from "@/layout/component/app.floatingconfigurat
         d="M17.1637 19.2467C17.1566 19.4033 17.1529 19.561 17.1529 19.7194C17.1529 25.3503 21.7203 29.915 27.3546 29.915C32.9887 29.915 37.5561 25.3503 37.5561 19.7194C37.5561 19.5572 37.5524 19.3959 37.5449 19.2355C38.5617 19.0801 39.5759 18.9013 40.5867 18.6994L40.6926 18.6782C40.7191 19.0218 40.7326 19.369 40.7326 19.7194C40.7326 27.1036 34.743 33.0896 27.3546 33.0896C19.966 33.0896 13.9765 27.1036 13.9765 19.7194C13.9765 19.374 13.9896 19.0316 14.0154 18.6927L14.0486 18.6994C15.0837 18.9062 16.1223 19.0886 17.1637 19.2467ZM33.3284 11.4538C31.6493 10.2396 29.5855 9.52381 27.3546 9.52381C25.1195 9.52381 23.0524 10.2421 21.3717 11.4603C20.0078 11.3232 18.6475 11.1387 17.2933 10.907C19.7453 8.11308 23.3438 6.34921 27.3546 6.34921C31.36 6.34921 34.9543 8.10844 37.4061 10.896C36.0521 11.1292 34.692 11.3152 33.3284 11.4538ZM43.826 18.0518C43.881 18.6003 43.9091 19.1566 43.9091 19.7194C43.9091 28.8568 36.4973 36.2642 27.3546 36.2642C18.2117 36.2642 10.8 28.8568 10.8 19.7194C10.8 19.1615 10.8276 18.61 10.8816 18.0663L7.75383 17.4411C7.66775 18.1886 7.62354 18.9488 7.62354 19.7194C7.62354 30.6102 16.4574 39.4388 27.3546 39.4388C38.2517 39.4388 47.0855 30.6102 47.0855 19.7194C47.0855 18.9439 47.0407 18.1789 46.9536 17.4267L43.826 18.0518ZM44.2613 9.54743L40.9084 10.2176C37.9134 5.95821 32.9593 3.1746 27.3546 3.1746C21.7442 3.1746 16.7856 5.96385 13.7915 10.2305L10.4399 9.56057C13.892 3.83178 20.1756 0 27.3546 0C34.5281 0 40.8075 3.82591 44.2613 9.54743Z"
         fill="white"/>
     </svg>
-    <span class="logo-name">ShopMall</span>
+    <span class="logo-name">SAKAI</span>
   </a>
 
   <!-- Hamburger (mobile) -->
@@ -56,21 +69,30 @@ import {AppFloatingConfigurator} from "@/layout/component/app.floatingconfigurat
       </li>
     </ul>
 
-    <!-- CTA -->
+    <!-- Profile CTA -->
     <div class="nav-actions">
-      <button pButton pRipple routerLink="/logIn" class="btn-ghost">
-        Connexion
-      </button>
-      <div class="nav-sep"></div>
-      <button pButton pRipple routerLink="/signUp" class="btn-solid">
-        S'inscrire
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2.5"
-             stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
+      <button pButton pRipple
+              class="btn-profile"
+              (click)="profileMenu.toggle($event)">
+        <!-- Avatar -->
+        <span class="profile-avatar">
+          <i class="pi pi-user"></i>
+        </span>
+        <!-- Info -->
+        <span class="profile-info">
+          <span class="profile-name">{{userName}}</span>
+          <span class="profile-role">{{userRole}}</span>
+        </span>
+        <!-- Chevron -->
+        <svg class="profile-chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
       </button>
+
+      <p-menu #profileMenu [model]="getProfileMenuItems()" [popup]="true"></p-menu>
+
       <app-floating-configurator [float]="false"/>
     </div>
 
@@ -162,7 +184,6 @@ import {AppFloatingConfigurator} from "@/layout/component/app.floatingconfigurat
   list-style: none;
   margin: 0;
   padding: 0;
-  /* Center in the available space */
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -213,66 +234,77 @@ import {AppFloatingConfigurator} from "@/layout/component/app.floatingconfigurat
   margin-left: auto;
 }
 
-.nav-sep {
-  width: 1px;
-  height: 20px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Ghost button → Login */
-.btn-ghost {
-  padding: 8px 18px !important;
+/* ── PROFILE BUTTON ── */
+.btn-profile {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 6px 14px 6px 6px !important;
   border-radius: 30px !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  background: transparent !important;
-  color: rgba(255, 255, 255, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
   font-family: 'DM Sans', sans-serif !important;
   font-size: 0.85rem !important;
   font-weight: 600 !important;
   cursor: pointer;
   transition: all 0.2s ease !important;
-  letter-spacing: 0.2px;
   box-shadow: none !important;
 }
 
-.btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
+.btn-profile:hover {
+  background: rgba(255, 255, 255, 0.09) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
   color: white !important;
-  border-color: rgba(255, 255, 255, 0.22) !important;
 }
 
-/* Solid button → Register */
-.btn-solid {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  padding: 8px 20px !important;
-  border-radius: 30px !important;
-  border: none !important;
-  background: linear-gradient(135deg, #e2e8f0 0%, #f8fafc 100%) !important;
-  color: #1e2832 !important;
-  font-family: 'DM Sans', sans-serif !important;
-  font-size: 0.85rem !important;
-  font-weight: 700 !important;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
-  letter-spacing: 0.2px;
-  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.35) !important;
-}
-
-.btn-solid:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45) !important;
-  background: linear-gradient(135deg, #f1f5f9 0%, #ffffff 100%) !important;
-}
-
-.btn-solid svg {
-  transition: transform 0.2s ease;
+/* Avatar circle */
+.profile-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e2e8f0 0%, #f8fafc 100%);
+  color: #1e2832;
+  font-size: 0.85rem;
   flex-shrink: 0;
 }
 
-.btn-solid:hover svg {
-  transform: translateX(3px);
+/* Text block */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  line-height: 1;
+}
+
+.profile-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.1px;
+}
+
+.profile-role {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.2px;
+}
+
+/* Chevron */
+.profile-chevron {
+  color: rgba(255, 255, 255, 0.4);
+  transition: transform 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-profile:hover .profile-chevron {
+  color: rgba(255, 255, 255, 0.7);
+  transform: translateY(1px);
 }
 
 /* ── HAMBURGER (mobile) ── */
@@ -297,7 +329,6 @@ import {AppFloatingConfigurator} from "@/layout/component/app.floatingconfigurat
 @media (max-width: 1024px) {
   .nav-links { display: none; }
   .hamburger-btn { display: flex !important; }
-  .btn-ghost { display: none; }
 
   .nav-container {
     position: fixed;
@@ -333,16 +364,57 @@ import {AppFloatingConfigurator} from "@/layout/component/app.floatingconfigurat
     border-top: 1px solid rgba(255,255,255,0.07);
     padding-top: 1rem;
   }
-
-  .btn-ghost { display: inline-flex !important; }
 }
 
 @media (max-width: 480px) {
   .topbar { padding: 0 1.25rem; }
   .logo-name { font-size: 1.1rem; }
+  .profile-info { display: none; }
 }
-</style> `
+</style>`
 })
 export class TopbarWidget {
+    userName: string = 'Utilisateur';
+    userRole: string = 'Membre';
+
     constructor(public router: Router) {}
+
+    getProfileMenuItems(): MenuItem[] {
+        return [
+            {
+                label: 'Mon Profil',
+                icon: 'pi pi-user',
+                command: () => this.navigateToProfile()
+            },
+            {
+                label: 'Paramètres',
+                icon: 'pi pi-cog',
+                command: () => this.navigateToSettings()
+            },
+            {
+                separator: true
+            },
+            {
+                label: 'Déconnexion',
+                icon: 'pi pi-sign-out',
+                command: () => this.logout()
+            }
+        ];
+    }
+
+    navigateToProfile() {
+        console.log('Navigation vers le profil');
+        // this.router.navigate(['/profile']);
+    }
+
+    navigateToSettings() {
+        console.log('Navigation vers les paramètres');
+        // this.router.navigate(['/settings']);
+    }
+
+    logout() {
+        console.log('Déconnexion');
+        // this.authService.logout();
+        this.router.navigate(['/']);
+    }
 }

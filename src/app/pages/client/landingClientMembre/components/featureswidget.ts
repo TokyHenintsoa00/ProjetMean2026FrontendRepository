@@ -1,15 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BoutiqueService } from '@/pages/service/boutique.service';
+import { Router } from '@angular/router';
 
 interface Boutique {
     _id: string;
     nom_boutique: string;
     description: string;
-    logo?: {
-        url: string;
-        filename: string;
-    };
+    logo: string | null;
     photo_boutique?: Array<{
         url: string;
         filename: string;
@@ -24,14 +22,14 @@ interface Boutique {
     standalone: true,
     imports: [CommonModule],
     template: `
-    <div id="features" class="py-6 px-6 lg:px-20 mt-8 mx-0 lg:mx-20">
+     <div id="features" class="py-6 px-6 lg:px-20 mt-8 mx-0 lg:mx-20">
         <div class="grid grid-cols-12 gap-4 justify-center">
             <div class="col-span-12 text-center mt-20 mb-6">
                 <div class="text-surface-900 dark:text-surface-0 font-normal mb-2 text-4xl">Nos boutiques partenaires</div>
                 <span class="text-muted-color text-2xl">Découvrez nos boutiques de confiance</span>
             </div>
             
-            <div class="col-span-12 mt-10 mb-20 overflow-hidden">
+            <div class="col-span-12 mt-10 mb-8 overflow-hidden">
                 <div class="carousel-container" (mouseenter)="pauseCarousel()" (mouseleave)="resumeCarousel()">
                     <div class="carousel-track" [ngStyle]="getTrackStyle()">
                         <div *ngFor="let boutique of displayBoutiques; let i = index" class="carousel-item">
@@ -39,17 +37,13 @@ interface Boutique {
                                 <!-- Logo principal en grand -->
                                 <div class="logo-container">
                                     <img 
-                                        [src]="boutique.logo?.url || 'assets/default-logo.png'" 
+                                        [src]="boutique.logo ? baseUrl + boutique.logo : 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/%3E%3Ctext fill=%22%23999%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22%3ELogo%3C/text%3E%3C/svg%3E'" 
                                         [alt]="boutique.nom_boutique"
                                         class="boutique-logo"
-                                        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/%3E%3Ctext fill=%22%23999%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22%3ELogo%3C/text%3E%3C/svg%3E'"
+                                        (error)="onImageError($event)"
                                     />
-                                    <div class="status-badge" [ngClass]="{
-                                        'active': boutique.status === 'active',
-                                        'pending': boutique.status === 'pending',
-                                        'suspend': boutique.status === 'suspend'
-                                    }">
-                                        {{ boutique.status }}
+                                    <div class="status-badge" [ngClass]="getStatusClass(boutique.status)">
+                                        {{ getStatusLabel(boutique.status) }}
                                     </div>
                                 </div>
                                 
@@ -67,16 +61,16 @@ interface Boutique {
                                         </div>
                                         
                                         <div class="rating">
-                                            <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= boutique.rating">
+                                            <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= (boutique.rating || 0)">
                                                 ★
                                             </span>
-                                            <span class="rating-text">{{ boutique.rating }}</span>
+                                            <span class="rating-text">{{ boutique.rating || 0 }}</span>
                                         </div>
                                     </div>
                                     
                                     <p class="boutique-description">{{ boutique.description }}</p>
                                     
-                                    <button class="view-btn">
+                                    <button class="view-btn" (click) = "visiterBoutique(boutique._id)">
                                         <span>Visiter la boutique</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -88,6 +82,17 @@ interface Boutique {
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <!-- Bouton Voir nos boutiques -->
+            <div class="col-span-12 text-center mb-20">
+                <button class="explore-btn" (click)="navigateToBoutiques()">
+                    <span>Voir nos boutiques</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
@@ -275,33 +280,33 @@ interface Boutique {
         }
 
         .view-btn {
-        background: linear-gradient(135deg, #1f2933 0%, #111827 100%);
-        color: #e5e7eb;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 0.85rem 1.5rem;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        margin-top: auto;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-    }
+            background: linear-gradient(135deg, #1f2933 0%, #111827 100%);
+            color: #e5e7eb;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.85rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: auto;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        }
 
-    .view-btn:hover {
-        background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-    }
+        .view-btn:hover {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
 
-    .view-btn svg {
-        stroke: #e5e7eb;
-    }
-
+        .view-btn svg {
+            stroke: #e5e7eb;
+            transition: transform 0.3s ease;
+        }
 
         .view-btn:hover svg {
             transform: translateX(4px);
@@ -321,6 +326,43 @@ interface Boutique {
                 font-size: 1.2rem;
             }
         }
+
+
+        /* Nouveau style pour le bouton Voir nos boutiques */
+        .explore-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            background: #1e2832;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(30, 40, 50, 0.4);
+        }
+        
+        .explore-btn:hover {
+            transform: translateY(-2px);
+            background: #2a3642;
+            box-shadow: 0 6px 20px rgba(30, 40, 50, 0.6);
+        }
+        
+        .explore-btn:active {
+            transform: translateY(0);
+        }
+        
+        .explore-btn svg {
+            transition: transform 0.3s ease;
+        }
+        
+        .explore-btn:hover svg {
+            transform: translateX(4px);
+        }
+
     `]
 })
 export class FeaturesWidget implements OnInit, OnDestroy {
@@ -332,8 +374,12 @@ export class FeaturesWidget implements OnInit, OnDestroy {
     private speed: number = 0.5;
     private lastTimestamp: number = 0;
     private itemWidth: number = 320 + 40; // largeur de carte + gap
+    baseUrl = "http://localhost:5000";
 
-    constructor(private boutiqueService: BoutiqueService) {}
+    constructor(
+        private boutiqueService: BoutiqueService,
+        private router :Router
+    ) {}
 
     ngOnInit() {
         this.loadBoutiques();
@@ -343,22 +389,81 @@ export class FeaturesWidget implements OnInit, OnDestroy {
         this.stopCarousel();
     }
 
+
     loadBoutiques() {
-        this.boutiqueService.getBoutiques().subscribe({
-            next: (data) => {
-                this.boutiques = data;
+        this.boutiqueService.getAllActiveBoutique().subscribe({
+            next: (data: any[]) => {
+                console.log('=== Données brutes reçues ===', data);
+                
+                this.boutiques = data.map((shop: any) => {
+                    // Extraire le nom du status depuis l'objet status
+                    let statusValue = 'active';
+                    if (shop.status) {
+                        if (typeof shop.status === 'object' && shop.status.nom_status) {
+                            statusValue = shop.status.nom_status;
+                        } else if (typeof shop.status === 'string') {
+                            statusValue = shop.status;
+                        }
+                    }
+                    
+                    // Corriger le chemin du logo
+                    let logoUrl = null;
+                    if (shop.logo && shop.logo.length > 0) {
+                        const originalUrl = shop.logo[0].url;
+                        // Remplacer /uploads/logoboutique/ par /uploads/logo/
+                        logoUrl = originalUrl.replace('/uploads/logoboutique/', '/uploads/logo/');
+                    }
+                    
+                    const mapped = {
+                        _id: shop._id,
+                        nom_boutique: shop.nom_boutique || 'Boutique sans nom',
+                        description: shop.description_boutique || 'Aucune description disponible',
+                        logo: logoUrl,
+                        photo_boutique: shop.photo_boutique || [],
+                        location: shop.location || 'Non défini',
+                        rating: shop.rating !== null && shop.rating !== undefined ? shop.rating : 4.5,
+                        status: statusValue
+                    };
+                    
+                    //console.log('Mapped boutique:', mapped);
+                    return mapped;
+                });
+
+                // Créer 3 copies pour l'effet carousel infini
                 this.displayBoutiques = [
                     ...this.boutiques, 
                     ...this.boutiques,
                     ...this.boutiques
                 ];
-                setTimeout(() => this.startCarousel(), 100);
+                
+                console.log('=== Boutiques finales ===', this.boutiques);
+                console.log('=== Total cards affichées ===', this.displayBoutiques.length);
+                
+                setTimeout(() => this.startCarousel(), 100);  
             },
             error: (error) => {
                 console.error('Erreur lors du chargement des boutiques:', error);
             }
         });
     }
+
+
+    // loadBoutiques() {
+    //     this.boutiqueService.getBoutiques().subscribe({
+    //         next: (data) => {
+    //             this.boutiques = data;
+    //             this.displayBoutiques = [
+    //                 ...this.boutiques, 
+    //                 ...this.boutiques,
+    //                 ...this.boutiques
+    //             ];
+    //             setTimeout(() => this.startCarousel(), 100);
+    //         },
+    //         error: (error) => {
+    //             console.error('Erreur lors du chargement des boutiques:', error);
+    //         }
+    //     });
+    // }
 
   startCarousel() {
     const blockWidth = this.boutiques.length * this.itemWidth;
@@ -409,5 +514,48 @@ export class FeaturesWidget implements OnInit, OnDestroy {
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
         }
+    }
+
+
+
+     onImageError(event: any) {
+        event.target.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/%3E%3Ctext fill=%22%23999%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22%3ELogo%3C/text%3E%3C/svg%3E';
+    }
+
+    getStatusClass(status: string): { [key: string]: boolean } {
+        return {
+            'active': status === 'active',
+            'pending': status === 'pending',
+            'suspend': status === 'suspend'
+        };
+    }
+
+    getStatusLabel(status: string): string {
+        if (!status) return 'Active';
+        
+        // Première lettre en majuscule
+        return status.charAt(0).toUpperCase() + status.slice(1);
+    }
+
+    navigateToBoutiques() {
+        
+        this.router.navigate(['/allboutique'])
+        // Implémentez la navigation vers la page des boutiques
+        // Exemple avec Angular Router:
+        // this.router.navigate(['/boutiques']);
+        
+        // Ou avec window.location:
+        // window.location.href = '/boutiques';
+        
+        console.log('Navigation vers la page des boutiques');
+    }
+
+
+    visiterBoutique(id:string)
+    {
+       
+        // console.log("id :"+id);
+        // this.router.navigate(['/visiteBoutique',id]);
+        
     }
 }

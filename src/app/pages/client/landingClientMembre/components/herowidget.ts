@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'hero-widget',
@@ -63,24 +64,7 @@ import { RippleModule } from 'primeng/ripple';
                             restaurants et espaces de loisirs pour toute la famille.
                         </p>
 
-                        <!-- Boutons modernes -->
-                        <div class="flex flex-wrap gap-4">
-                            <button 
-                                pButton 
-                                pRipple 
-                                type="button" 
-                                label="Explorer maintenant" 
-                                style="background-color: #161d2b !important;"
-                                class="!border !border-blue-500/30 !px-8 !py-4 !text-lg !font-semibold !text-white hover:!border-blue-400/50 hover:brightness-110 transition-all"
-                            ></button>
-                                <button 
-                                pButton 
-                                pRipple 
-                                type="button" 
-                                label="En savoir plus" 
-                                class="!bg-white/10 !backdrop-blur-md !border-white/30 !text-white !px-8 !py-4 !text-lg hover:!bg-white/20 transition-all"
-                            ></button>
-                        </div>
+                        
 
                         <!-- Stats modernessssssss -->
                         <div class="grid grid-cols-3 gap-6 mt-12">
@@ -152,6 +136,10 @@ export class HeroWidget implements OnInit, OnDestroy {
         'assets/images/young-woman-shopping-clothes.jpg'
     ];
 
+    constructor(
+        private router:Router
+    ){}
+
     isDesktop(): boolean {
         return window.innerWidth >= 768;
     }
@@ -169,6 +157,11 @@ export class HeroWidget implements OnInit, OnDestroy {
         if (this.intervalId) {
             clearInterval(this.intervalId);
         }
+    }
+
+    createBoutiqueByClient()
+    {
+        this.router.navigate(['demandeBoutiqueClient']);
     }
 
     goToImage(index: number) {
