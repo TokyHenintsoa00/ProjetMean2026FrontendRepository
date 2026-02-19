@@ -69,4 +69,10 @@ export class ProduitService {
     updateStock(produitId: string, varianteId: string, stock: number): Observable<any> {
         return this.http.put(`${this.apiUrl}/stock/update/${produitId}/${varianteId}`, { stock }, { withCredentials: true });
     }
+
+
+    getProduitByIdBoutique(id_boutique:string)
+    {
+        return this.http.get(`${this.apiUrl}/getAllProduit/byId?id_boutique=${id_boutique}`);
+    }
 }
