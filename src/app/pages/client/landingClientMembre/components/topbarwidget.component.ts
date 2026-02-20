@@ -552,7 +552,7 @@ navigateToPanier() {
   console.log("clicque panier");
   
   this.closeDropdown();
-  //this.router.navigate(['/info/client/panier']);
+  this.router.navigate(['/info/client/panier']);
 }
 
 navigateToProfile() {

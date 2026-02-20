@@ -90,4 +90,15 @@ export class ProduitService {
              withCredentials: true  // ✅ Envoie les cookies
         });
     }
+
+    getAllPanieruserByIdUser(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/getAll/panier/byId`, {
+            withCredentials: true
+        });
+    }
+
+    removeFromPanier()
+    {
+        
+    }
 }
