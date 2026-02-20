@@ -944,7 +944,7 @@ export class VoirAllBoutiqueClient implements OnInit {
     {
        
         console.log("id :"+id);
-        this.router.navigate(['/visiteBoutique',id]);
+        this.router.navigate(['/client/visiteBoutiqueClient',id]);
         
     }
 

@@ -539,7 +539,7 @@ export class FeaturesWidget implements OnInit, OnDestroy {
 
     navigateToBoutiques() {
         
-        this.router.navigate(['/allboutique'])
+        this.router.navigate(['/client/allboutiqueClient'])
         // Implémentez la navigation vers la page des boutiques
         // Exemple avec Angular Router:
         // this.router.navigate(['/boutiques']);
@@ -555,7 +555,7 @@ export class FeaturesWidget implements OnInit, OnDestroy {
     {
        
         // console.log("id :"+id);
-        // this.router.navigate(['/visiteBoutique',id]);
+        this.router.navigate(['/client/visiteBoutiqueClient',id]);
         
     }
 }
