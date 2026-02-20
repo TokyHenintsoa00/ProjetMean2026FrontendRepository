@@ -28,12 +28,13 @@ import { resetPassword } from '@/pages/auth/resetPassword';
 import { VisiteBoutique } from '@/pages/landing/VisiteBoutique';
 import { VoirAllBoutiqueClient } from '@/pages/client/voirAllBoutiqueClient';
 import { VisiteBoutiqueClient } from '@/pages/client/VisiteBoutique';
+import { authGuard, clientGuard , managerGuard } from '@/linkSecure/auth.guard';
 
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
     //{ path: 'landing', component: Landing },
-    {path:'membre/client',component:LandingClient},
+    {path:'membre/client',component:LandingClient,canActivate:[clientGuard]},
     {path:'logIn',component:Login},
     {path:'allboutique',component:VoirAllBoutique},
     {path:'allboutiqueClient',component:VoirAllBoutiqueClient},
