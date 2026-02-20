@@ -290,7 +290,7 @@ import { filter } from 'rxjs/operators';
 }
 
 .sidebar-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 2px;
