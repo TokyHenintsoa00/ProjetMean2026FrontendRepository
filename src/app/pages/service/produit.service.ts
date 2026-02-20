@@ -75,4 +75,19 @@ export class ProduitService {
     {
         return this.http.get(`${this.apiUrl}/getAllProduit/byId?id_boutique=${id_boutique}`);
     }
+
+
+    addPanier(credentials: {
+        id_boutique: string;
+        id_produit: string;
+        nom_produit: string;
+        taille: string;
+        quantite: number;
+        prix_unitaire: number;
+        total: number;
+    }): Observable<any> {
+        return this.http.post(`${this.apiUrl}/ajout/panier`, credentials, {
+             withCredentials: true  // ✅ Envoie les cookies
+        });
+    }
 }

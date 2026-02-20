@@ -138,16 +138,6 @@ export class BoutiqueService{
     //     });
     // }
 
-    addPanier(credentials: {
-  id_boutique: string;
-  produit: string;
-  image: string | null;
-  taille: string;
-  quantite: number;
-  prix_unitaire: number;
-  total: number;
-}): Observable<any> {
-  return this.http.post(`${this.apiUrl}/ajout/panier`, credentials);
-}
+
     
 }

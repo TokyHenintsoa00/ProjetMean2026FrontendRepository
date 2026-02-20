@@ -6,7 +6,7 @@ import { BoutiqueService } from "../service/boutique.service";
 import { ProduitService } from "../service/produit.service";
 import { MessageService } from "primeng/api";
 @Component({
-    selector: 'app-visite-boutique',
+    selector: 'app-visite-boutique-client',
     standalone: true,
     imports: [RouterModule, CommonModule, FormsModule],
     providers: [MessageService],
@@ -490,7 +490,7 @@ import { MessageService } from "primeng/api";
 
     `]
 })
-export class VisiteBoutique implements OnInit {
+export class VisiteBoutiqueClient implements OnInit {
 
     boutique: any = null;
     baseUrl = 'http://localhost:5000';

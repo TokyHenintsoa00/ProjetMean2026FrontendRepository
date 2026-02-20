@@ -26,6 +26,8 @@ import { viewDetailDemandeBoutique } from '@/pages/administrateur/gestionBoutiqu
 import { VoirAllBoutique } from '@/pages/landing/voirAllBoutique';
 import { resetPassword } from '@/pages/auth/resetPassword';
 import { VisiteBoutique } from '@/pages/landing/VisiteBoutique';
+import { VoirAllBoutiqueClient } from '@/pages/client/voirAllBoutiqueClient';
+import { VisiteBoutiqueClient } from '@/pages/client/VisiteBoutique';
 
 
 export const appRoutes: Routes = [
@@ -34,8 +36,10 @@ export const appRoutes: Routes = [
     {path:'membre/client',component:LandingClient},
     {path:'logIn',component:Login},
     {path:'allboutique',component:VoirAllBoutique},
+    {path:'allboutiqueClient',component:VoirAllBoutiqueClient},
     {path:'administrator/logIn',component:LoginAdmin},
-     {path:'visiteBoutique/:id',component:VisiteBoutique},
+    {path:'visiteBoutique/:id',component:VisiteBoutique},
+    {path:'visiteBoutiqueClien/:id',component:VisiteBoutiqueClient},
     {path:'signUp',component:SignUp},
     {path:'forgotPassword',component:forgotPassword},
     {path:'reset-password',component:resetPassword},
