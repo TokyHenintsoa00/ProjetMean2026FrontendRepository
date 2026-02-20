@@ -107,6 +107,7 @@ import { AppFloatingConfigurator } from '@/layout/component/app.floatingconfigur
 
       <!-- Items -->
       <ul class="dropdown-list">
+      
         <li class="dropdown-item" (click)="navigateToProfile()">
           <i class="pi pi-user"></i>
           <span>Mon Profil</span>

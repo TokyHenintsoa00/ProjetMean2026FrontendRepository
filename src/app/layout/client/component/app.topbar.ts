@@ -219,10 +219,16 @@ import { HostListener } from '@angular/core';
 
           <!-- Items -->
           <ul class="dropdown-list">
+            <li class="dropdown-item" (click)="navigateToHome()">
+              <i class="pi pi-home"></i>
+              <span>Acceuil</span>
+            </li>
+
             <li class="dropdown-item" (click)="navigateToProfile()">
               <i class="pi pi-user"></i>
               <span>Mon Profil</span>
             </li>
+            
             <li class="dropdown-item" (click)="navigateToSettings()">
               <i class="pi pi-cog"></i>
               <span>Paramètres</span>
@@ -680,6 +686,11 @@ navigateToSettings() {
   
   this.closeDropdown();
   //this.router.navigate(['/info/client/parametres']);
+}
+
+navigateToHome()
+{
+  this.router.navigate(['/membre/client'])
 }
 
 logout() {
