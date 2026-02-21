@@ -31,7 +31,7 @@ import { VisiteBoutiqueClient } from '@/pages/client/VisiteBoutiqueClient';
 import { authGuard, clientGuard , managerGuard } from '@/linkSecure/auth.guard';
 import { AppLayoutClient } from '@/layout/client/component/app.layout';
 import { PanierClient } from '@/pages/client/PanierClient';
-
+import { promotionBoutique } from '@/pages/boutique/gestionBoutique/promotionBoutique/promotionBoutique';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
@@ -59,7 +59,8 @@ export const appRoutes: Routes = [
             { path:'mesProduits', component: MesProduits },
             { path:'mesPrix', component: MesPrix },
             { path:'monStock', component: MonStock },
-            { path:'gestionMaBoutique', component: GestionMaBoutique }
+            { path:'gestionMaBoutique', component: GestionMaBoutique },
+            { path:'gestion/promotion', component: promotionBoutique },
     ]},
     
     {

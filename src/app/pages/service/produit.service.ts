@@ -97,8 +97,8 @@ export class ProduitService {
         });
     }
 
-    removeFromPanier()
-    {
-        
+        // --- Promotions ---
+    savePromotion(body: any): Observable<any> {
+        return this.http.post(`${this.apiUrl}/promotion`, body, { withCredentials: true });
     }
 }
