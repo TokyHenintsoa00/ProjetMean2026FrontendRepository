@@ -44,12 +44,15 @@ import { InputNumberModule } from 'primeng/inputnumber';
     </div>
 
     <!-- Loader -->
-    <div *ngIf="loading" class="loading-container">
+    @if (loading) {
+    <div class="loading-container">
         <i class="pi pi-spin pi-spinner" style="font-size: 3rem; color: var(--primary-color);"></i>
         <p>Chargement du profil...</p>
     </div>
+    }
 
-    <div *ngIf="!loading && userData">
+    @if (!loading && userData) {
+    <div>
 
         <!-- ===== LIGNE 1 : Info Manager + Info Boutique ===== -->
         <div class="top-row">
@@ -66,10 +69,13 @@ import { InputNumberModule } from 'primeng/inputnumber';
 
                 <div class="avatar-section">
                     <div class="avatar-container">
-                        <img *ngIf="userData.avatar" [src]="userData.avatar" alt="Avatar" class="avatar-large">
-                        <div *ngIf="!userData.avatar" class="avatar-placeholder-large">
-                            <i class="pi pi-user"></i>
-                        </div>
+                        @if (userData.avatar) {
+                            <img [src]="userData.avatar" alt="Avatar" class="avatar-large">
+                        } @else {
+                            <div class="avatar-placeholder-large">
+                                <i class="pi pi-user"></i>
+                            </div>
+                        }
                     </div>
                     <div class="user-name-section">
                         <h3>{{ userData.prenom }} {{ userData.nom }}</h3>
@@ -88,10 +94,12 @@ import { InputNumberModule } from 'primeng/inputnumber';
                         <div class="info-label"><i class="pi pi-phone"></i> Téléphone</div>
                         <div class="info-value">{{ userData.telephone }}</div>
                     </div>
-                    <div class="info-row" *ngIf="userData.createdAt">
+                    @if (userData.createdAt) {
+                    <div class="info-row">
                         <div class="info-label"><i class="pi pi-calendar"></i> Membre depuis</div>
                         <div class="info-value">{{ userData.createdAt | date: 'dd/MM/yyyy' }}</div>
                     </div>
+                    }
                 </div>
 
                 <div class="action-buttons">
@@ -103,7 +111,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
             </div>
 
             <!-- Card Info Boutique -->
-            <div class="shop-info-card" *ngIf="boutique">
+            @if (boutique) {
+            <div class="shop-info-card">
                 <div class="card-header-custom">
                     <h2><i class="pi pi-shopping-bag"></i> Informations de la Boutique</h2>
                 </div>
@@ -136,13 +145,15 @@ import { InputNumberModule } from 'primeng/inputnumber';
                             <span class="info-card-value">{{ boutique.categorie }}</span>
                         </div>
                     </div>
-                    <div class="info-card" *ngIf="boutique.created">
+                    @if (boutique.created) {
+                    <div class="info-card">
                         <div class="info-card-icon date"><i class="pi pi-calendar-plus"></i></div>
                         <div class="info-card-content">
                             <span class="info-card-label">Créée le</span>
                             <span class="info-card-value">{{ boutique.created | date: 'dd/MM/yyyy' }}</span>
                         </div>
                     </div>
+                    }
                     <div class="info-card">
                         <div class="info-card-icon status"><i class="pi pi-circle-fill"></i></div>
                         <div class="info-card-content">
@@ -154,49 +165,57 @@ import { InputNumberModule } from 'primeng/inputnumber';
                     </div>
                 </div>
 
-                <div class="shop-description" *ngIf="boutique.description">
+                @if (boutique.description) {
+                <div class="shop-description">
                     <h4><i class="pi pi-info-circle"></i> Description</h4>
                     <p>{{ boutique.description }}</p>
                 </div>
+                }
             </div>
+            }
+
         </div>
 
         <!-- ===== LIGNE 2 : Horaires pleine largeur ===== -->
-        <div class="horaires-card" *ngIf="boutique?.horaires && boutique.horaires.length > 0">
+        @if (boutique?.horaires && boutique.horaires.length > 0) {
+        <div class="horaires-card">
             <div class="card-header-custom">
                 <h2><i class="pi pi-clock"></i> Horaires d'ouverture</h2>
             </div>
             <div class="horaires-grid">
-                <div *ngFor="let h of boutique.horaires"
-                    class="horaire-item"
-                    [class.ferme]="h.est_ferme">
+                @for (h of boutique.horaires; track h.jour) {
+                <div class="horaire-item" [class.ferme]="h.est_ferme">
                     <div class="horaire-jour">
                         <span class="jour-dot" [class.open]="!h.est_ferme" [class.closed]="h.est_ferme"></span>
                         <span class="jour-label">{{ h.jour }}</span>
                     </div>
                     <div class="horaire-time">
-                        <ng-container *ngIf="!h.est_ferme">
+                        @if (!h.est_ferme) {
                             <span class="time-badge open-time">{{ h.ouverture }}</span>
                             <span class="time-separator">—</span>
                             <span class="time-badge close-time">{{ h.fermeture }}</span>
-                        </ng-container>
-                        <ng-container *ngIf="h.est_ferme">
+                        } @else {
                             <span class="ferme-badge">Fermé</span>
-                        </ng-container>
+                        }
                     </div>
                 </div>
+                }
             </div>
         </div>
+        }
 
     </div>
+    }
 
     <!-- No data -->
-    <div *ngIf="!loading && !userData" class="no-data">
+    @if (!loading && !userData) {
+    <div class="no-data">
         <i class="pi pi-exclamation-triangle"></i>
         <h3>Aucune donnée trouvée</h3>
         <p>Impossible de charger les informations du profil</p>
         <button pButton type="button" label="Retour" icon="pi pi-arrow-left" (click)="goBack()"></button>
     </div>
+    }
 </div>
 
 <!-- Dialog loyer / location -->
@@ -244,14 +263,14 @@ import { InputNumberModule } from 'primeng/inputnumber';
     `,
     styles: [`
 :host {
-    --primary-color: #10b981;
-    --primary-dark: #059669;
+    --primary-color: #f59e0b;
+    --primary-dark: #d97706;
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
     --bg-primary: #ffffff;
     --bg-secondary: #f9fafb;
-    --bg-hover: #f0fdfa;
+    --bg-hover: #fffbeb;
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --text-light: #9ca3af;
@@ -300,7 +319,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     border-radius: 1.5rem;
     box-shadow: var(--shadow-xl);
     padding: 2rem;
-    border: 1px solid rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.08);
     transition: all 0.3s ease;
 }
 
@@ -322,8 +341,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 .status-badge.inactive { background: linear-gradient(135deg, #fee2e2, #fecaca); color: #991b1b; }
 
 .avatar-section { display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; }
-.avatar-large { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-color); box-shadow: 0 8px 20px rgba(16,185,129,0.3); }
-.avatar-placeholder-large { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 8px 20px rgba(16,185,129,0.3); }
+.avatar-large { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-color); box-shadow: 0 8px 20px rgba(245,158,11,0.3); }
+.avatar-placeholder-large { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 8px 20px rgba(245,158,11,0.3); }
 .user-name-section h3 { font-size: 1.75rem; font-weight: 800; color: var(--text-primary); margin: 0 0 0.5rem 0; }
 .user-role { color: var(--text-secondary); font-size: 1rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; margin: 0; }
 .user-role i { color: var(--primary-color); }
@@ -345,8 +364,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 .rating-value { color: var(--text-secondary); font-weight: 600; font-size: 0.875rem; }
 
 .shop-info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
-.info-card { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: linear-gradient(135deg, #f0fdfa, #ecfdf5); border-radius: 1rem; border: 2px solid rgba(16,185,129,0.1); transition: all 0.3s ease; }
-.info-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: rgba(16,185,129,0.3); }
+.info-card { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: linear-gradient(135deg, #fffbeb, #fef3c7); border-radius: 1rem; border: 2px solid rgba(245,158,11,0.1); transition: all 0.3s ease; }
+.info-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: rgba(245,158,11,0.3); }
 .info-card-icon { width: 50px; height: 50px; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; flex-shrink: 0; }
 .info-card-icon.location { background: linear-gradient(135deg, #f59e0b, #d97706); }
 .info-card-icon.category { background: linear-gradient(135deg, #06b6d4, #0891b2); }
@@ -375,9 +394,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
     align-items: center;
     gap: 0.75rem;
     padding: 1.25rem 0.5rem;
-    background: linear-gradient(135deg, #f0fdfa, #f9fafb);
+    background: linear-gradient(135deg, #fffbeb, #f9fafb);
     border-radius: 1rem;
-    border: 2px solid rgba(16, 185, 129, 0.1);
+    border: 2px solid rgba(245, 158, 11, 0.1);
     transition: all 0.2s ease;
     text-align: center;
 }
@@ -385,7 +404,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 .horaire-item:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-md);
-    border-color: rgba(16, 185, 129, 0.35);
+    border-color: rgba(245, 158, 11, 0.35);
 }
 
 .horaire-item.ferme {
@@ -397,7 +416,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 .horaire-jour { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
 
 .jour-dot { width: 10px; height: 10px; border-radius: 50%; }
-.jour-dot.open { background: var(--primary-color); box-shadow: 0 0 0 3px rgba(16,185,129,0.2); }
+.jour-dot.open { background: var(--primary-color); box-shadow: 0 0 0 3px rgba(245,158,11,0.2); }
 .jour-dot.closed { background: var(--danger-color); box-shadow: 0 0 0 3px rgba(239,68,68,0.2); }
 
 .jour-label { font-weight: 700; color: var(--text-primary); font-size: 0.9rem; }
@@ -418,28 +437,28 @@ import { InputNumberModule } from 'primeng/inputnumber';
 .no-data p { color: var(--text-secondary); margin: 0 0 2rem 0; }
 
 /* Dialog */
-::ng-deep .p-dialog { border-radius: 16px; box-shadow: 0 10px 40px rgba(34,197,94,0.15); border: 1px solid #e8f5e9; }
-::ng-deep .p-dialog-header { background: #22c55e; color: white; border-radius: 16px 16px 0 0; padding: 1.5rem 2rem; font-size: 1.2rem; font-weight: 600; }
+::ng-deep .p-dialog { border-radius: 16px; box-shadow: 0 10px 40px rgba(245,158,11,0.15); border: 1px solid #fef3c7; }
+::ng-deep .p-dialog-header { background: #f59e0b; color: white; border-radius: 16px 16px 0 0; padding: 1.5rem 2rem; font-size: 1.2rem; font-weight: 600; }
 ::ng-deep .p-dialog-header-icon { color: white; }
 ::ng-deep .p-dialog-header-icon:hover { background-color: rgba(255,255,255,0.2); }
 ::ng-deep .p-dialog-content { padding: 2rem; background: white; }
 .dialog-content { display: flex; flex-direction: column; gap: 1.5rem; }
-.dialog-description { display: flex; align-items: center; gap: 0.75rem; color: #166534; font-size: 0.95rem; margin: 0; padding: 1rem; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #22c55e; }
-.dialog-description i { font-size: 1.25rem; color: #22c55e; flex-shrink: 0; }
+.dialog-description { display: flex; align-items: center; gap: 0.75rem; color: #92400e; font-size: 0.95rem; margin: 0; padding: 1rem; background: #fffbeb; border-radius: 8px; border-left: 4px solid #f59e0b; }
+.dialog-description i { font-size: 1.25rem; color: #f59e0b; flex-shrink: 0; }
 .form-grid { display: flex; flex-direction: column; gap: 1.5rem; }
 .form-field { display: flex; flex-direction: column; gap: 0.5rem; }
-.field-label { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #166534; font-size: 0.95rem; }
-.field-label i { color: #22c55e; font-size: 1.1rem; }
-::ng-deep .p-inputtext, ::ng-deep .p-inputnumber-input { border-radius: 8px; border: 2px solid #d1fae5; padding: 0.75rem 1rem; font-size: 0.95rem; transition: all 0.2s ease; }
-::ng-deep .p-inputtext:focus, ::ng-deep .p-inputnumber-input:focus { border-color: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.1); }
+.field-label { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #92400e; font-size: 0.95rem; }
+.field-label i { color: #f59e0b; font-size: 1.1rem; }
+::ng-deep .p-inputtext, ::ng-deep .p-inputnumber-input { border-radius: 8px; border: 2px solid #fef3c7; padding: 0.75rem 1rem; font-size: 0.95rem; transition: all 0.2s ease; }
+::ng-deep .p-inputtext:focus, ::ng-deep .p-inputnumber-input:focus { border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.1); }
 ::ng-deep .p-inputnumber-input { width: 100%; }
-.dialog-footer { display: flex; justify-content: flex-end; gap: 0.75rem; padding: 1.5rem 2rem; background: #f9fafb; border-radius: 0 0 16px 16px; margin: 1.5rem -2rem -2rem -2rem; border-top: 1px solid #e8f5e9; }
+.dialog-footer { display: flex; justify-content: flex-end; gap: 0.75rem; padding: 1.5rem 2rem; background: #f9fafb; border-radius: 0 0 16px 16px; margin: 1.5rem -2rem -2rem -2rem; border-top: 1px solid #fef3c7; }
 ::ng-deep .p-dialog-footer { padding: 0; border: none; }
 ::ng-deep .p-button { border-radius: 8px; padding: 0.75rem 1.5rem; font-weight: 600; font-size: 0.95rem; }
-::ng-deep .p-button-success { background: #22c55e; border: none; color: white; }
-::ng-deep .p-button-success:hover { background: #16a34a; transform: translateY(-1px); }
-::ng-deep .p-button-outlined { border: 2px solid #d1fae5; color: #166534; background: white; }
-::ng-deep .p-button-outlined:hover { background: #f0fdf4; }
+::ng-deep .p-button-success { background: #f59e0b; border: none; color: white; }
+::ng-deep .p-button-success:hover { background: #d97706; transform: translateY(-1px); }
+::ng-deep .p-button-outlined { border: 2px solid #fef3c7; color: #92400e; background: white; }
+::ng-deep .p-button-outlined:hover { background: #fffbeb; }
 
 .w-full { width: 100%; }
 

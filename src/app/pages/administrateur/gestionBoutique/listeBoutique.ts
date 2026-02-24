@@ -151,15 +151,13 @@ interface expandedRows {
             <tr class="clickable-row">
                 <td (click)="viewProfile(shop)">
                     <div class="manager-cell">
-                        <img *ngIf="shop.avatar"
-                            [src]="shop.avatar"
-                            width="40"
-                            height="40"
-                            class="avatar-img"
-                            alt="Avatar">
-                        <div *ngIf="!shop.avatar" class="avatar-placeholder">
-                            <i class="pi pi-user"></i>
-                        </div>
+                        @if (shop.avatar) {
+                            <img [src]="shop.avatar" width="40" height="40" class="avatar-img" alt="Avatar">
+                        } @else {
+                            <div class="avatar-placeholder">
+                                <i class="pi pi-user"></i>
+                            </div>
+                        }
                         <span>{{ shop.managerName }}</span>
                     </div>
                 </td>
@@ -169,7 +167,12 @@ interface expandedRows {
                 </td>
                 
                 <td (click)="viewProfile(shop)">
-                    <span class="category-badge">{{ shop.categorie }}</span>
+                    @for (cat of shop.categorieList; track cat) {
+                        <span class="category-badge" style="margin-right:4px;">{{ cat }}</span>
+                    }
+                    @if (shop.categorieList.length === 0) {
+                        <span class="category-badge">Non défini</span>
+                    }
                 </td>
                 
                 <td (click)="viewProfile(shop)">
@@ -205,30 +208,30 @@ interface expandedRows {
    styles: [`
 
     /* ============================================
-   VARIABLES DU THÈME - TURQUOISE/TEAL
+   VARIABLES DU THÈME - AMBER
    ============================================ */
 :host {
-    --primary-color: #10b981;
-    --primary-light: #34d399;
-    --primary-dark: #059669;
-    --primary-darker: #047857;
+    --primary-color: #f59e0b;
+    --primary-light: #fbbf24;
+    --primary-dark: #d97706;
+    --primary-darker: #b45309;
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
-    --info-color: #14b8a6;
-    
+    --info-color: #0369a1;
+
     --bg-primary: #ffffff;
     --bg-secondary: #f9fafb;
-    --bg-hover: #f0fdfa;
+    --bg-hover: #fffbeb;
     --bg-input: #f8fafc;
-    
+
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --text-light: #9ca3af;
-    
+
     --border-color: #e5e7eb;
     --border-color-light: #f3f4f6;
-    
+
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -246,7 +249,7 @@ interface expandedRows {
     padding: 2.5rem;
     transition: all 0.3s ease;
     animation: fadeInUp 0.5s ease;
-    border: 1px solid rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.08);
 }
 
 @keyframes fadeInUp {
@@ -323,10 +326,10 @@ interface expandedRows {
     flex-wrap: wrap;
     gap: 1.25rem;
     padding: 1.5rem 2rem;
-    background: linear-gradient(135deg, #f0fdfa 0%, #d1fae5 100%);
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
     border-radius: 1rem;
     margin-bottom: 1.5rem;
-    border: 2px solid rgba(16, 185, 129, 0.15);
+    border: 2px solid rgba(245, 158, 11, 0.15);
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
@@ -451,15 +454,15 @@ interface expandedRows {
 }
 
 .search-input:hover {
-    border-color: rgba(16, 185, 129, 0.3);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    border-color: rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
 }
 
 .search-input:focus {
     border-color: var(--primary-color);
     outline: none;
-    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15),
-                0 4px 16px rgba(16, 185, 129, 0.2);
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15),
+                0 4px 16px rgba(245, 158, 11, 0.2);
     transform: translateY(-1px);
 }
 
@@ -505,7 +508,7 @@ interface expandedRows {
    EN-TÊTES DE COLONNES
    ============================================ */
 ::ng-deep .custom-table .p-datatable-thead > tr > th {
-    background: linear-gradient(to bottom, #f0fdfa, #d1fae5) !important;
+    background: linear-gradient(to bottom, #fffbeb, #fef3c7) !important;
     color: var(--text-primary) !important;
     border-bottom: 3px solid var(--primary-color) !important;
     padding: 1rem !important;
@@ -560,15 +563,15 @@ interface expandedRows {
 }
 
 ::ng-deep .custom-table .p-datatable-thead > tr > th input[pInputText]:hover {
-    border-color: rgba(16, 185, 129, 0.4);
-    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.1);
+    border-color: rgba(245, 158, 11, 0.4);
+    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.1);
 }
 
 ::ng-deep .custom-table .p-datatable-thead > tr > th input[pInputText]:focus {
     border-color: var(--primary-color);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15),
-                0 2px 8px rgba(16, 185, 129, 0.15);
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15),
+                0 2px 8px rgba(245, 158, 11, 0.15);
     background: var(--bg-primary);
     transform: scale(1.02);
 }
@@ -594,9 +597,9 @@ interface expandedRows {
 }
 
 ::ng-deep .custom-table .p-datatable-tbody > tr:hover {
-    background: linear-gradient(to right, #ecfdf5, var(--bg-primary)) !important;
+    background: linear-gradient(to right, #fffbeb, var(--bg-primary)) !important;
     transform: translateX(5px);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
     border-left-color: var(--primary-color);
 }
 
@@ -682,14 +685,14 @@ interface expandedRows {
     background: var(--primary-color) !important;
     color: white !important;
     transform: scale(1.15);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3) !important;
 }
 
 /* ============================================
    PAGINATION
    ============================================ */
 ::ng-deep .custom-table .p-paginator {
-    background: linear-gradient(to bottom, #f0fdfa, #d1fae5) !important;
+    background: linear-gradient(to bottom, #fffbeb, #fef3c7) !important;
     color: var(--text-primary) !important;
     border-top: 2px solid var(--primary-color) !important;
     border-bottom: 1px solid var(--border-color-light) !important;
@@ -718,7 +721,7 @@ interface expandedRows {
 ::ng-deep .custom-table .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)) !important;
     color: white !important;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
     transform: scale(1.1);
 }
 
@@ -832,7 +835,8 @@ export class ListeBoutique {
                     this.boutique = data.map((shop: any) => ({
                     id: shop._id,
                     name: shop.nom_boutique,
-                    categorie: shop.id_categorie?.nom || 'Non défini',
+                    categorie: shop.id_categorie?.map((c: any) => c.nom).join(', ') || 'Non défini',
+                    categorieList: shop.id_categorie?.map((c: any) => c.nom) || [],
                     location: shop.location || 'Non défini',
                     rating: shop.rating || 0,
                 
