@@ -1204,12 +1204,10 @@ interface Horaire {
         </svg>
         <span class="brand-name">ShopMall</span>
       </div>
-      <button (click)="goHome()" class="back-btn">
-        <span class="back-btn-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        </span>
-        <span class="back-btn-label">Retour</span>
-      </button>
+      <a (click)="goHome()" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Retour
+      </a>
     </div>
   </header>
 
@@ -1744,50 +1742,6 @@ interface Horaire {
   .page-content { padding: 2rem 1rem 4rem; }
   .top-bar-inner { max-width: 100%; }
 }
-
-
-.back-btn {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 7px 14px 7px 10px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 30px;
-  cursor: pointer;
-  color: rgba(255,255,255,0.55);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.76rem;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
-  backdrop-filter: blur(8px);
-}
-.back-btn:hover {
-  background: rgba(255,255,255,0.11);
-  border-color: rgba(255,255,255,0.2);
-  color: rgba(255,255,255,0.9);
-  transform: translateX(-2px);
-}
-.back-btn-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.1);
-  flex-shrink: 0;
-  transition: background 0.2s;
-}
-.back-btn:hover .back-btn-icon {
-  background: rgba(255,255,255,0.15);
-}
-.back-btn-label {
-  white-space: nowrap;
-}
-
 </style>`
 })
 export class demandeBoutique {

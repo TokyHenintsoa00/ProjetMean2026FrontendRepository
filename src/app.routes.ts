@@ -6,7 +6,7 @@ import { Landing } from './app/pages/landing/landing';
 import { Notfound } from './app/pages/notfound/notfound';
 import { Login } from '@/pages/auth/login';
 import { SignUp } from '@/pages/auth/signup';
-import { LandingClient } from '@/pages/client/landingClientMembre/landingClient';
+import { LandingClient } from '@/pages/client/landingClientMembre/landing';
 import { forgotPassword } from '@/pages/auth/forgotPassword';
 import { Component } from '@angular/core';
 import { BoutiqueDashboard } from '@/pages/boutique/dashboard/boutiquedashboard';
@@ -26,32 +26,20 @@ import { viewDetailDemandeBoutique } from '@/pages/administrateur/gestionBoutiqu
 import { VoirAllBoutique } from '@/pages/landing/voirAllBoutique';
 import { resetPassword } from '@/pages/auth/resetPassword';
 import { VisiteBoutique } from '@/pages/landing/VisiteBoutique';
-import { VoirAllBoutiqueClient } from '@/pages/client/voirAllBoutiqueClient';
-import { VisiteBoutiqueClient } from '@/pages/client/VisiteBoutiqueClient';
-import { authGuard, clientGuard , managerGuard } from '@/linkSecure/auth.guard';
-import { AppLayoutClient } from '@/layout/client/component/app.layout';
-import { PanierClient } from '@/pages/client/PanierClient';
-import { promotionBoutique } from '@/pages/boutique/gestionBoutique/promotionBoutique/promotionBoutique';
+
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
     //{ path: 'landing', component: Landing },
-    {path:'membre/client',component:LandingClient,canActivate:[clientGuard]},
+    {path:'membre/client',component:LandingClient},
     {path:'logIn',component:Login},
     {path:'allboutique',component:VoirAllBoutique},
-    {path:'client/allboutiqueClient',component:VoirAllBoutiqueClient},
     {path:'administrator/logIn',component:LoginAdmin},
-    {path:'visiteBoutique/:id',component:VisiteBoutique},
-    {path:'client/visiteBoutiqueClient/:id',component:VisiteBoutiqueClient},
+     {path:'visiteBoutique/:id',component:VisiteBoutique},
     {path:'signUp',component:SignUp},
     {path:'forgotPassword',component:forgotPassword},
     {path:'reset-password',component:resetPassword},
     {path:'demandeBoutiqueClient',component:demandeBoutique},
-    {path:'info/client',
-        component:AppLayoutClient,
-        children:[
-            {path:'panier',component:PanierClient}
-    ]},
     {path: 'boutique/home',
         component: AppLayout,
         children: [
@@ -59,8 +47,7 @@ export const appRoutes: Routes = [
             { path:'mesProduits', component: MesProduits },
             { path:'mesPrix', component: MesPrix },
             { path:'monStock', component: MonStock },
-            { path:'gestionMaBoutique', component: GestionMaBoutique },
-            { path:'gestion/promotion', component: promotionBoutique },
+            { path:'gestionMaBoutique', component: GestionMaBoutique }
     ]},
     
     {

@@ -615,7 +615,7 @@ export class Login {
 
     login()
     {
-        //console.log("clique login");
+        console.log("clique login");
         const logUser = {
             email:this.loginUser.email,
             pwd:this.loginUser.pwd,
