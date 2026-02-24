@@ -15,6 +15,7 @@ import { ToastModule } from 'primeng/toast';
 import { TagModule } from 'primeng/tag';
 import { ProduitService } from '@/pages/service/produit.service';
 import { CategorieService } from '@/pages/service/categorie.service';
+import { PromotionService } from '@/pages/service/promotion.service';
 import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-categorie/cascade-categorie';
 
 @Component({
@@ -101,8 +102,17 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
                         <span *ngIf="!produit.attributs || produit.attributs.length === 0" class="text-400 text-sm">-</span>
                     </td>
                     <td>
-                        <p-tag [value]="(produit.variantes?.length || 0) + ' variante(s)'"
-                               severity="info"></p-tag>
+                        <div style="display:flex;flex-direction:column;gap:0.3rem;align-items:flex-start;">
+                            <p-tag [value]="(produit.variantes?.length || 0) + ' variante(s)'"
+                                   severity="info"></p-tag>
+                            <ng-container *ngIf="getPromoForProduit(produit._id) as promo">
+                                <div class="mp-promo-tag">
+                                    <i class="pi pi-percentage" style="font-size:0.65rem;"></i>
+                                    {{ promo.nom }} —
+                                    {{ promo.type_reduction === 'pourcentage' ? ('-' + promo.valeur_reduction + '%') : ('-' + promo.valeur_reduction + ' DT') }}
+                                </div>
+                            </ng-container>
+                        </div>
                     </td>
                     <td>
                         <div class="flex gap-1">
@@ -131,6 +141,16 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
             </ng-template>
         </p-table>
     </div>
+
+    <style>
+    .mp-promo-tag {
+        display:inline-flex; align-items:center; gap:0.3rem;
+        background:#fef3c7; color:#b45309;
+        font-size:0.7rem; font-weight:700;
+        padding:0.15rem 0.6rem; border-radius:10px;
+        border:1px solid #fcd34d;
+    }
+    </style>
 
     <!-- =============================================
          DIALOG 1 : Creer / Modifier le modele produit
@@ -283,7 +303,7 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
                             </td>
                             <td>
                                 <span *ngIf="v.historique_prix && v.historique_prix.length > 0">
-                                    {{ getPrixActuel(v) | number:'1.0-0' }} Ar
+                                    {{ getPrixActuel(v) | number:'1.0-0' }} {{ getDeviseActuel(v) }}
                                 </span>
                                 <span *ngIf="!v.historique_prix || v.historique_prix.length === 0" class="text-400">-</span>
                             </td>
@@ -319,10 +339,15 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
                         </div>
                     </div>
 
-                    <!-- Prix et stock initiaux -->
-                    <div class="flex gap-3 mb-3">
+                    <!-- Prix, devise et stock initiaux -->
+                    <div class="flex gap-3 mb-3 flex-wrap">
                         <div class="flex flex-col gap-1">
-                            <label class="text-sm font-semibold text-700">Prix HT initial (Ar)</label>
+                            <label class="text-sm font-semibold text-700">Devise</label>
+                            <p-select [options]="deviseOptions" [(ngModel)]="newVarianteDevise"
+                                      optionLabel="label" optionValue="value" styleClass="w-10rem"></p-select>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-sm font-semibold text-700">Prix HT initial</label>
                             <input pInputText type="number" [(ngModel)]="newVariantePrix" placeholder="0" class="w-10rem" />
                         </div>
                         <div class="flex flex-col gap-1">
@@ -368,6 +393,14 @@ export class MesProduits implements OnInit {
     newImagePreviews: string[] = [];
     imagesToDelete: string[] = [];
 
+    deviseOptions = [
+        { label: 'DT — Dinar Tunisien', value: 'DT' },
+        { label: 'EUR — Euro', value: 'EUR' },
+        { label: 'USD — Dollar US', value: 'USD' },
+        { label: 'MAD — Dirham Marocain', value: 'MAD' },
+        { label: 'DZD — Dinar Algérien', value: 'DZD' }
+    ];
+
     // Dialog 2 : Variantes
     varianteDialog = false;
     varianteProduit: any = null;
@@ -375,18 +408,31 @@ export class MesProduits implements OnInit {
     newVarianteSelection: { [key: string]: string } = {};
     newVarianteRef = '';
     newVariantePrix: number | null = null;
+    newVarianteDevise = 'DT';
     newVarianteStock = 0;
+
+    myActivePromos: any[] = [];
 
     constructor(
         private produitService: ProduitService,
         private categorieService: CategorieService,
         private confirmationService: ConfirmationService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private promotionService: PromotionService
     ) {}
 
     ngOnInit() {
         this.loadProduits();
         this.loadCategorieTree();
+        this.promotionService.getMyPromotions().subscribe({
+            next: (promos) => {
+                const now = new Date();
+                this.myActivePromos = promos.filter(p =>
+                    p.actif && new Date(p.date_debut) <= now && new Date(p.date_fin) >= now
+                );
+            },
+            error: () => {}
+        });
     }
 
     loadProduits() {
@@ -559,6 +605,7 @@ export class MesProduits implements OnInit {
         this.newVarianteSelection = {};
         this.newVarianteRef = '';
         this.newVariantePrix = null;
+        this.newVarianteDevise = 'DT';
         this.newVarianteStock = 0;
         this.varianteDialog = true;
     }
@@ -576,7 +623,8 @@ export class MesProduits implements OnInit {
             combinaison,
             reference: this.newVarianteRef,
             stock: this.newVarianteStock || 0,
-            prix_hors_taxe: this.newVariantePrix
+            prix_hors_taxe: this.newVariantePrix,
+            devise: this.newVarianteDevise || 'DT'
         }).subscribe({
             next: (res) => {
                 // Mettre a jour le produit local
@@ -586,6 +634,7 @@ export class MesProduits implements OnInit {
                 this.newVarianteSelection = {};
                 this.newVarianteRef = '';
                 this.newVariantePrix = null;
+                this.newVarianteDevise = 'DT';
                 this.newVarianteStock = 0;
                 this.savingVariante = false;
                 this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Variante ajoutee', life: 3000 });
@@ -620,6 +669,20 @@ export class MesProduits implements OnInit {
             (a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
         return sorted[0].prix_hors_taxe;
+    }
+
+    getDeviseActuel(variante: any): string {
+        if (!variante.historique_prix || variante.historique_prix.length === 0) return 'DT';
+        const sorted = [...variante.historique_prix].sort(
+            (a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+        return sorted[0].devise || 'DT';
+    }
+
+    getPromoForProduit(produitId: string): any | null {
+        return this.myActivePromos.find(promo =>
+            promo.produits && promo.produits.some((p: any) => (p._id || p) === produitId)
+        ) || null;
     }
 
     getCategorieLabel(cats: any[]): string {

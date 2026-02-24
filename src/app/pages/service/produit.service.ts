@@ -56,12 +56,26 @@ export class ProduitService {
 
     // --- Prix ---
 
-    setPrix(produitId: string, varianteId: string, body: { prix_hors_taxe: number, prix_ttc?: number }): Observable<any> {
+    setPrix(produitId: string, varianteId: string, body: { prix_hors_taxe: number, prix_ttc?: number, devise?: string }): Observable<any> {
         return this.http.post(`${this.apiUrl}/prix/set/${produitId}/${varianteId}`, body, { withCredentials: true });
     }
 
     getPrixHistory(produitId: string, varianteId: string): Observable<any> {
         return this.http.get(`${this.apiUrl}/prix/history/${produitId}/${varianteId}`, { withCredentials: true });
+    }
+
+    // --- Public (pas d'auth) ---
+
+    getPublicProducts(params?: any): Observable<any> {
+        return this.http.get(`${this.apiUrl}/public/all`, { params });
+    }
+
+    getPublicProductById(id: string): Observable<any> {
+        return this.http.get(`${this.apiUrl}/public/${id}`);
+    }
+
+    getProductsByBoutique(boutiqueId: string): Observable<any> {
+        return this.http.get(`${this.apiUrl}/public/by-boutique/${boutiqueId}`);
     }
 
     // --- Stock ---

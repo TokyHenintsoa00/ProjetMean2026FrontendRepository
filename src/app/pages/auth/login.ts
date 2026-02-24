@@ -635,7 +635,7 @@ export class Login {
                             if (role._id === '697b0d46b784b5da2ab3ba24') {
                                 console.log("navigate client");
                                 
-                                this.router.navigate(['/membre/client'])
+                                this.router.navigate(['/client'])
                             } else if(role._id === '697b0d19b784b5da2ab3ba22') {
                                 console.log("nagivate manager boutique");
                                 

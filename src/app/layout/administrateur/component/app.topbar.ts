@@ -140,6 +140,7 @@ import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { AppFloatingConfigurator } from '@/layout/component/app.floatingconfigurator';
 import { LayoutService } from '@/layout/service/layout.service';
+import { AuthService } from '@/pages/service/auth.service';
 
 @Component({
     selector: 'app-topbar',
@@ -404,6 +405,7 @@ export class AppTopbar {
 
     layoutService = inject(LayoutService);
     router        = inject(Router);
+    authService   = inject(AuthService);
 
     getProfileMenuItems(): MenuItem[] {
         return [
@@ -421,10 +423,7 @@ export class AppTopbar {
             {
                 label: 'Déconnexion',
                 icon: 'pi pi-sign-out',
-                command: () => {
-                    // this.authService.logout();
-                    this.router.navigate(['/']);
-                }
+                command: () => this.authService.logout()
             }
         ];
     }

@@ -514,6 +514,12 @@ export class AppMenu {
                     { label: 'Liste des boutiques',          icon: 'pi pi-list',     routerLink: ['/admin/home/listeBoutique'] },
                     { label: 'Validation de nouveaux',       icon: 'pi pi-verified', routerLink: ['/admin/home/validationBoutique'] },
                 ]
+            },
+            {
+                label: 'Commandes',
+                items: [
+                    { label: 'Toutes les commandes', icon: 'pi pi-shopping-bag', routerLink: ['/admin/home/commandes'] }
+                ]
             }
         ];
     }
