@@ -232,13 +232,9 @@ import { filter } from 'rxjs/operators';
 
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
-
 /* ── RESET FOND BLANC SAKAI ── */
 ::ng-deep .layout-sidebar {
-  background: rgba(15, 22, 30, 0.95) !important;
-  backdrop-filter: blur(20px) saturate(160%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  background: #0f172a !important;
   border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
   box-shadow: none !important;
 }
@@ -254,31 +250,7 @@ import { filter } from 'rxjs/operators';
   flex-direction: column;
   height: 100%;
   background: transparent;
-  font-family: 'DM Sans', sans-serif;
   overflow: hidden;
-  animation: sidebarIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-@keyframes sidebarIn {
-  from { opacity: 0; transform: translateX(-12px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-/* Glow line on right edge */
-.sidebar-glow {
-  position: absolute;
-  top: 0; right: 0; bottom: 0;
-  width: 1px;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(255,255,255,0.08) 25%,
-    rgba(255,255,255,0.15) 50%,
-    rgba(255,255,255,0.08) 75%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 1;
 }
 
 /* ── HEADER ── */
@@ -286,24 +258,22 @@ import { filter } from 'rxjs/operators';
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding: 1.5rem 1.5rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1.25rem 1.5rem 0.875rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .sidebar-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 2px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.85);
+  color: #f59e0b;
 }
 
 .sidebar-subtitle {
   font-size: 0.7rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.3px;
+  color: rgba(255, 255, 255, 0.35);
 }
 
 /* ── BODY ── */
@@ -311,23 +281,14 @@ import { filter } from 'rxjs/operators';
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0.75rem 0.75rem;
+  padding: 0.75rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.08) transparent;
 }
 
-.sidebar-body::-webkit-scrollbar {
-  width: 4px;
-}
-
-.sidebar-body::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.sidebar-body::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.08);
-  border-radius: 4px;
-}
+.sidebar-body::-webkit-scrollbar { width: 4px; }
+.sidebar-body::-webkit-scrollbar-track { background: transparent; }
+.sidebar-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 4px; }
 
 /* ── LAYOUT MENU (reset) ── */
 .layout-menu {
@@ -355,10 +316,10 @@ import { filter } from 'rxjs/operators';
 
 .group-label-text {
   font-size: 0.62rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.3);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -366,7 +327,7 @@ import { filter } from 'rxjs/operators';
 .group-label-line {
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(245, 158, 11, 0.15);
 }
 
 /* ── SEPARATOR ── */
@@ -376,65 +337,50 @@ import { filter } from 'rxjs/operators';
   margin: 0.5rem 0.5rem;
 }
 
-/* ── ITEM WRAPPER (passes style to app-menuitem host) ── */
-.menu-item-wrapper {
-  display: block;
-}
+/* ── ITEM WRAPPER ── */
+.menu-item-wrapper { display: block; }
 
 /* ── Override PrimeNG app-menuitem link styles ── */
-.sidebar :host ::ng-deep .layout-menuitem-root-text,
-.sidebar ::ng-deep .layout-menuitem-root-text {
-  display: none;
-}
+.sidebar ::ng-deep .layout-menuitem-root-text { display: none; }
 
-/* Target the anchor/button inside app-menuitem */
 ::ng-deep app-menu .layout-menu a,
 ::ng-deep app-menu .layout-menu button {
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
   padding: 9px 12px !important;
-  border-radius: 10px !important;
-  border: none !important;
+  border-radius: 4px !important;
+  border: 1.5px solid transparent !important;
   background: transparent !important;
-  color: rgba(255, 255, 255, 0.5) !important;
-  font-family: 'DM Sans', sans-serif !important;
-  font-size: 0.85rem !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+  font-size: 0.875rem !important;
   font-weight: 500 !important;
   cursor: pointer !important;
-  transition: all 0.18s ease !important;
+  transition: all 0.15s !important;
   text-decoration: none !important;
   width: 100% !important;
   box-sizing: border-box !important;
-  letter-spacing: 0.1px !important;
 }
 
 ::ng-deep app-menu .layout-menu a:hover,
 ::ng-deep app-menu .layout-menu button:hover {
-  background: rgba(255, 255, 255, 0.07) !important;
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
 }
 
 ::ng-deep app-menu .layout-menu a.active-route,
 ::ng-deep app-menu .layout-menu a.active-menuitem-routerlink,
 ::ng-deep app-menu .layout-menu .active-menuitem > a {
-  background: rgba(255, 255, 255, 0.1) !important;
-  color: white !important;
+  color: #f59e0b !important;
+  border-color: #f59e0b !important;
   font-weight: 600 !important;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1) !important;
 }
 
 ::ng-deep app-menu .layout-menu .pi {
-  font-size: 0.95rem !important;
+  font-size: 0.9rem !important;
   width: 18px !important;
   text-align: center !important;
   color: inherit !important;
-  opacity: 0.75;
-}
-
-::ng-deep app-menu .layout-menu a:hover .pi,
-::ng-deep app-menu .layout-menu .active-menuitem > a .pi {
-  opacity: 1;
 }
 
 /* Submenu indent */
@@ -458,8 +404,7 @@ import { filter } from 'rxjs/operators';
   align-items: center;
   justify-content: space-between;
   padding: 0.85rem 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  background: rgba(255,255,255,0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .sidebar-footer-badge {
@@ -469,7 +414,6 @@ import { filter } from 'rxjs/operators';
   font-size: 0.72rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.35);
-  letter-spacing: 0.2px;
 }
 
 .footer-dot {
@@ -490,8 +434,7 @@ import { filter } from 'rxjs/operators';
 .sidebar-version {
   font-size: 0.68rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.18);
-  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.2);
 }
 </style>
     `
@@ -513,6 +456,12 @@ export class AppMenu {
                     { label: 'Ajouter une boutique',        icon: 'pi pi-plus',     routerLink: ['/admin/home/creationBoutique'] },
                     { label: 'Liste des boutiques',          icon: 'pi pi-list',     routerLink: ['/admin/home/listeBoutique'] },
                     { label: 'Validation de nouveaux',       icon: 'pi pi-verified', routerLink: ['/admin/home/validationBoutique'] },
+                ]
+            },
+            {
+                label: 'Commandes',
+                items: [
+                    { label: 'Toutes les commandes', icon: 'pi pi-shopping-bag', routerLink: ['/admin/home/commandes'] }
                 ]
             }
         ];

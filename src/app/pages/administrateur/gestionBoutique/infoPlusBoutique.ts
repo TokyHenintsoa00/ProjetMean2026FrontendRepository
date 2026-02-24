@@ -54,13 +54,16 @@ import { UserService } from "@/pages/service/user.service";
     </div>
 
     <!-- Loader -->
-    <div *ngIf="loading" class="loading-container">
+    @if (loading) {
+    <div class="loading-container">
         <i class="pi pi-spin pi-spinner" style="font-size: 3rem; color: var(--primary-color);"></i>
         <p>Chargement du profil...</p>
     </div>
+    }
 
     <!-- Contenu du profil -->
-    <div *ngIf="!loading && userData" class="profile-content">
+    @if (!loading && userData) {
+    <div class="profile-content">
         
         <!-- Card Informations Utilisateur -->
         <div class="user-info-card">
@@ -79,13 +82,13 @@ import { UserService } from "@/pages/service/user.service";
                 <!-- Avatar et Nom -->
                 <div class="avatar-section">
                     <div class="avatar-container">
-                        <img *ngIf="userData.avatar" 
-                            [src]="userData.avatar" 
-                            alt="Avatar"
-                            class="avatar-large">
-                        <div *ngIf="!userData.avatar" class="avatar-placeholder-large">
-                            <i class="pi pi-user"></i>
-                        </div>
+                        @if (userData.avatar) {
+                            <img [src]="userData.avatar" alt="Avatar" class="avatar-large">
+                        } @else {
+                            <div class="avatar-placeholder-large">
+                                <i class="pi pi-user"></i>
+                            </div>
+                        }
                     </div>
                     <div class="user-name-section">
                         <h3>{{ userData.prenom }} {{ userData.nom }}</h3>
@@ -116,13 +119,15 @@ import { UserService } from "@/pages/service/user.service";
                         <div class="info-value">{{ userData.telephone }}</div>
                     </div>
 
-                    <div class="info-row" *ngIf="userData.createdAt">
+                    @if (userData.createdAt) {
+                    <div class="info-row">
                         <div class="info-label">
                             <i class="pi pi-calendar"></i>
                             Membre depuis
                         </div>
                         <div class="info-value">{{ userData.createdAt | date: 'dd/MM/yyyy' }}</div>
                     </div>
+                    }
                 </div>
 
                 <!-- Actions -->
@@ -142,7 +147,8 @@ import { UserService } from "@/pages/service/user.service";
         </div>
 
         <!-- Card Informations Boutique -->
-        <div class="shop-info-card" *ngIf="boutique">
+        @if (boutique) {
+        <div class="shop-info-card">
             <div class="card-header-custom">
                 <h2>
                     <i class="pi pi-shopping-bag"></i>
@@ -193,7 +199,8 @@ import { UserService } from "@/pages/service/user.service";
                         </div>
                     </div>
 
-                    <div class="info-card" *ngIf="boutique.created">
+                    @if (boutique.created) {
+                    <div class="info-card">
                         <div class="info-card-icon date">
                             <i class="pi pi-calendar-plus"></i>
                         </div>
@@ -202,6 +209,7 @@ import { UserService } from "@/pages/service/user.service";
                             <span class="info-card-value">{{ boutique.created | date: 'dd/MM/yyyy' }}</span>
                         </div>
                     </div>
+                    }
 
                     <div class="info-card">
                         <div class="info-card-icon status">
@@ -217,46 +225,52 @@ import { UserService } from "@/pages/service/user.service";
                 </div>
 
                 <!-- Description -->
-                <div class="shop-description" *ngIf="boutique.description">
+                @if (boutique.description) {
+                <div class="shop-description">
                     <h4>
                         <i class="pi pi-info-circle"></i>
                         Description
                     </h4>
                     <p>{{ boutique.description }}</p>
                 </div>
+                }
             </div>
         </div>
+        }
     </div>
+    }
 
     <!-- Message si aucune donnée -->
-    <div *ngIf="!loading && !userData" class="no-data">
+    @if (!loading && !userData) {
+    <div class="no-data">
         <i class="pi pi-exclamation-triangle"></i>
         <h3>Aucune donnée trouvée</h3>
         <p>Impossible de charger les informations du profil</p>
-        <button 
-            pButton 
+        <button
+            pButton
             type="button"
             label="Retour"
             icon="pi pi-arrow-left"
             (click)="goBack()">
         </button>
     </div>
+    }
 </div>`,
     styles:[`/* ============================================
    VARIABLES DU THÈME
    ============================================ */
 :host {
-    --primary-color: #10b981;
-    --primary-light: #34d399;
-    --primary-dark: #059669;
+    --primary-color: #f59e0b;
+    --primary-light: #fbbf24;
+    --primary-dark: #d97706;
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
-    --info-color: #14b8a6;
-    
+    --info-color: #0369a1;
+
     --bg-primary: #ffffff;
     --bg-secondary: #f9fafb;
-    --bg-hover: #f0fdfa;
+    --bg-hover: #fffbeb;
     
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
@@ -369,7 +383,7 @@ import { UserService } from "@/pages/service/user.service";
     border-radius: 1.5rem;
     box-shadow: var(--shadow-xl);
     padding: 2rem;
-    border: 1px solid rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.08);
     transition: all 0.3s ease;
 }
 
@@ -448,7 +462,7 @@ import { UserService } from "@/pages/service/user.service";
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid var(--primary-color);
-    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
 }
 
 .avatar-placeholder-large {
@@ -461,7 +475,7 @@ import { UserService } from "@/pages/service/user.service";
     justify-content: center;
     color: white;
     font-size: 3rem;
-    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
 }
 
 .user-name-section h3 {
@@ -618,16 +632,16 @@ import { UserService } from "@/pages/service/user.service";
     align-items: center;
     gap: 1rem;
     padding: 1.25rem;
-    background: linear-gradient(135deg, #f0fdfa, #ecfdf5);
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
     border-radius: 1rem;
-    border: 2px solid rgba(16, 185, 129, 0.1);
+    border: 2px solid rgba(245, 158, 11, 0.1);
     transition: all 0.3s ease;
 }
 
 .info-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-md);
-    border-color: rgba(16, 185, 129, 0.3);
+    border-color: rgba(245, 158, 11, 0.3);
 }
 
 .info-card-icon {

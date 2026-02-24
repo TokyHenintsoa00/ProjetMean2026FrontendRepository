@@ -140,6 +140,7 @@ import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { AppFloatingConfigurator } from '@/layout/component/app.floatingconfigurator';
 import { LayoutService } from '@/layout/service/layout.service';
+import { AuthService } from '@/pages/service/auth.service';
 
 @Component({
     selector: 'app-topbar',
@@ -157,22 +158,15 @@ import { LayoutService } from '@/layout/service/layout.service';
 
 <header class="topbar">
 
-  <!-- Glow line top -->
-  <div class="topbar-glow"></div>
-
   <!-- Sidebar toggle + Logo -->
   <div class="topbar-left">
     <button class="sidebar-toggle-btn" (click)="layoutService.onMenuToggle()" title="Toggle menu">
       <i class="pi pi-bars"></i>
     </button>
 
-    <a class="logo" routerLink="/">
-      <svg viewBox="0 0 54 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
-        <path fill-rule="evenodd" clip-rule="evenodd"
-          d="M17.1637 19.2467C17.1566 19.4033 17.1529 19.561 17.1529 19.7194C17.1529 25.3503 21.7203 29.915 27.3546 29.915C32.9887 29.915 37.5561 25.3503 37.5561 19.7194C37.5561 19.5572 37.5524 19.3959 37.5449 19.2355C38.5617 19.0801 39.5759 18.9013 40.5867 18.6994L40.6926 18.6782C40.7191 19.0218 40.7326 19.369 40.7326 19.7194C40.7326 27.1036 34.743 33.0896 27.3546 33.0896C19.966 33.0896 13.9765 27.1036 13.9765 19.7194C13.9765 19.374 13.9896 19.0316 14.0154 18.6927L14.0486 18.6994C15.0837 18.9062 16.1223 19.0886 17.1637 19.2467ZM33.3284 11.4538C31.6493 10.2396 29.5855 9.52381 27.3546 9.52381C25.1195 9.52381 23.0524 10.2421 21.3717 11.4603C20.0078 11.3232 18.6475 11.1387 17.2933 10.907C19.7453 8.11308 23.3438 6.34921 27.3546 6.34921C31.36 6.34921 34.9543 8.10844 37.4061 10.896C36.0521 11.1292 34.692 11.3152 33.3284 11.4538ZM43.826 18.0518C43.881 18.6003 43.9091 19.1566 43.9091 19.7194C43.9091 28.8568 36.4973 36.2642 27.3546 36.2642C18.2117 36.2642 10.8 28.8568 10.8 19.7194C10.8 19.1615 10.8276 18.61 10.8816 18.0663L7.75383 17.4411C7.66775 18.1886 7.62354 18.9488 7.62354 19.7194C7.62354 30.6102 16.4574 39.4388 27.3546 39.4388C38.2517 39.4388 47.0855 30.6102 47.0855 19.7194C47.0855 18.9439 47.0407 18.1789 46.9536 17.4267L43.826 18.0518ZM44.2613 9.54743L40.9084 10.2176C37.9134 5.95821 32.9593 3.1746 27.3546 3.1746C21.7442 3.1746 16.7856 5.96385 13.7915 10.2305L10.4399 9.56057C13.892 3.83178 20.1756 0 27.3546 0C34.5281 0 40.8075 3.82591 44.2613 9.54743Z"
-          fill="white"/>
-      </svg>
-      <span class="logo-name">SAKAI</span>
+    <a class="logo" routerLink="/admin/home">
+      <i class="pi pi-shopping-bag logo-icon"></i>
+      <span class="logo-name">Centre<strong>Mall</strong> <span style="font-size:0.7rem;font-weight:400;color:rgba(255,255,255,0.4);margin-left:4px;">Admin</span></span>
     </a>
   </div>
 
@@ -208,47 +202,20 @@ import { LayoutService } from '@/layout/service/layout.service';
 
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
-
 /* ── TOPBAR ── */
 .topbar {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  height: 68px;
-  padding: 0 2rem;
+  height: 64px;
+  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  background: rgba(20, 28, 36, 0.88);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  background: #0f172a;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
-  font-family: 'DM Sans', sans-serif;
-  animation: topbarIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-@keyframes topbarIn {
-  from { opacity: 0; transform: translateY(-14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Glow line on top edge */
-.topbar-glow {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255,255,255,0.12) 30%,
-    rgba(255,255,255,0.2)  50%,
-    rgba(255,255,255,0.12) 70%,
-    transparent 100%
-  );
-  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* ── LEFT: toggle + logo ── */
@@ -264,51 +231,48 @@ import { LayoutService } from '@/layout/service/layout.service';
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  border: 1.5px solid transparent;
+  background: none;
   color: rgba(255, 255, 255, 0.65);
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: all 0.15s;
   flex-shrink: 0;
 }
 
 .sidebar-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
 }
 
 /* ── LOGO ── */
 .logo {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 0.5rem;
   text-decoration: none;
   flex-shrink: 0;
 }
 
-.logo-svg {
-  width: 30px;
-  height: 30px;
-}
+.logo-icon { color: #f59e0b; font-size: 1.5rem; }
 
 .logo-name {
-  font-family: 'Syne', sans-serif;
   font-size: 1.2rem;
-  font-weight: 800;
+  font-weight: 500;
   color: white;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.01em;
 }
+
+.logo-name strong { color: #f59e0b; }
 
 /* ── RIGHT: actions ── */
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.5rem;
   flex-shrink: 0;
 }
 
@@ -316,24 +280,21 @@ import { LayoutService } from '@/layout/service/layout.service';
 .btn-profile {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 10px !important;
-  padding: 6px 14px 6px 6px !important;
-  border-radius: 30px !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  background: rgba(255, 255, 255, 0.05) !important;
-  color: rgba(255, 255, 255, 0.85) !important;
-  font-family: 'DM Sans', sans-serif !important;
+  gap: 0.6rem !important;
+  padding: 0.3rem 0.6rem !important;
+  border-radius: 4px !important;
+  border: 1.5px solid transparent !important;
+  background: none !important;
+  color: white !important;
   font-size: 0.85rem !important;
   font-weight: 600 !important;
   cursor: pointer;
-  transition: all 0.2s ease !important;
+  transition: border-color 0.15s !important;
   box-shadow: none !important;
 }
 
 .btn-profile:hover {
-  background: rgba(255, 255, 255, 0.09) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  color: white !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
 }
 
 /* Avatar circle */
@@ -341,12 +302,13 @@ import { LayoutService } from '@/layout/service/layout.service';
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #e2e8f0 0%, #f8fafc 100%);
-  color: #1e2832;
-  font-size: 0.85rem;
+  background: #1e3a5f;
+  border: 2px solid #f59e0b;
+  color: #f59e0b;
+  font-size: 0.9rem;
   flex-shrink: 0;
 }
 
@@ -362,38 +324,33 @@ import { LayoutService } from '@/layout/service/layout.service';
 .profile-name {
   font-size: 0.82rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.9);
+  color: white;
   letter-spacing: 0.1px;
 }
 
 .profile-role {
   font-size: 0.7rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.6);
   letter-spacing: 0.2px;
 }
 
 /* Chevron */
 .profile-chevron {
-  color: rgba(255, 255, 255, 0.4);
-  transition: transform 0.2s ease, color 0.2s ease;
+  color: rgba(255, 255, 255, 0.6);
+  transition: transform 0.15s ease;
   flex-shrink: 0;
 }
 
 .btn-profile:hover .profile-chevron {
-  color: rgba(255, 255, 255, 0.7);
   transform: translateY(1px);
 }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
-  .topbar { padding: 0 1.25rem; }
+  .topbar { padding: 0 1rem; height: 56px; }
   .logo-name { display: none; }
   .profile-info { display: none; }
-}
-
-@media (max-width: 480px) {
-  .topbar { padding: 0 1rem; }
 }
 </style>
     `
@@ -404,6 +361,7 @@ export class AppTopbar {
 
     layoutService = inject(LayoutService);
     router        = inject(Router);
+    authService   = inject(AuthService);
 
     getProfileMenuItems(): MenuItem[] {
         return [
@@ -421,10 +379,7 @@ export class AppTopbar {
             {
                 label: 'Déconnexion',
                 icon: 'pi pi-sign-out',
-                command: () => {
-                    // this.authService.logout();
-                    this.router.navigate(['/']);
-                }
+                command: () => this.authService.logout()
             }
         ];
     }

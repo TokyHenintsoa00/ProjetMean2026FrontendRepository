@@ -1,80 +1,107 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu';
+import { TagModule } from 'primeng/tag';
+import { RouterModule } from '@angular/router';
+import { ProduitService } from '@/pages/service/produit.service';
+
+interface StockAlert {
+    nom_produit: string;
+    combinaison_label: string;
+    stock: number;
+    seuil_alerte: number;
+    severity: 'rupture' | 'critique';
+}
 
 @Component({
     standalone: true,
     selector: 'app-notifications-widget',
-    imports: [ButtonModule, MenuModule],
-    template: `<div class="card">
-        <div class="flex items-center justify-between mb-6">
-            <div class="font-semibold text-xl">Notifications</div>
-            <div>
-                <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
-                <p-menu #menu [popup]="true" [model]="items"></p-menu>
-            </div>
+    imports: [ButtonModule, TagModule, RouterModule],
+    template: `
+    <div class="card" style="height: 100%;">
+        <div class="flex items-center justify-between mb-4">
+            <div class="font-semibold text-xl">Alertes stock</div>
+            @if (alerts.length > 0) {
+                <p-tag [value]="alerts.length.toString()" severity="danger" />
+            }
         </div>
 
-        <span class="block text-muted-color font-medium mb-4">TODAY</span>
-        <ul class="p-0 mx-0 mt-0 mb-6 list-none">
-            <li class="flex items-center py-2 border-b border-surface">
-                <div class="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-full mr-4 shrink-0">
-                    <i class="pi pi-dollar text-xl! text-blue-500"></i>
-                </div>
-                <span class="text-surface-900 dark:text-surface-0 leading-normal"
-                    >Richard Jones
-                    <span class="text-surface-700 dark:text-surface-100">has purchased a blue t-shirt for <span class="text-primary font-bold">$79.00</span></span>
-                </span>
-            </li>
-            <li class="flex items-center py-2">
-                <div class="w-12 h-12 flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-full mr-4 shrink-0">
-                    <i class="pi pi-download text-xl! text-orange-500"></i>
-                </div>
-                <span class="text-surface-700 dark:text-surface-100 leading-normal">Your request for withdrawal of <span class="text-primary font-bold">$2500.00</span> has been initiated.</span>
-            </li>
-        </ul>
+        @if (loading) {
+            <div class="flex items-center justify-center py-8 text-muted-color">
+                <i class="pi pi-spinner pi-spin mr-2"></i> Chargement...
+            </div>
+        } @else if (alerts.length === 0) {
+            <div class="flex flex-col items-center justify-center py-8 text-muted-color">
+                <i class="pi pi-check-circle text-4xl text-green-500 mb-3"></i>
+                <span>Aucune alerte de stock</span>
+            </div>
+        } @else {
+            <ul class="list-none p-0 m-0 overflow-auto" style="max-height: 320px;">
+                @for (alert of alerts; track $index) {
+                    <li class="flex items-start gap-3 py-3 border-b border-surface last:border-0">
+                        <div [class]="alert.severity === 'rupture'
+                            ? 'w-10 h-10 flex-shrink-0 flex items-center justify-center bg-red-100 dark:bg-red-400/10 rounded-full'
+                            : 'w-10 h-10 flex-shrink-0 flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-full'">
+                            <i [class]="alert.severity === 'rupture' ? 'pi pi-times-circle text-red-500' : 'pi pi-exclamation-triangle text-orange-500'"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-medium text-surface-900 dark:text-surface-0 truncate">{{ alert.nom_produit }}</div>
+                            <div class="text-sm text-muted-color truncate">{{ alert.combinaison_label }}</div>
+                            <div class="flex items-center gap-2 mt-1 flex-wrap">
+                                <p-tag
+                                    [value]="alert.severity === 'rupture' ? 'Rupture' : 'Critique'"
+                                    [severity]="alert.severity === 'rupture' ? 'danger' : 'warn'" />
+                                <span class="text-xs text-muted-color">
+                                    Stock : {{ alert.stock }} / Seuil : {{ alert.seuil_alerte }}
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
 
-        <span class="block text-muted-color font-medium mb-4">YESTERDAY</span>
-        <ul class="p-0 m-0 list-none mb-6">
-            <li class="flex items-center py-2 border-b border-surface">
-                <div class="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-400/10 rounded-full mr-4 shrink-0">
-                    <i class="pi pi-dollar text-xl! text-blue-500"></i>
-                </div>
-                <span class="text-surface-900 dark:text-surface-0 leading-normal"
-                    >Keyser Wick
-                    <span class="text-surface-700 dark:text-surface-100">has purchased a black jacket for <span class="text-primary font-bold">$59.00</span></span>
-                </span>
-            </li>
-            <li class="flex items-center py-2 border-b border-surface">
-                <div class="w-12 h-12 flex items-center justify-center bg-pink-100 dark:bg-pink-400/10 rounded-full mr-4 shrink-0">
-                    <i class="pi pi-question text-xl! text-pink-500"></i>
-                </div>
-                <span class="text-surface-900 dark:text-surface-0 leading-normal"
-                    >Jane Davis
-                    <span class="text-surface-700 dark:text-surface-100">has posted a new questions about your product.</span>
-                </span>
-            </li>
-        </ul>
-        <span class="block text-muted-color font-medium mb-4">LAST WEEK</span>
-        <ul class="p-0 m-0 list-none">
-            <li class="flex items-center py-2 border-b border-surface">
-                <div class="w-12 h-12 flex items-center justify-center bg-green-100 dark:bg-green-400/10 rounded-full mr-4 shrink-0">
-                    <i class="pi pi-arrow-up text-xl! text-green-500"></i>
-                </div>
-                <span class="text-surface-900 dark:text-surface-0 leading-normal">Your revenue has increased by <span class="text-primary font-bold">%25</span>.</span>
-            </li>
-            <li class="flex items-center py-2 border-b border-surface">
-                <div class="w-12 h-12 flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-full mr-4 shrink-0">
-                    <i class="pi pi-heart text-xl! text-purple-500"></i>
-                </div>
-                <span class="text-surface-900 dark:text-surface-0 leading-normal"><span class="text-primary font-bold">12</span> users have added your products to their wishlist.</span>
-            </li>
-        </ul>
-    </div>`
+        <div class="mt-4 pt-4 border-t border-surface">
+            <button pButton label="Gérer le stock" icon="pi pi-box" class="w-full" outlined [routerLink]="['/boutique/home/monStock']"></button>
+        </div>
+    </div>
+    `
 })
-export class NotificationsWidget {
-    items = [
-        { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-        { label: 'Remove', icon: 'pi pi-fw pi-trash' }
-    ];
+export class NotificationsWidget implements OnInit {
+    alerts: StockAlert[] = [];
+    loading = true;
+
+    constructor(private produitService: ProduitService) {}
+
+    ngOnInit() {
+        this.produitService.getMyProducts().subscribe({
+            next: (produits: any[]) => {
+                this.alerts = [];
+                for (const p of produits) {
+                    for (const v of (p.variantes || [])) {
+                        if (v.stock === 0) {
+                            this.alerts.push({
+                                nom_produit: p.nom_produit,
+                                combinaison_label: v.combinaison_label || 'Standard',
+                                stock: 0,
+                                seuil_alerte: v.seuil_alerte || 0,
+                                severity: 'rupture'
+                            });
+                        } else if (v.seuil_alerte > 0 && v.stock <= v.seuil_alerte) {
+                            this.alerts.push({
+                                nom_produit: p.nom_produit,
+                                combinaison_label: v.combinaison_label || 'Standard',
+                                stock: v.stock,
+                                seuil_alerte: v.seuil_alerte,
+                                severity: 'critique'
+                            });
+                        }
+                    }
+                }
+                // Ruptures en premier
+                this.alerts.sort((a, b) => (a.severity === 'rupture' ? -1 : 1));
+                this.loading = false;
+            },
+            error: () => { this.loading = false; }
+        });
+    }
 }
