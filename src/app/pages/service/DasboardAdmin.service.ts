@@ -5,7 +5,7 @@ import { Observable }             from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class DashboardAminService {
 
-    private readonly base = 'http://localhost:5000/dasboard/admin'; // adapte l'URL si besoin
+    private readonly base = 'http://localhost:5000/dashboard/admin'; // adapte l'URL si besoin
 
     constructor(private http: HttpClient) {}
 
