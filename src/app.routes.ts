@@ -38,6 +38,10 @@ import { CommandeDetail } from '@/pages/commandes/commandeDetail/commandeDetail'
 import { MesPromotions } from '@/pages/boutique/gestionBoutique/mesPromotions/mesPromotions';
 import { PromotionsClient } from '@/pages/client/promotions/promotions';
 import { AccueilClient } from '@/pages/client/accueil/accueil';
+import { ListeContrats } from '@/pages/administrateur/contrats/listeContrats';
+import { AjouterContrat } from '@/pages/administrateur/contrats/ajouterContrat';
+import { DetailContrat } from '@/pages/administrateur/contrats/detailContrat';
+import { MonContrat } from '@/pages/boutique/contrat/monContrat';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
@@ -75,7 +79,8 @@ export const appRoutes: Routes = [
             { path:'gestionMaBoutique', component: GestionMaBoutique },
             { path:'mesCommandes', component: CommandesBoutique },
             { path:'mesCommandes/:id', component: CommandeDetail, data: { mode: 'boutique' } },
-            { path:'mesPromotions', component: MesPromotions }
+            { path:'mesPromotions', component: MesPromotions },
+            { path:'monContrat', component: MonContrat }
     ]},
     
     {
@@ -90,7 +95,10 @@ export const appRoutes: Routes = [
             {path:'validationBoutique',component:ValidationBoutique},
             {path:'viewDetailDemandeBoutique/:id',component:viewDetailDemandeBoutique},
             {path:'commandes',component:ListeCommandesAdmin},
-            {path:'commandes/:id', component:CommandeDetail, data:{ mode:'admin' }}
+            {path:'commandes/:id', component:CommandeDetail, data:{ mode:'admin' }},
+            {path:'contrats', component:ListeContrats},
+            {path:'contrats/ajouter', component:AjouterContrat},
+            {path:'contrats/detail/:id', component:DetailContrat}
         ]
     },
     { path: 'notfound', component: Notfound },

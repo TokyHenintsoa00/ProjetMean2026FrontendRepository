@@ -463,6 +463,13 @@ export class AppMenu {
                 items: [
                     { label: 'Toutes les commandes', icon: 'pi pi-shopping-bag', routerLink: ['/admin/home/commandes'] }
                 ]
+            },
+            {
+                label: 'Contrats & Paiements',
+                items: [
+                    { label: 'Liste des contrats',  icon: 'pi pi-file-edit', routerLink: ['/admin/home/contrats'] },
+                    { label: 'Nouveau contrat',     icon: 'pi pi-plus',      routerLink: ['/admin/home/contrats/ajouter'] }
+                ]
             }
         ];
     }

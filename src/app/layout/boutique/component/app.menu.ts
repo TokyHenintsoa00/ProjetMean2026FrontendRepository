@@ -44,6 +44,12 @@ export class AppMenu {
                 items: [
                     { label: 'Ma boutique', icon: 'pi pi-shop', routerLink: ['/boutique/home/gestionMaBoutique'] }
                 ]
+            },
+            {
+                label: 'Contrat & Loyer',
+                items: [
+                    { label: 'Mon contrat', icon: 'pi pi-file-edit', routerLink: ['/boutique/home/monContrat'] }
+                ]
             }
             // {
             //     label: 'UI Components',
