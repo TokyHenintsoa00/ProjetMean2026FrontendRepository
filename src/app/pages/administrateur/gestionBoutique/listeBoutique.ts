@@ -8,9 +8,7 @@ import { Router } from "@angular/router";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 
-import { DatePickerModule } from "primeng/datepicker";
-import { FileUploadModule, FileUpload } from "primeng/fileupload";
-import { FluidModule } from "primeng/fluid";
+
 import { IconFieldModule } from "primeng/iconfield";
 import { InputIconModule } from "primeng/inputicon";
 import { InputTextModule } from "primeng/inputtext";

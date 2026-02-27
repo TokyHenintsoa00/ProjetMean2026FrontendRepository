@@ -2961,7 +2961,7 @@ interface Horaire {
             </div>
         </div>
 
-        <!-- SECTION: Localisation, loyer & commission -->
+        <!-- SECTION: Localisation, loyer & commission 
         <div class="form-card" id="location">
             <div class="section-header">
                 <div class="section-icon location-icon">
@@ -3002,6 +3002,7 @@ interface Horaire {
                 </div>
             </div>
         </div>
+        -->
 
         <!-- SECTION: Description -->
         <div class="form-card" id="desc">
@@ -3883,8 +3884,8 @@ export class CreationBoutique {
             const formData = new FormData();
             formData.append('nom_boutique', this.boutique.nom_boutique);
             formData.append('description_boutique', this.boutique.description);
-            formData.append('loyer', this.boutique.loyer);
-            formData.append('location', this.boutique.location);
+            //formData.append('loyer', this.boutique.loyer);
+            //formData.append('location', this.boutique.location);
             formData.append('id_categorie', this.boutique.categorie);
             formData.append('horaires', JSON.stringify(this.boutique.horaires));
 

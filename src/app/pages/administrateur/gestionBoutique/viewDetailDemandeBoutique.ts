@@ -131,13 +131,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
                 <p-divider></p-divider>
 
                 <div class="shop-info-grid">
-                    <div class="info-card">
-                        <div class="info-card-icon location"><i class="pi pi-map-marker"></i></div>
-                        <div class="info-card-content">
-                            <span class="info-card-label">Localisation</span>
-                            <span class="info-card-value">{{ boutique.location }}</span>
-                        </div>
-                    </div>
+                    
                     <div class="info-card">
                         <div class="info-card-icon category"><i class="pi pi-th-large"></i></div>
                         <div class="info-card-content">
@@ -567,12 +561,12 @@ export class viewDetailDemandeBoutique {
                     this.boutique = {
                         id: shop._id,
                         name: shop.nom_boutique,
-                        categorie: shop.id_categorie?.nom || 'Non défini',
+                        categorie: shop.id_categorie?.map((c: any) => c.nom).join(', ') || 'Non défini',
                         location: shop.location || 'Non défini',
                         rating: shop.rating || 0,
                         description: shop.description_boutique || 'Aucune description', // ✅ corrigé
                         created: shop.createdAt || null,
-                        status: shop.status || 'active',
+                        status: shop.status?.nom_status || 'active',
                         horaires: shop.horaires || []  // ✅ ajouté
                     };
                     this.userData = {
