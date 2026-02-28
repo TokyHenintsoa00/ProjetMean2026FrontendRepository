@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { RippleModule } from 'primeng/ripple';
 import { AuthService } from '@/pages/service/auth.service';
+import { AppFloatingConfigurator } from '@/layout/component/app.floatingconfigurator';
 
 @Component({
     selector: 'app-topbar',
@@ -16,51 +17,216 @@ import { AuthService } from '@/pages/service/auth.service';
     imports: [RouterModule, 
         CommonModule, 
         StyleClassModule, 
-        
-         CommonModule,
+        AppFloatingConfigurator,
+         
         RouterModule, 
         MenuModule, 
         ButtonModule, 
         RippleModule
     ],
-    template: ` <div class="layout-topbar">
-        <div class="layout-topbar-logo-container">
-            <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
-                <i class="pi pi-bars"></i>
-            </button>
-            <a class="layout-topbar-logo" routerLink="/boutique/home"
-               style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;">
-                <i class="pi pi-shopping-bag" style="font-size:1.4rem;color:var(--primary-color);"></i>
-                <span style="font-size:1.1rem;font-weight:800;color:var(--primary-color);">Centre<strong>Mall</strong></span>
-            </a>
-        </div>
+    template: ` 
+    
 
-        <div class="layout-topbar-actions">
-           
+    <header class="topbar">
 
-            <button class="layout-topbar-menu-button layout-topbar-action" pStyleClass="@next" enterFromClass="hidden" enterActiveClass="animate-scalein" leaveToClass="hidden" leaveActiveClass="animate-fadeout" [hideOnOutsideClick]="true">
-                <i class="pi pi-ellipsis-v"></i>
-            </button>
+  <!-- Sidebar toggle + Logo -->
+  <div class="topbar-left">
+    <button class="sidebar-toggle-btn" (click)="layoutService.onMenuToggle()" title="Toggle menu">
+      <i class="pi pi-bars"></i>
+    </button>
 
-            <div class="flex items-center gap-4">
-                <button 
-                    pButton
-                    type="button" 
-                    class="p-button-text flex items-center gap-2"
-                    (click)="profileMenu.toggle($event)">
-                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white">
-                        <i class="pi pi-user text-xl"></i>
-                    </div>
-                    <div class="flex flex-col items-start">
-                        <span class="text-surface-900 dark:text-surface-0 font-semibold text-sm">{{userName}}</span>
-                        <span class="text-surface-500 dark:text-surface-400 text-xs">{{userRole}}</span>
-                    </div>
-                    <i class="pi pi-angle-down text-surface-500 dark:text-surface-400"></i>
-                </button>
-                <p-menu #profileMenu [model]="getProfileMenuItems()" [popup]="true"></p-menu>
-            </div>
-        </div>
-    </div>`
+    <a class="logo" routerLink="/admin/home">
+      <i class="pi pi-shopping-bag logo-icon"></i>
+      <span class="logo-name">Centre<strong>Mall</strong> <span style="font-size:0.7rem;font-weight:400;color:rgba(255,255,255,0.4);margin-left:4px;">Admin</span></span>
+    </a>
+  </div>
+
+  <!-- Actions droite -->
+  <div class="topbar-right">
+
+    <!-- Profile button -->
+    <button pButton pRipple
+            class="btn-profile"
+            (click)="profileMenu.toggle($event)">
+      <span class="profile-avatar">
+        <i class="pi pi-user"></i>
+      </span>
+      <span class="profile-info">
+        <span class="profile-name">{{ userName }}</span>
+        <span class="profile-role">{{ userRole }}</span>
+      </span>
+      <svg class="profile-chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+
+    <p-menu #profileMenu [model]="getProfileMenuItems()" [popup]="true"></p-menu>
+
+    <!-- Floating configurator -->
+    <app-floating-configurator [float]="false" />
+
+  </div>
+
+</header>
+
+
+<style>
+/* ── TOPBAR ── */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 64px;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  background: #0f172a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* ── LEFT: toggle + logo ── */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  border: 1.5px solid transparent;
+  background: none;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.sidebar-toggle-btn:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+/* ── LOGO ── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo-icon { color: #f59e0b; font-size: 1.5rem; }
+
+.logo-name {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: white;
+  letter-spacing: -0.01em;
+}
+
+.logo-name strong { color: #f59e0b; }
+
+/* ── RIGHT: actions ── */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* ── PROFILE BUTTON ── */
+.btn-profile {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  padding: 0.3rem 0.6rem !important;
+  border-radius: 4px !important;
+  border: 1.5px solid transparent !important;
+  background: none !important;
+  color: white !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: border-color 0.15s !important;
+  box-shadow: none !important;
+}
+
+.btn-profile:hover {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Avatar circle */
+.profile-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #1e3a5f;
+  border: 2px solid #f59e0b;
+  color: #f59e0b;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+/* Text block */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  line-height: 1;
+}
+
+.profile-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.1px;
+}
+
+.profile-role {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.2px;
+}
+
+/* Chevron */
+.profile-chevron {
+  color: rgba(255, 255, 255, 0.6);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.btn-profile:hover .profile-chevron {
+  transform: translateY(1px);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .topbar { padding: 0 1rem; height: 56px; }
+  .logo-name { display: none; }
+  .profile-info { display: none; }
+}
+</style>
+
+
+    `
 })
 export class AppTopbar {
 
