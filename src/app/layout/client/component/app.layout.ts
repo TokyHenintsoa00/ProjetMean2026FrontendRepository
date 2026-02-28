@@ -107,6 +107,7 @@ import { PromotionService } from '@/pages/service/promotion.service';
             <div class="cl-footer-inner">
                 <span class="cl-footer-brand"><i class="pi pi-shopping-bag"></i> CentreMall</span>
                 <span class="cl-footer-copy">&copy; 2026 — Tous droits réservés</span>
+                <span class="cl-footer-made">Made by <strong>Ramanalinarivo Toky Henintsoa</strong> &amp; <strong>Rakotohasimbola Zo</strong></span>
             </div>
         </footer>
     </div>
