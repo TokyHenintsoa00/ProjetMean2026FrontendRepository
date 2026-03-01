@@ -36,13 +36,13 @@ import { environment } from '@env/environment';
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-6">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="text-white text-sm font-medium">Nouveau centre commercial</span>
+                    <span class="text-white text-sm font-medium">m1p13mean-Toky-Zo</span>
                 </div>
 
                 <!-- Title -->
                 <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6 animate-fade-in">
                     <span class="text-white">Bienvenue dans</span>
-                    <span class="block text-white">Notre Centre Commercial</span>
+                    <span class="block text-white">m1p13mean-Toky-Zo</span>
                 </h1>
 
                 <!-- Description -->

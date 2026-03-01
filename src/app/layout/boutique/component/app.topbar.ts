@@ -37,7 +37,7 @@ import { AppFloatingConfigurator } from '@/layout/component/app.floatingconfigur
 
     <a class="logo" routerLink="/admin/home">
       <i class="pi pi-shopping-bag logo-icon"></i>
-      <span class="logo-name">Centre<strong>Mall</strong> <span style="font-size:0.7rem;font-weight:400;color:rgba(255,255,255,0.4);margin-left:4px;">Admin</span></span>
+      <span class="logo-name">m1p13mean-Toky-Zo <span style="font-size:0.7rem;font-weight:400;color:rgba(255,255,255,0.4);margin-left:4px;">Admin</span></span>
     </a>
   </div>
 

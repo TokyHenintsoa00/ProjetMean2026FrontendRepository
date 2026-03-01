@@ -4,8 +4,11 @@ import { Component } from '@angular/core';
     standalone: true,
     selector: 'app-footer',
     template: `<div class="layout-footer">
-        SAKAI by
-        <a href="https://primeng.org" target="_blank" rel="noopener noreferrer" class="text-primary font-bold hover:underline">PrimeNG</a>
+        <span class="font-bold">m1p13mean-Toky-Zo</span>
+        &nbsp;|&nbsp;
+        RAMANALINARIVO TOKY
+        <span style="margin: 0 6px; opacity: 0.4">·</span>
+        RAKOTOASIMBOLA ZO ANJA NY AINA
     </div>`
 })
 export class AppFooter {}

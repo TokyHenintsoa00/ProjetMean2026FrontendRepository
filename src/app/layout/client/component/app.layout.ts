@@ -23,7 +23,7 @@ import { PromotionService } from '@/pages/service/promotion.service';
                 <!-- Logo -->
                 <a routerLink="/client/accueil" class="cl-logo">
                     <i class="pi pi-shopping-bag cl-logo-icon"></i>
-                    <span class="cl-logo-text">Centre<strong>Mall</strong></span>
+                    <span class="cl-logo-text">m1p13mean-Toky-Zo</span>
                 </a>
 
                 <!-- Nav links -->
@@ -105,7 +105,7 @@ import { PromotionService } from '@/pages/service/promotion.service';
         <!-- ===== FOOTER ===== -->
         <footer class="cl-footer">
             <div class="cl-footer-inner">
-                <span class="cl-footer-brand"><i class="pi pi-shopping-bag"></i> CentreMall</span>
+                <span class="cl-footer-brand"><i class="pi pi-shopping-bag"></i> m1p13mean-Toky-Zo</span>
                 <span class="cl-footer-copy">&copy; 2026 — Tous droits réservés</span>
                 <span class="cl-footer-made">Made by <strong>Ramanalinarivo Toky Henintsoa</strong> &amp; <strong>Rakotohasimbola Zo</strong></span>
             </div>

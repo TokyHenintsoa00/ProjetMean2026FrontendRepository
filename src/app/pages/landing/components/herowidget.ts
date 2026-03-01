@@ -45,7 +45,7 @@ import { Router } from '@angular/router';
                         <!-- Badge moderne -->
                         <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-6">
                             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <span class="text-white text-sm font-medium">Nouveau centre commercial</span>
+                            <span class="text-white text-sm font-medium">m1p13mean-Toky-Zo</span>
                         </div>
 
                         <!-- Titre avec animation -->
@@ -54,7 +54,7 @@ import { Router } from '@angular/router';
                                 Bienvenue dans
                             </span>
                             <span class="block text-white">
-                                Notre Centre Commercial
+                                m1p13mean-Toky-Zo
                             </span>
                         </h1>
 

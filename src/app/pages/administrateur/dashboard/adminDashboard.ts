@@ -53,7 +53,7 @@
 //         <i class="pi pi-shield ad-welcome-icon"></i>
 //         <div>
 //             <h1 class="ad-welcome-title">Tableau de bord Admin</h1>
-//             <p class="ad-welcome-sub">Vue d'ensemble de la plateforme CentreMall</p>
+//             <p class="ad-welcome-sub">Vue d'ensemble de la plateforme m1p13mean-Toky-Zo</p>
 //         </div>
 //     </div>
 // </div>
@@ -667,7 +667,7 @@ const ROLE_FILTERS: { label: string; id: string | null }[] = [
         <i class="pi pi-shield ad-welcome-icon"></i>
         <div>
             <h1 class="ad-welcome-title">Tableau de bord Admin</h1>
-            <p class="ad-welcome-sub">Vue d'ensemble de la plateforme CentreMall</p>
+            <p class="ad-welcome-sub">Vue d'ensemble de la plateforme m1p13mean-Toky-Zo</p>
         </div>
     </div>
 </div>

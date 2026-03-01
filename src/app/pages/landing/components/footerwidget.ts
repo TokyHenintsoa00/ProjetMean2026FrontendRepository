@@ -32,7 +32,7 @@ import { Router, RouterModule } from '@angular/router';
                                 />
                             </g>
                         </svg>
-                        <span class="logo-name">ShopMall</span>
+                        <span class="logo-name">m1p13mean-Toky-Zo</span>
                     </a>
                     <p class="brand-tagline">Votre destination shopping,<br/>repensée pour l'essentiel.</p>
                     <div class="social-row">
@@ -109,12 +109,12 @@ import { Router, RouterModule } from '@angular/router';
 
             <!-- Bottom bar -->
             <div class="footer-bottom">
-                <span class="footer-copy">© 2026 ShopMall. All rights reserved.</span>
+                <span class="footer-copy">© 2026 m1p13mean-Toky-Zo. All rights reserved.</span>
                 <div class="footer-team">
                     <span class="team-label">Made by</span>
-                    <span class="team-member">Ramanalinarivo Toky Henintsoa</span>
+                    <span class="team-member">RAMANALINARIVO TOKY</span>
                     <span class="dot-sep">·</span>
-                    <span class="team-member">Rakotohasimbola Zo</span>
+                    <span class="team-member">RAKOTOASIMBOLA ZO ANJA NY AINA</span>
                 </div>
                 <div class="footer-bottom-links">
                     <a class="bottom-link cursor-pointer">Privacy Policy</a>

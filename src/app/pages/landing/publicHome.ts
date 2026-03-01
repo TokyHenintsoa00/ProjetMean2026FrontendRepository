@@ -20,7 +20,7 @@ import { environment } from '@env/environment';
     <div class="ph-nav-inner">
         <div class="ph-nav-brand">
             <i class="pi pi-shopping-bag"></i>
-            <span>Centre<strong>Mall</strong></span>
+            <span>m1p13mean-Toky-Zo</span>
         </div>
         <div class="ph-nav-links">
             <a (click)="scrollTo('boutiques-section')">Boutiques</a>
@@ -47,7 +47,7 @@ import { environment } from '@env/environment';
             <span class="ph-hero-accent">boutiques</span> de votre région
         </h1>
         <p class="ph-hero-sub">
-            Parcourez notre centre commercial en ligne, trouvez vos boutiques favorites<br>
+            Parcourez m1p13mean-Toky-Zo en ligne, trouvez vos boutiques favorites<br>
             et faites vos achats en toute simplicité.
         </p>
         <div class="ph-hero-search">
@@ -184,7 +184,7 @@ import { environment } from '@env/environment';
 <!-- ===== FEATURES SECTION ===== -->
 <section id="features-section" class="ph-features-section">
     <div class="ph-section-inner">
-        <h2 class="ph-features-title">Pourquoi choisir CentreMall ?</h2>
+        <h2 class="ph-features-title">Pourquoi choisir m1p13mean-Toky-Zo ?</h2>
         <div class="ph-features-grid">
             <div class="ph-feature-card">
                 <div class="ph-feature-icon"><i class="pi pi-shield"></i></div>
@@ -231,9 +231,9 @@ import { environment } from '@env/environment';
     <div class="ph-footer-inner">
         <div class="ph-footer-brand">
             <i class="pi pi-shopping-bag"></i>
-            <span>Centre<strong>Mall</strong></span>
+            <span>m1p13mean-Toky-Zo</span>
         </div>
-        <p class="ph-footer-copy">&copy; 2026 CentreMall — Tous droits réservés</p>
+        <p class="ph-footer-copy">&copy; 2026 m1p13mean-Toky-Zo — Tous droits réservés</p>
         <div class="ph-footer-links">
             <a (click)="goToLogin()">Se connecter</a>
             <a (click)="goToSignup()">S'inscrire</a>
