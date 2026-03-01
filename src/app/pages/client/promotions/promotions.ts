@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -9,6 +9,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { MessageService } from 'primeng/api';
 import { PromotionService } from '@/pages/service/promotion.service';
 import { CartService } from '@/pages/service/cart.service';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-promotions-client',
@@ -100,7 +101,7 @@ import { CartService } from '@/pages/service/cart.service';
                                 <!-- Image -->
                                 <div class="pcard-img">
                                     @if (produit.images && produit.images.length > 0) {
-                                        <img [src]="'http://localhost:5000' + produit.images[0].url"
+                                        <img [src]="environment.apiUrl + produit.images[0].url"
                                              [alt]="produit.nom_produit" />
                                     } @else {
                                         <div class="pcard-no-img">
@@ -325,6 +326,7 @@ import { CartService } from '@/pages/service/cart.service';
     `
 })
 export class PromotionsClient implements OnInit {
+    protected environment = environment;
     promotions: any[] = [];
     loading = true;
 

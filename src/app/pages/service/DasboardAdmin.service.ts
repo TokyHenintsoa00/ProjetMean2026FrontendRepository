@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable }             from 'rxjs';
+import { environment } from '@env/environment';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardAminService {
 
-    private readonly base = 'http://localhost:5000/dashboard/admin'; // adapte l'URL si besoin
+    private readonly base = `${environment.apiUrl}/dashboard/admin`; // adapte l'URL si besoin
 
     constructor(private http: HttpClient) {}
 

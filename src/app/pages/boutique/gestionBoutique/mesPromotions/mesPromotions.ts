@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -169,7 +169,7 @@ import { ProduitService } from '@/pages/service/produit.service';
         <div class="mp-field-row">
             <div class="mp-field mp-field-half">
                 <label class="mp-label">Type de réduction <span class="mp-req">*</span></label>
-                <p-select [(ngModel)]="form.type_reduction"
+                <p-select appendTo="body" [(ngModel)]="form.type_reduction"
                           [options]="typeOptions"
                           optionLabel="label" optionValue="value"
                           placeholder="Sélectionner..."
@@ -210,7 +210,7 @@ import { ProduitService } from '@/pages/service/produit.service';
         <!-- Produits -->
         <div class="mp-field">
             <label class="mp-label">Produits concernés</label>
-            <p-multiselect [(ngModel)]="form.produits"
+            <p-multiselect appendTo="body" [(ngModel)]="form.produits"
                            [options]="produitsOptions"
                            optionLabel="nom_produit"
                            optionValue="_id"

@@ -18,7 +18,7 @@ interface StockLine {
         <div class="flex items-center justify-between mb-5">
             <div class="font-semibold text-xl">Valeur du stock</div>
             <div class="text-right">
-                <div class="text-2xl font-bold text-surface-900 dark:text-surface-0">{{ valeurTotale | number:'1.2-2' }} DT</div>
+                <div class="text-2xl font-bold text-surface-900 dark:text-surface-0">{{ valeurTotale | number:'1.2-2' }} AR</div>
                 <div class="text-sm text-muted-color">{{ totalUnites }} unités en stock</div>
             </div>
         </div>
@@ -38,11 +38,11 @@ interface StockLine {
                     <div class="flex-1 min-w-0 mr-4">
                         <div class="font-medium text-surface-900 dark:text-surface-0 truncate">{{ line.nom }}</div>
                         <div class="text-xs text-muted-color mt-0.5">
-                            {{ line.stock }} unités × {{ line.prixUnitaire | number:'1.2-2' }} DT
+                            {{ line.stock }} unités × {{ line.prixUnitaire | number:'1.2-2' }} AR
                         </div>
                     </div>
                     <div class="text-right flex-shrink-0">
-                        <div class="font-semibold text-surface-900 dark:text-surface-0">{{ line.valeur | number:'1.2-2' }} DT</div>
+                        <div class="font-semibold text-surface-900 dark:text-surface-0">{{ line.valeur | number:'1.2-2' }} AR</div>
                         <div class="text-xs text-muted-color">{{ getPercent(line.valeur) | number:'1.0-0' }}%</div>
                     </div>
                 </div>

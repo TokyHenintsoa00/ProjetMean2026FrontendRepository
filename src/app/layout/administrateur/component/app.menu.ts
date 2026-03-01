@@ -459,6 +459,12 @@ export class AppMenu {
                 ]
             },
             {
+                label: 'Gestion des Box',
+                items: [
+                    { label: 'Boxes & Attribution', icon: 'pi pi-building', routerLink: ['/admin/home/boxes'] }
+                ]
+            },
+            {
                 label: 'Commandes',
                 items: [
                     { label: 'Toutes les commandes', icon: 'pi pi-shopping-bag', routerLink: ['/admin/home/commandes'] }

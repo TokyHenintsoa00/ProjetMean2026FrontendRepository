@@ -83,7 +83,7 @@ import { CommandeService } from '@/pages/service/commande.service';
                         <td>
                             <span class="lc-boutique"><i class="pi pi-shop"></i> {{ cmd.boutique?.nom_boutique }}</span>
                         </td>
-                        <td><span class="lc-total">{{ cmd.total | number:'1.2-2' }} DT</span></td>
+                        <td><span class="lc-total">{{ cmd.total | number:'1.2-2' }} AR</span></td>
                         <td><p-tag [value]="getStatutLabel(cmd.statut)" [severity]="getStatutSeverity(cmd.statut)"></p-tag></td>
                         <td>
                             <span class="lc-date">{{ cmd.created_at | date:'dd/MM/yyyy' }}</span>

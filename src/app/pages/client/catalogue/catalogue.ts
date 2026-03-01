@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 import { ProduitService } from '@/pages/service/produit.service';
 import { CartService, CartItem } from '@/pages/service/cart.service';
 import { PromotionService } from '@/pages/service/promotion.service';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-catalogue',
@@ -89,7 +90,7 @@ import { PromotionService } from '@/pages/service/promotion.service';
                         <!-- Image -->
                         <div class="pcard-img">
                             @if (produit.images && produit.images.length > 0) {
-                                <img [src]="'http://localhost:5000' + produit.images[0].url"
+                                <img [src]="environment.apiUrl + produit.images[0].url"
                                      [alt]="produit.nom_produit" />
                             } @else {
                                 <div class="pcard-no-img">
@@ -159,7 +160,7 @@ import { PromotionService } from '@/pages/service/promotion.service';
             <div class="detail-gallery">
                 <div class="detail-main-img">
                     @if (selectedProduct.images && selectedProduct.images.length > 0) {
-                        <img [src]="'http://localhost:5000' + selectedProduct.images[selectedImageIndex].url"
+                        <img [src]="environment.apiUrl + selectedProduct.images[selectedImageIndex].url"
                              [alt]="selectedProduct.nom_produit" />
                     } @else {
                         <div class="detail-no-img"><i class="pi pi-image"></i></div>
@@ -168,7 +169,7 @@ import { PromotionService } from '@/pages/service/promotion.service';
                 @if (selectedProduct.images && selectedProduct.images.length > 1) {
                     <div class="detail-thumbs">
                         @for (img of selectedProduct.images; track img._id; let i = $index) {
-                            <img [src]="'http://localhost:5000' + img.url"
+                            <img [src]="environment.apiUrl + img.url"
                                  class="detail-thumb"
                                  [class.detail-thumb-active]="i === selectedImageIndex"
                                  (click)="selectedImageIndex = i" />
@@ -494,6 +495,7 @@ import { PromotionService } from '@/pages/service/promotion.service';
     `
 })
 export class Catalogue implements OnInit {
+    protected environment = environment;
     products: any[] = [];
     filteredProducts: any[] = [];
     searchTerm = '';

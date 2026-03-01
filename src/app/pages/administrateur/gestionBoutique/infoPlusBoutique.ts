@@ -1,4 +1,4 @@
-// import { CommonModule } from "@angular/common";
+﻿// import { CommonModule } from "@angular/common";
 // import { Component, OnInit } from "@angular/core";
 // import { ActivatedRoute, Router } from "@angular/router";
 // import { ConfirmationService, MessageService } from "primeng/api";
@@ -956,7 +956,7 @@
 //     userData: any = null;
 //     boutique: any = null;
 //     loading: boolean = true;
-//     baseUrl = "http://localhost:5000";
+//     baseUrl = environment.apiUrl;
 
 //     constructor(
 //         private route: ActivatedRoute,
@@ -1146,6 +1146,7 @@ import { TabsModule } from "primeng/tabs";
 import { BoutiqueService } from "@/pages/service/boutique.service";
 import { FormsModule } from "@angular/forms";
 import { UserService } from "@/pages/service/user.service";
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-infoplusBoutique',
@@ -2086,7 +2087,7 @@ export class infoplusBoutique{
     userData: any = null;
     boutique: any = null;
     loading: boolean = true;
-    baseUrl = "http://localhost:5000";
+    baseUrl = environment.apiUrl;
 
     constructor(
         private route: ActivatedRoute,

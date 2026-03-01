@@ -1,4 +1,4 @@
-import { BoutiqueService } from "@/pages/service/boutique.service";
+﻿import { BoutiqueService } from "@/pages/service/boutique.service";
 import { CustomerService } from "@/pages/service/customer.service";
 import { ProductService } from "@/pages/service/product.service";
 import { CommonModule } from "@angular/common";
@@ -24,6 +24,7 @@ import { TagModule } from "primeng/tag";
 import { TextareaModule } from "primeng/textarea";
 import { ToastModule } from "primeng/toast";
 import { ToggleButtonModule } from "primeng/togglebutton";
+import { environment } from '@env/environment';
 
 interface expandedRows {
     [key: string]: boolean;
@@ -419,7 +420,7 @@ export class ValidationBoutique{
         private boutiqueService:BoutiqueService,
         private router:Router
     ) {}
-    baseUrl = "http://localhost:5000";
+    baseUrl = environment.apiUrl;
 
     
     approveShop(shop: any) {

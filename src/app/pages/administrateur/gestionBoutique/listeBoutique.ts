@@ -1,4 +1,4 @@
-import { BoutiqueService } from "@/pages/service/boutique.service";
+﻿import { BoutiqueService } from "@/pages/service/boutique.service";
 import { Customer, CustomerService, Representative } from "@/pages/service/customer.service";
 import { Product, ProductService } from "@/pages/service/product.service";
 import { CommonModule } from "@angular/common";
@@ -7,6 +7,7 @@ import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
+import { environment } from '@env/environment';
 
 
 import { IconFieldModule } from "primeng/iconfield";
@@ -447,7 +448,7 @@ export class ListeBoutique {
         private boutiqueService:BoutiqueService,
         private router:Router
     ) {}
-    baseUrl = "http://localhost:5000";
+    baseUrl = environment.apiUrl;
 
    loadBoutique() {
         this.boutiqueService.getAllBoutiqueForAdmin().subscribe({

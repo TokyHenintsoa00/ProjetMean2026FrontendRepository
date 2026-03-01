@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { BoutiqueService } from '@/pages/service/boutique.service';
 import { CategorieService } from '@/pages/service/categorie.service';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-public-home',
@@ -654,7 +655,7 @@ export class PublicHome implements OnInit {
     }
 
     getBoutiqueLogoUrl(b: any): string | null {
-        return b.logo?.length > 0 ? 'http://localhost:5000' + b.logo[0].url : null;
+        return b.logo?.length > 0 ? environment.apiUrl + b.logo[0].url : null;
     }
 
     visitBoutique(id: string) { this.router.navigate(['/visiteBoutique', id]); }

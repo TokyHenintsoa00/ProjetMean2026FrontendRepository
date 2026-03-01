@@ -1,4 +1,4 @@
-
+﻿
 
 // import { Component } from "@angular/core";
 // import { MessageService } from "primeng/api";
@@ -200,7 +200,7 @@
 //             </div>
 //             <div class="field-group">
 //               <label class="field-label">Catégorie <span class="req">*</span></label>
-//               <p-select [options]="categories" [(ngModel)]="boutique.categorie" name="categorie" optionLabel="name" optionValue="value" placeholder="Sélectionnez une catégorie" styleClass="custom-select w-full"></p-select>
+//               <p-select appendTo="body" [options]="categories" [(ngModel)]="boutique.categorie" name="categorie" optionLabel="name" optionValue="value" placeholder="Sélectionnez une catégorie" styleClass="custom-select w-full"></p-select>
 //             </div>
 //           </div>
 //         </div>
@@ -1343,7 +1343,7 @@ interface Horaire {
               </div>
               <div class="field-group">
                 <label class="field-label">Catégorie <span class="req">*</span></label>
-                <p-select [options]="categories" [(ngModel)]="boutique.categorie" name="categorie" optionLabel="name" optionValue="value" placeholder="Sélectionnez une catégorie" styleClass="custom-select w-full"></p-select>
+                <p-select appendTo="body" [options]="categories" [(ngModel)]="boutique.categorie" name="categorie" optionLabel="name" optionValue="value" placeholder="Sélectionnez une catégorie" styleClass="custom-select w-full"></p-select>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -17,6 +17,7 @@ import { ProduitService } from '@/pages/service/produit.service';
 import { CategorieService } from '@/pages/service/categorie.service';
 import { PromotionService } from '@/pages/service/promotion.service';
 import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-categorie/cascade-categorie';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-mes-produits',
@@ -42,15 +43,11 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
     <p-toast></p-toast>
     <p-confirmDialog></p-confirmDialog>
 
-    <div class="card">
-        <!-- Header -->
-        <div class="flex items-center justify-between pb-4 border-bottom-1 surface-border mb-4">
-            <div class="flex items-center gap-3">
-                <i class="pi pi-box text-4xl text-primary"></i>
-                <div>
-                    <div class="font-semibold text-2xl text-primary">Mes Produits</div>
-                    <p class="text-600 text-sm mt-1">{{ produits.length }} modele(s) de produit</p>
-                </div>
+    <div class="page-container">
+        <div class="page-header">
+            <div>
+                <h2 class="page-title"><i class="pi pi-box"></i> Mes Produits</h2>
+                <p class="page-subtitle">{{ produits.length }} modèle(s) de produit</p>
             </div>
             <button pButton label="Nouveau produit" icon="pi pi-plus" (click)="openNew()"></button>
         </div>
@@ -62,7 +59,9 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
         </div>
 
         <!-- Table -->
-        <p-table *ngIf="!loading" [value]="produits" [paginator]="true" [rows]="10"
+        <div class="table-card" *ngIf="!loading">
+        <p-table [value]="produits" [paginator]="true" [rows]="10"
+                 styleClass="custom-table"
                  [tableStyle]="{'min-width': '60rem'}" [rowHover]="true" dataKey="_id"
                  [showCurrentPageReport]="true"
                  currentPageReportTemplate="{first} - {last} sur {totalRecords} produits">
@@ -83,7 +82,7 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
                     <td>
                         <div class="relative w-3rem h-3rem border-round overflow-hidden surface-100 flex items-center justify-center">
                             <img *ngIf="produit.images && produit.images.length > 0"
-                                 [src]="'http://localhost:5000/uploads/produits/' + produit.images[0].filename"
+                                 [src]="environment.apiUrl + '/uploads/produits/' + produit.images[0].filename"
                                  [alt]="produit.nom_produit" class="w-full h-full" style="object-fit:cover;" />
                             <i *ngIf="!produit.images || produit.images.length === 0" class="pi pi-image text-xl text-400"></i>
                             <span *ngIf="produit.images && produit.images.length > 1"
@@ -140,17 +139,8 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
                 </tr>
             </ng-template>
         </p-table>
+        </div>
     </div>
-
-    <style>
-    .mp-promo-tag {
-        display:inline-flex; align-items:center; gap:0.3rem;
-        background:#fef3c7; color:#b45309;
-        font-size:0.7rem; font-weight:700;
-        padding:0.15rem 0.6rem; border-radius:10px;
-        border:1px solid #fcd34d;
-    }
-    </style>
 
     <!-- =============================================
          DIALOG 1 : Creer / Modifier le modele produit
@@ -172,7 +162,7 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
                         <div *ngFor="let img of currentProduit.images"
                              class="relative border-round overflow-hidden border-2 surface-border"
                              style="width:80px;height:80px;">
-                            <img [src]="'http://localhost:5000/uploads/produits/' + img.filename"
+                            <img [src]="environment.apiUrl + '/uploads/produits/' + img.filename"
                                  alt="img" class="w-full h-full" style="object-fit:cover;" />
                             <button type="button" (click)="removeExistingImage(img)"
                                 class="absolute top-0 right-0 bg-red-500 text-white border-none cursor-pointer p-1"
@@ -330,7 +320,7 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
                     <div class="flex flex-wrap gap-3 mb-3">
                         <div *ngFor="let attr of varianteProduit.attributs" class="flex flex-col gap-1">
                             <label class="text-sm font-semibold text-700">{{ attr.nom }}</label>
-                            <p-select [options]="attr.valeurs" [(ngModel)]="newVarianteSelection[attr.nom]"
+                            <p-select appendTo="body" [options]="attr.valeurs" [(ngModel)]="newVarianteSelection[attr.nom]"
                                 [placeholder]="'Choisir ' + attr.nom" styleClass="w-10rem"></p-select>
                         </div>
                         <div class="flex flex-col gap-1">
@@ -343,8 +333,9 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
                     <div class="flex gap-3 mb-3 flex-wrap">
                         <div class="flex flex-col gap-1">
                             <label class="text-sm font-semibold text-700">Devise</label>
-                            <p-select [options]="deviseOptions" [(ngModel)]="newVarianteDevise"
-                                      optionLabel="label" optionValue="value" styleClass="w-10rem"></p-select>
+                            <p-select appendTo="body" [options]="deviseOptions" [(ngModel)]="newVarianteDevise"
+                                      optionLabel="label" optionValue="value" styleClass="w-10rem"
+                                      [disabled]="true"></p-select>
                         </div>
                         <div class="flex flex-col gap-1">
                             <label class="text-sm font-semibold text-700">Prix HT initial</label>
@@ -372,9 +363,35 @@ import { CascadeCategorie, CategorieNode } from '@/shared/components/cascade-cat
             <button pButton label="Fermer" icon="pi pi-times" [text]="true" (click)="varianteDialog = false"></button>
         </ng-template>
     </p-dialog>
-    `
+    `,
+    styles: [`
+:host {
+    --primary: #f59e0b; --primary-dark: #d97706; --card: #ffffff;
+    --text-900: #0f172a; --text-600: #475569; --text-400: #94a3b8;
+    --border: #e2e8f0; --border-100: #f8fafc;
+    --shadow: 0 1px 3px rgba(15,23,42,0.06), 0 4px 12px rgba(15,23,42,0.04);
+    --radius: 1rem;
+}
+.page-container { padding: 2rem; }
+.page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; }
+.page-title { font-size:1.75rem; font-weight:700; color:var(--text-900); display:flex; align-items:center; gap:0.75rem; margin:0; }
+.page-title i { color:var(--primary); font-size:1.5rem; }
+.page-subtitle { color:var(--text-600); font-size:0.875rem; margin:0.25rem 0 0; }
+.table-card { background:var(--card); border-radius:var(--radius); border:1px solid var(--border); box-shadow:var(--shadow); overflow:hidden; }
+::ng-deep .custom-table .p-datatable-thead > tr > th { background:var(--border-100) !important; color:var(--text-600) !important; font-size:0.75rem !important; font-weight:600 !important; text-transform:uppercase !important; letter-spacing:0.05em !important; padding:0.875rem 1rem !important; border-bottom:1px solid var(--border) !important; border-right:none !important; border-top:none !important; border-left:none !important; }
+::ng-deep .custom-table .p-datatable-tbody > tr { background:#fff !important; color:var(--text-900) !important; transition:background 0.15s; }
+::ng-deep .custom-table .p-datatable-tbody > tr:hover { background:#fefce8 !important; }
+::ng-deep .custom-table .p-datatable-tbody > tr > td { padding:1rem !important; border-bottom:1px solid var(--border-100) !important; border-right:none !important; border-left:none !important; border-top:none !important; }
+::ng-deep .custom-table .p-paginator { background:var(--border-100) !important; border-top:1px solid var(--border) !important; padding:0.75rem 1.5rem !important; border-bottom:none !important; border-left:none !important; border-right:none !important; }
+::ng-deep .custom-table .p-paginator .p-paginator-pages .p-paginator-page { color:var(--text-600) !important; border-radius:0.375rem; font-weight:500; }
+::ng-deep .custom-table .p-paginator .p-paginator-pages .p-paginator-page.p-highlight { background:var(--primary) !important; color:#fff !important; }
+.mp-promo-tag { display:inline-flex; align-items:center; gap:0.3rem; background:#fef3c7; color:#b45309; font-size:0.7rem; font-weight:700; padding:0.15rem 0.6rem; border-radius:10px; border:1px solid #fcd34d; }
+::ng-deep .p-button:not(.p-button-text):not(.p-button-outlined):not(.p-button-link) { background:var(--primary) !important; border-color:var(--primary) !important; color:#fff !important; }
+::ng-deep .p-button:not(.p-button-text):not(.p-button-outlined):not(.p-button-link):enabled:hover { background:var(--primary-dark) !important; border-color:var(--primary-dark) !important; }
+    `]
 })
 export class MesProduits implements OnInit {
+    protected environment = environment;
 
     produits: any[] = [];
     loading = true;
@@ -394,6 +411,7 @@ export class MesProduits implements OnInit {
     imagesToDelete: string[] = [];
 
     deviseOptions = [
+        { label: 'AR — Ariary Malgache', value: 'AR' },
         { label: 'DT — Dinar Tunisien', value: 'DT' },
         { label: 'EUR — Euro', value: 'EUR' },
         { label: 'USD — Dollar US', value: 'USD' },
@@ -408,7 +426,7 @@ export class MesProduits implements OnInit {
     newVarianteSelection: { [key: string]: string } = {};
     newVarianteRef = '';
     newVariantePrix: number | null = null;
-    newVarianteDevise = 'DT';
+    newVarianteDevise = 'AR';
     newVarianteStock = 0;
 
     myActivePromos: any[] = [];
@@ -605,7 +623,7 @@ export class MesProduits implements OnInit {
         this.newVarianteSelection = {};
         this.newVarianteRef = '';
         this.newVariantePrix = null;
-        this.newVarianteDevise = 'DT';
+        this.newVarianteDevise = 'AR';
         this.newVarianteStock = 0;
         this.varianteDialog = true;
     }
@@ -624,7 +642,7 @@ export class MesProduits implements OnInit {
             reference: this.newVarianteRef,
             stock: this.newVarianteStock || 0,
             prix_hors_taxe: this.newVariantePrix,
-            devise: this.newVarianteDevise || 'DT'
+            devise: this.newVarianteDevise || 'AR'
         }).subscribe({
             next: (res) => {
                 // Mettre a jour le produit local
@@ -634,7 +652,7 @@ export class MesProduits implements OnInit {
                 this.newVarianteSelection = {};
                 this.newVarianteRef = '';
                 this.newVariantePrix = null;
-                this.newVarianteDevise = 'DT';
+                this.newVarianteDevise = 'AR';
                 this.newVarianteStock = 0;
                 this.savingVariante = false;
                 this.messageService.add({ severity: 'success', summary: 'Succes', detail: 'Variante ajoutee', life: 3000 });
@@ -676,7 +694,7 @@ export class MesProduits implements OnInit {
         const sorted = [...variante.historique_prix].sort(
             (a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
-        return sorted[0].devise || 'DT';
+        return sorted[0].devise || 'AR';
     }
 
     getPromoForProduit(produitId: string): any | null {

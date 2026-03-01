@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -19,14 +19,13 @@ import { PaiementService } from '@/pages/service/paiement.service';
         SelectModule, DividerModule, TagModule, TooltipModule
     ],
     template: `
-<div class="card">
+<div class="page-container">
 
     <!-- ── Header ── -->
-    <div class="flex items-center gap-3 pb-4 border-bottom-1 surface-border mb-6">
-        <i class="pi pi-file-edit text-4xl text-primary"></i>
+    <div class="page-header">
         <div>
-            <div class="font-semibold text-2xl text-primary">Mon Contrat de Location</div>
-            <p class="text-600 text-sm mt-1">Consultez votre contrat, votre emplacement et l'historique des paiements</p>
+            <h2 class="page-title"><i class="pi pi-file-edit"></i> Mon Contrat de Location</h2>
+            <p class="page-subtitle">Consultez votre contrat, votre emplacement et l'historique des paiements</p>
         </div>
     </div>
 
@@ -51,7 +50,7 @@ import { PaiementService } from '@/pages/service/paiement.service';
     @if (!loading && contrats.length > 1) {
     <div class="mb-5 flex items-center gap-3">
         <label class="font-semibold text-700 whitespace-nowrap">Contrat :</label>
-        <p-select
+        <p-select appendTo="body"
             [options]="contrats"
             [(ngModel)]="contrat"
             optionLabel="label"
@@ -218,8 +217,9 @@ import { PaiementService } from '@/pages/service/paiement.service';
         </div>
     </div>
 
+    <div class="table-card">
     <p-table [value]="periodes" [loading]="loadingPaiements" [rows]="24"
-        [paginator]="periodes.length > 24" styleClass="p-datatable-sm"
+        [paginator]="periodes.length > 24" styleClass="custom-table"
         [rowHover]="true" [showGridlines]="true">
         <ng-template pTemplate="header">
             <tr>
@@ -294,12 +294,30 @@ import { PaiementService } from '@/pages/service/paiement.service';
             </tr>
         </ng-template>
     </p-table>
+    </div>
 
     }
 
 </div>
     `,
     styles: [`
+:host {
+    --primary: #f59e0b; --primary-dark: #d97706; --card: #ffffff;
+    --text-900: #0f172a; --text-600: #475569; --text-400: #94a3b8;
+    --border: #e2e8f0; --border-100: #f8fafc;
+    --shadow: 0 1px 3px rgba(15,23,42,0.06), 0 4px 12px rgba(15,23,42,0.04);
+    --radius: 1rem;
+}
+.page-container { padding: 2rem; }
+.page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; }
+.page-title { font-size:1.75rem; font-weight:700; color:var(--text-900); display:flex; align-items:center; gap:0.75rem; margin:0; }
+.page-title i { color:var(--primary); font-size:1.5rem; }
+.page-subtitle { color:var(--text-600); font-size:0.875rem; margin:0.25rem 0 0; }
+.table-card { background:var(--card); border-radius:var(--radius); border:1px solid var(--border); box-shadow:var(--shadow); overflow:hidden; }
+::ng-deep .custom-table .p-datatable-thead > tr > th { background:var(--border-100) !important; color:var(--text-600) !important; font-size:0.75rem !important; font-weight:600 !important; text-transform:uppercase !important; letter-spacing:0.05em !important; padding:0.875rem 1rem !important; border-bottom:1px solid var(--border) !important; border-right:none !important; border-top:none !important; border-left:none !important; }
+::ng-deep .custom-table .p-datatable-tbody > tr { background:#fff !important; color:var(--text-900) !important; transition:background 0.15s; }
+::ng-deep .custom-table .p-datatable-tbody > tr:hover { background:#fefce8 !important; }
+::ng-deep .custom-table .p-datatable-tbody > tr > td { padding:0.875rem 1rem !important; border-bottom:1px solid var(--border-100) !important; border-right:none !important; border-left:none !important; border-top:none !important; }
 /* Statut contrat */
 .contrat-statut { display:inline-flex; align-items:center; gap:6px; padding:0.35rem 1rem; border-radius:9999px; font-size:0.82rem; font-weight:700; }
 .statut-actif { background:#d1fae5; color:#065f46; }

@@ -1,14 +1,15 @@
-import { HttpClient } from "@angular/common/http";
+﻿import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
+import { environment } from '@env/environment';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
 
-    private apiUrl = 'http://localhost:5000/user';
+    private apiUrl = `${environment.apiUrl}/user`;
     private currentUserSubject = new BehaviorSubject<any>(null);
     currentUser$ = this.currentUserSubject.asObservable();
 

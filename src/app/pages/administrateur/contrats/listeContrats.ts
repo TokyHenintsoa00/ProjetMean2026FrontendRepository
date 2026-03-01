@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -79,7 +79,7 @@ import { ContratService } from '@/pages/service/contrat.service';
                         <input pInputText type="text" placeholder="Rechercher..."
                             (input)="dt.filterGlobal($any($event.target).value, 'contains')" class="search-input">
                     </p-iconField>
-                    <p-select
+                    <p-select appendTo="body"
                         [options]="statutOptions"
                         [(ngModel)]="selectedStatut"
                         placeholder="Tous les statuts"

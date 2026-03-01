@@ -1,10 +1,11 @@
-
+﻿
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BoutiqueService } from '../service/boutique.service';
 import { Router } from '@angular/router';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-voir-all-boutique',
@@ -801,7 +802,7 @@ export class VoirAllBoutique implements OnInit {
     filteredBoutiques: any[] = [];
     searchTerm: string = '';
     loading: boolean = true;
-    baseUrl: string = 'http://localhost:5000'; // Ajustez selon votre API
+    baseUrl: string = environment.apiUrl; // Ajustez selon votre API
 
     constructor(
         private boutiqueService: BoutiqueService,

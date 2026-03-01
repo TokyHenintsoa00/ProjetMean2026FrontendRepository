@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BoutiqueService } from '@/pages/service/boutique.service';
 import { Router } from '@angular/router';
+import { environment } from '@env/environment';
 
 interface Boutique {
     _id: string;
@@ -374,7 +375,7 @@ export class FeaturesWidget implements OnInit, OnDestroy {
     private speed: number = 0.5;
     private lastTimestamp: number = 0;
     private itemWidth: number = 320 + 40; // largeur de carte + gap
-    baseUrl = "http://localhost:5000";
+    baseUrl = environment.apiUrl;
 
     constructor(
         private boutiqueService: BoutiqueService,

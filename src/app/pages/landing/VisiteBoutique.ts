@@ -1,4 +1,4 @@
-
+﻿
 
 
 
@@ -393,7 +393,7 @@
 // export class VisiteBoutique implements OnInit {
 
 //     boutique: any = null;
-//     baseUrl = 'http://localhost:5000';
+//     baseUrl = environment.apiUrl;
 
 //     constructor(
 //         private route: ActivatedRoute,
@@ -444,6 +444,7 @@ import { BoutiqueService } from "../service/boutique.service";
 import { ProduitService } from "../service/produit.service";
 import { CartService, CartItem } from "../service/cart.service";
 import { Subscription } from "rxjs";
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-visite-boutique',
@@ -698,7 +699,7 @@ import { Subscription } from "rxjs";
           <!-- Image -->
           <div class="cart-item-img">
             <img *ngIf="item.image_url"
-                 [src]="'http://localhost:5000' + item.image_url"
+                 [src]="baseUrl + item.image_url"
                  [alt]="item.nom_produit"
                  (error)="onImageError($event)" />
             <div *ngIf="!item.image_url" class="cart-item-img-placeholder">
@@ -941,7 +942,7 @@ import { Subscription } from "rxjs";
 export class VisiteBoutique implements OnInit, OnDestroy {
 
     boutique: any = null;
-    baseUrl = 'http://localhost:5000';
+    baseUrl = environment.apiUrl;
 
     products: any[] = [];
 

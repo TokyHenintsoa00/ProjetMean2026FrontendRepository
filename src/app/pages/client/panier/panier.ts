@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { CartService, CartItem } from '@/pages/service/cart.service';
 import { CommandeService } from '@/pages/service/commande.service';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-panier',
@@ -65,7 +66,7 @@ import { CommandeService } from '@/pages/service/commande.service';
                             <!-- Image -->
                             <div class="pan-item-img">
                                 @if (item.image_url) {
-                                    <img [src]="'http://localhost:5000' + item.image_url" [alt]="item.nom_produit" />
+                                    <img [src]="environment.apiUrl + item.image_url" [alt]="item.nom_produit" />
                                 } @else {
                                     <div class="pan-no-img"><i class="pi pi-image"></i></div>
                                 }
@@ -424,6 +425,7 @@ import { CommandeService } from '@/pages/service/commande.service';
     `
 })
 export class Panier implements OnInit {
+    protected environment = environment;
     cartItems: CartItem[] = [];
     boutiqueEntries: { boutique_id: string, boutique_nom: string, items: CartItem[] }[] = [];
     adresseLivraison = '';

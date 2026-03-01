@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { DividerModule } from 'primeng/divider';
 import { BoutiqueService } from '@/pages/service/boutique.service';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-accueil-client',
@@ -293,7 +294,7 @@ export class AccueilClient implements OnInit, OnDestroy {
     private lastTimestamp = 0;
     private readonly itemWidth = 320 + 40; // card width + gap
 
-    baseUrl = 'http://localhost:5000';
+    baseUrl = environment.apiUrl;
     fallbackLogo = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/%3E%3Ctext fill=%22%23999%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22%3ELogo%3C/text%3E%3C/svg%3E';
 
     constructor(

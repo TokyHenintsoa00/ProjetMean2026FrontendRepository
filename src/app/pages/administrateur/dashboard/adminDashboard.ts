@@ -82,7 +82,7 @@
 //         <div class="ad-kpi-icon-wrap"><i class="pi pi-dollar"></i></div>
 //         <div class="ad-kpi-body">
 //             <span class="ad-kpi-label">Revenu Total</span>
-//             <span class="ad-kpi-val">{{ stats.revenueTotal | number:'1.0-0' }} <small>DT</small></span>
+//             <span class="ad-kpi-val">{{ stats.revenueTotal | number:'1.0-0' }} <small>AR</small></span>
 //             <span class="ad-kpi-sub">hors annulées</span>
 //         </div>
 //     </div>
@@ -162,7 +162,7 @@
 //                         <td><span class="ad-order-num">{{ cmd.numero_commande }}</span></td>
 //                         <td>{{ cmd.client?.prenom_client }} {{ cmd.client?.nom_client }}</td>
 //                         <td class="ad-muted">{{ cmd.boutique?.nom_boutique }}</td>
-//                         <td><span class="ad-total">{{ cmd.total | number:'1.2-2' }} DT</span></td>
+//                         <td><span class="ad-total">{{ cmd.total | number:'1.2-2' }} AR</span></td>
 //                         <td><p-tag [value]="getStatutLabel(cmd.statut)" [severity]="getStatutSeverity(cmd.statut)"></p-tag></td>
 //                         <td class="ad-muted">{{ cmd.created_at | date:'dd/MM/yyyy' }}</td>
 //                     </tr>
@@ -190,7 +190,7 @@
 //                             <span class="ad-top-name">{{ b.nom_boutique }}</span>
 //                             <span class="ad-top-orders">{{ b.count }} commande(s)</span>
 //                         </div>
-//                         <span class="ad-top-rev">{{ b.total | number:'1.2-2' }} DT</span>
+//                         <span class="ad-top-rev">{{ b.total | number:'1.2-2' }} AR</span>
 //                     </div>
 //                 }
 //             </div>
@@ -696,7 +696,7 @@ const ROLE_FILTERS: { label: string; id: string | null }[] = [
         <div class="ad-kpi-icon-wrap"><i class="pi pi-dollar"></i></div>
         <div class="ad-kpi-body">
             <span class="ad-kpi-label">Revenu Total</span>
-            <span class="ad-kpi-val">{{ stats.revenueTotal | number:'1.0-0' }} <small>DT</small></span>
+            <span class="ad-kpi-val">{{ stats.revenueTotal | number:'1.0-0' }} <small>AR</small></span>
             <span class="ad-kpi-sub">hors annulées</span>
         </div>
     </div>
@@ -776,7 +776,7 @@ const ROLE_FILTERS: { label: string; id: string | null }[] = [
                         <td><span class="ad-order-num">{{ cmd.numero_commande }}</span></td>
                         <td>{{ cmd.client?.prenom_client }} {{ cmd.client?.nom_client }}</td>
                         <td class="ad-muted">{{ cmd.boutique?.nom_boutique }}</td>
-                        <td><span class="ad-total">{{ cmd.total | number:'1.2-2' }} DT</span></td>
+                        <td><span class="ad-total">{{ cmd.total | number:'1.2-2' }} AR</span></td>
                         <td><p-tag [value]="getStatutLabel(cmd.statut)" [severity]="getStatutSeverity(cmd.statut)"></p-tag></td>
                         <td class="ad-muted">{{ cmd.created_at | date:'dd/MM/yyyy' }}</td>
                     </tr>
@@ -804,7 +804,7 @@ const ROLE_FILTERS: { label: string; id: string | null }[] = [
                             <span class="ad-top-name">{{ b.nom_boutique }}</span>
                             <span class="ad-top-orders">{{ b.count }} commande(s)</span>
                         </div>
-                        <span class="ad-top-rev">{{ b.total | number:'1.2-2' }} DT</span>
+                        <span class="ad-top-rev">{{ b.total | number:'1.2-2' }} AR</span>
                     </div>
                 }
             </div>

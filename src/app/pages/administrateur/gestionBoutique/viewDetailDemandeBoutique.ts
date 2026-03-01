@@ -1,4 +1,4 @@
-import { BoutiqueService } from "@/pages/service/boutique.service";
+﻿import { BoutiqueService } from "@/pages/service/boutique.service";
 import { UserService } from "@/pages/service/user.service";
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
@@ -18,6 +18,7 @@ import { ToastModule } from "primeng/toast";
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-infoplusBoutique',
@@ -474,7 +475,7 @@ export class viewDetailDemandeBoutique {
     userData: any = null;
     boutique: any = null;
     loading: boolean = true;
-    baseUrl = "http://localhost:5000";
+    baseUrl = environment.apiUrl;
 
     constructor(
         private route: ActivatedRoute,
