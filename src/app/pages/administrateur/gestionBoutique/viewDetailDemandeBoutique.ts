@@ -577,7 +577,7 @@ export class viewDetailDemandeBoutique {
                         email: shop.manager_id.email || '',
                         telephone: shop.manager_id.numero_telephone || 'Non renseigné',
                         avatar: shop.manager_id.avatar?.length
-                            ? `${this.baseUrl}${shop.manager_id.avatar[0].url}` : null,
+                            ? shop.manager_id.avatar[0].url : null,
                         isActive: shop.manager_id.is_active,
                         createdAt: shop.manager_id.createdAt || null
                     };

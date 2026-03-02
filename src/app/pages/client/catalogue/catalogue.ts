@@ -160,7 +160,7 @@ import { environment } from '@env/environment';
             <div class="detail-gallery">
                 <div class="detail-main-img">
                     @if (selectedProduct.images && selectedProduct.images.length > 0) {
-                        <img [src]="environment.apiUrl + selectedProduct.images[selectedImageIndex].url"
+                        <img [src]="selectedProduct.images[selectedImageIndex].url"
                              [alt]="selectedProduct.nom_produit" />
                     } @else {
                         <div class="detail-no-img"><i class="pi pi-image"></i></div>
@@ -169,7 +169,7 @@ import { environment } from '@env/environment';
                 @if (selectedProduct.images && selectedProduct.images.length > 1) {
                     <div class="detail-thumbs">
                         @for (img of selectedProduct.images; track img._id; let i = $index) {
-                            <img [src]="environment.apiUrl + img.url"
+                            <img [src]="img.url"
                                  class="detail-thumb"
                                  [class.detail-thumb-active]="i === selectedImageIndex"
                                  (click)="selectedImageIndex = i" />

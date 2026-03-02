@@ -472,7 +472,7 @@ export class ListeBoutique {
                         ?`${shop.manager_id.numero_telephone}`:'',
                     
                     avatar: shop.manager_id?.avatar?.length
-                        ? `${this.baseUrl}${shop.manager_id.avatar[0].url}`
+                        ? shop.manager_id.avatar[0].url
                         : null,
 
                 
