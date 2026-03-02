@@ -414,6 +414,7 @@ export class TopbarWidget {
 
     logout() {
         console.log('Déconnexion');
+        localStorage.removeItem('token_user');
         // this.authService.logout();
         this.router.navigate(['/']);
     }

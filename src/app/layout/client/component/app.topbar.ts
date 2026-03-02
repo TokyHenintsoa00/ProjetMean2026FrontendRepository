@@ -695,8 +695,8 @@ navigateToHome()
 
 logout() {
   console.log("clique log out");
-  
+  localStorage.removeItem('token_user');
   this.closeDropdown();
-  //this.router.navigate(['/']);
+  this.router.navigate(['/logIn']);
 }
 }

@@ -565,6 +565,9 @@ export class SignUp{
         this.userservice.signUp(newUserClient).subscribe({
             next:(res) =>{
                 console.log("user inserer",res);
+                if (res?.token) {
+                    localStorage.setItem('token_user', res.token);
+                }
                 this.loginUser = {  nom: '',
                                     prenom: '',
                                     dateNaissance: '',

@@ -446,6 +446,9 @@ export class LoginAdmin{
 
         this.userservice.signInAdministrator(logUser).subscribe({
             next:(res) =>{
+                if (res?.token) {
+                    localStorage.setItem('token_user', res.token);
+                }
 
                 this.userservice.findRoleUserByEmail(role_by_email).subscribe({
                     next:(role)=>{

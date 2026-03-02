@@ -28,6 +28,7 @@ export class AuthService {
     }
 
     logout(): void {
+        localStorage.removeItem('token_user');
         this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true }).subscribe({
             next: () => {
                 this.currentUserSubject.next(null);
