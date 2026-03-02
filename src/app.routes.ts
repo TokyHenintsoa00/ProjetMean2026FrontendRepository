@@ -42,6 +42,7 @@ import { ListeContrats } from '@/pages/administrateur/contrats/listeContrats';
 import { AjouterContrat } from '@/pages/administrateur/contrats/ajouterContrat';
 import { DetailContrat } from '@/pages/administrateur/contrats/detailContrat';
 import { MonContrat } from '@/pages/boutique/contrat/monContrat';
+import { ListeClientManager } from '@/pages/administrateur/gestionuser/ListeClientManager';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
@@ -98,7 +99,8 @@ export const appRoutes: Routes = [
             {path:'commandes/:id', component:CommandeDetail, data:{ mode:'admin' }},
             {path:'contrats', component:ListeContrats},
             {path:'contrats/ajouter', component:AjouterContrat},
-            {path:'contrats/detail/:id', component:DetailContrat}
+            {path:'contrats/detail/:id', component:DetailContrat},
+            {path:'listeuser',component:ListeClientManager}
         ]
     },
     { path: 'notfound', component: Notfound },

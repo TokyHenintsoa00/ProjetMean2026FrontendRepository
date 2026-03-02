@@ -32,7 +32,14 @@ export class UserService{
     }
 
     
+    getManagerAndClient(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/getAll/client/manager`);
+    }
 
+    
+    deleteUser(user_id: string): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/delete/${user_id}`);
+    }
 
     // signUp(credentials:{nom:string,prenom:string,dateNaissance:Date,role:string,telephone:string,email:string,pwd:string,avatar:null,rememberMe?:boolean}):Observable<any>
     // {

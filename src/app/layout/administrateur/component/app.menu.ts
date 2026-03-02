@@ -470,7 +470,13 @@ export class AppMenu {
                     { label: 'Liste des contrats',  icon: 'pi pi-file-edit', routerLink: ['/admin/home/contrats'] },
                     { label: 'Nouveau contrat',     icon: 'pi pi-plus',      routerLink: ['/admin/home/contrats/ajouter'] }
                 ]
-            }
+            },
+            {
+                label: 'Gestion utilisateur',
+                items: [
+                    { label: 'Liste des manager et client',  icon: 'pi pi-user', routerLink: ['/admin/home/listeuser'] },
+                ]
+            },
         ];
     }
 }

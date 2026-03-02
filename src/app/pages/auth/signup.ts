@@ -571,7 +571,7 @@ export class SignUp{
                                     telephone: '',
                                     email: '',
                                     pwd: ''};
-                this.router.navigate(['/membre/client']);
+                this.router.navigate(['/client']);
                 // pasky@gmail.com
                 // Pasky@123/*
             },
