@@ -66,7 +66,7 @@ import { environment } from '@env/environment';
                             <!-- Image -->
                             <div class="pan-item-img">
                                 @if (item.image_url) {
-                                    <img [src]="environment.apiUrl + item.image_url" [alt]="item.nom_produit" />
+                                    <img [src]="item.image_url" [alt]="item.nom_produit" />
                                 } @else {
                                     <div class="pan-no-img"><i class="pi pi-image"></i></div>
                                 }

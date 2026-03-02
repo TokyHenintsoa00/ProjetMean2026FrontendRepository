@@ -122,7 +122,7 @@ import { environment } from '@env/environment';
                         <div class="boutique-card">
                             <!-- Logo -->
                             <div class="logo-container">
-                                <img [src]="boutique.logo ? baseUrl + boutique.logo : fallbackLogo"
+                                <img [src]="boutique.logo ? boutique.logo : fallbackLogo"
                                      [alt]="boutique.nom_boutique"
                                      class="boutique-logo"
                                      (error)="onImageError($event)" />
@@ -322,7 +322,7 @@ export class AccueilClient implements OnInit, OnDestroy {
                     }
                     let logoUrl = null;
                     if (shop.logo && shop.logo.length > 0) {
-                        logoUrl = shop.logo[0].url.replace('/uploads/logoboutique/', '/uploads/logo/');
+                        logoUrl = shop.logo[0].url;
                     }
                     return {
                         _id: shop._id,

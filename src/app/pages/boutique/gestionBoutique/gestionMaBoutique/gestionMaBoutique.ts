@@ -145,7 +145,7 @@ import { environment } from '@env/environment';
                             <div class="flex items-center gap-4">
                                 <div *ngIf="boutique.logo && boutique.logo.length > 0"
                                      class="w-8rem h-8rem border-round-lg overflow-hidden border-2 surface-border">
-                                    <img [src]="environment.apiUrl + '/uploads/logo/' + boutique.logo[0].filename"
+                                    <img [src]="boutique.logo[0].url"
                                          alt="Logo" class="w-full h-full" style="object-fit: cover;" />
                                 </div>
                                 <div *ngIf="!boutique.logo || boutique.logo.length === 0"
@@ -172,7 +172,7 @@ import { environment } from '@env/environment';
                                 <div *ngFor="let photo of boutique.photo_boutique"
                                      class="relative border-2 border-round-lg overflow-hidden hover:shadow-4 transition-all"
                                      style="aspect-ratio: 1;">
-                                    <img [src]="environment.apiUrl + '/uploads/boutique/' + photo.filename"
+                                    <img [src]="photo.url"
                                          [alt]="photo.filename"
                                          class="w-full h-full" style="object-fit: cover;" />
                                     <button type="button" (click)="deletePhoto(photo._id)"

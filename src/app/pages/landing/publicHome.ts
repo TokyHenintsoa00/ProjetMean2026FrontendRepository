@@ -655,7 +655,7 @@ export class PublicHome implements OnInit {
     }
 
     getBoutiqueLogoUrl(b: any): string | null {
-        return b.logo?.length > 0 ? environment.apiUrl + b.logo[0].url : null;
+        return b.logo?.length > 0 ? b.logo[0].url : null;
     }
 
     visitBoutique(id: string) { this.router.navigate(['/visiteBoutique', id]); }

@@ -90,7 +90,7 @@ import { environment } from '@env/environment';
                         <!-- Image -->
                         <div class="pcard-img">
                             @if (produit.images && produit.images.length > 0) {
-                                <img [src]="environment.apiUrl + produit.images[0].url"
+                                <img [src]="produit.images[0].url"
                                      [alt]="produit.nom_produit" />
                             } @else {
                                 <div class="pcard-no-img">

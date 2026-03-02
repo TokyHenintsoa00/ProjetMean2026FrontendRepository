@@ -82,7 +82,7 @@ import { environment } from '@env/environment';
                     <td>
                         <div class="relative w-3rem h-3rem border-round overflow-hidden surface-100 flex items-center justify-center">
                             <img *ngIf="produit.images && produit.images.length > 0"
-                                 [src]="environment.apiUrl + '/uploads/produits/' + produit.images[0].filename"
+                                 [src]="produit.images[0].url"
                                  [alt]="produit.nom_produit" class="w-full h-full" style="object-fit:cover;" />
                             <i *ngIf="!produit.images || produit.images.length === 0" class="pi pi-image text-xl text-400"></i>
                             <span *ngIf="produit.images && produit.images.length > 1"
@@ -162,7 +162,7 @@ import { environment } from '@env/environment';
                         <div *ngFor="let img of currentProduit.images"
                              class="relative border-round overflow-hidden border-2 surface-border"
                              style="width:80px;height:80px;">
-                            <img [src]="environment.apiUrl + '/uploads/produits/' + img.filename"
+                            <img [src]="img.url"
                                  alt="img" class="w-full h-full" style="object-fit:cover;" />
                             <button type="button" (click)="removeExistingImage(img)"
                                 class="absolute top-0 right-0 bg-red-500 text-white border-none cursor-pointer p-1"

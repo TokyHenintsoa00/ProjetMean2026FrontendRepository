@@ -699,7 +699,7 @@ import { environment } from '@env/environment';
           <!-- Image -->
           <div class="cart-item-img">
             <img *ngIf="item.image_url"
-                 [src]="baseUrl + item.image_url"
+                 [src]="item.image_url"
                  [alt]="item.nom_produit"
                  (error)="onImageError($event)" />
             <div *ngIf="!item.image_url" class="cart-item-img-placeholder">
