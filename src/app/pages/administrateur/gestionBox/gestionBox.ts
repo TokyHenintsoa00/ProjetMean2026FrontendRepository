@@ -12,6 +12,7 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { BoxService } from '@/pages/service/box.service';
+import { EmplacementService } from '@/pages/service/emplacement.service';
 
 @Component({
     selector: 'app-gestion-box',
@@ -89,7 +90,7 @@ import { BoxService } from '@/pages/service/box.service';
         }
     </div>
     <div class="gb-etage-wrap">
-        <p-select appendTo="body" [options]="etageOptions" [(ngModel)]="selectedEtage" (onChange)="applyFilters()"
+        <p-select appendTo="body" [options]="etageFilterOptions" [(ngModel)]="selectedEtage" (onChange)="applyFilters()"
                   optionLabel="label" optionValue="value" placeholder="Tous les étages"
                   styleClass="gb-etage-select"></p-select>
     </div>
@@ -105,6 +106,7 @@ import { BoxService } from '@/pages/service/box.service';
                     <th>Étage</th>
                     <th>Superficie</th>
                     <th>Boutique attribuée</th>
+                    <th>Zone</th>
                     <th>Statut</th>
                     <th>Description</th>
                     <th></th>
@@ -114,7 +116,15 @@ import { BoxService } from '@/pages/service/box.service';
                 @for (box of filteredBoxes; track box._id) {
                     <tr class="gb-row">
                         <td><span class="gb-numero">{{ box.numero }}</span></td>
-                        <td><span class="gb-etage-badge">{{ box.etage }}</span></td>
+                        <td>
+                            @if (box.etage_id) {
+                                <span class="gb-etage-badge" [style.background]="box.etage_id.couleur + '22'" [style.color]="box.etage_id.couleur">
+                                    <i class="pi pi-building"></i> {{ box.etage_id.nom }}
+                                </span>
+                            } @else {
+                                <span class="gb-no-boutique">—</span>
+                            }
+                        </td>
                         <td><span class="gb-superficie">{{ box.superficie }} m²</span></td>
                         <td>
                             @if (box.boutique_id) {
@@ -122,6 +132,16 @@ import { BoxService } from '@/pages/service/box.service';
                                     <i class="pi pi-shop gb-boutique-icon"></i>
                                     <span class="gb-boutique-name">{{ box.boutique_id?.nom_boutique || box.boutique_id }}</span>
                                 </div>
+                            } @else {
+                                <span class="gb-no-boutique">—</span>
+                            }
+                        </td>
+                        <td>
+                            @if (box.zone_id) {
+                                <span class="gb-zone-badge" [style.background]="box.zone_id.couleur + '22'" [style.color]="box.zone_id.couleur" [style.border-color]="box.zone_id.couleur + '55'">
+                                    <span class="gb-zone-dot" [style.background]="box.zone_id.couleur"></span>
+                                    {{ box.zone_id.nom }}
+                                </span>
                             } @else {
                                 <span class="gb-no-boutique">—</span>
                             }
@@ -189,10 +209,23 @@ import { BoxService } from '@/pages/service/box.service';
             <input pInputText [(ngModel)]="form.numero" placeholder="Ex: A-001" class="gb-form-input" />
         </div>
         <div class="gb-form-row">
-            <label class="gb-form-label">Étage <span class="gb-required">*</span></label>
-            <p-select appendTo="body" [options]="etageOptions.slice(1)" [(ngModel)]="form.etage"
-                      optionLabel="label" optionValue="value"
-                      styleClass="w-full"></p-select>
+            <label class="gb-form-label">Étage</label>
+            <p-select appendTo="body"
+                      [options]="etageList"
+                      [(ngModel)]="form.etage_id"
+                      (onChange)="onEtageChange()"
+                      optionLabel="label"
+                      optionValue="value"
+                      placeholder="— Sélectionner un étage —"
+                      styleClass="w-full"
+                      [showClear]="true">
+                <ng-template pTemplate="option" let-opt>
+                    <div class="gb-zone-option">
+                        <span class="gb-zone-option-dot" [style.background]="opt.couleur"></span>
+                        <span>{{ opt.label }}</span>
+                    </div>
+                </ng-template>
+            </p-select>
         </div>
         <div class="gb-form-row">
             <label class="gb-form-label">Superficie (m²)</label>
@@ -203,6 +236,26 @@ import { BoxService } from '@/pages/service/box.service';
             <p-select appendTo="body" [options]="statutOptions" [(ngModel)]="form.statut"
                       optionLabel="label" optionValue="value"
                       styleClass="w-full"></p-select>
+        </div>
+        <div class="gb-form-row">
+            <label class="gb-form-label">Zone / Emplacement</label>
+            <p-select appendTo="body"
+                      [options]="form.etage_id ? zoneOptions : allZones"
+                      [(ngModel)]="form.zone_id"
+                      (onChange)="onZoneChange()"
+                      optionLabel="label"
+                      optionValue="value"
+                      placeholder="— Aucune zone —"
+                      styleClass="w-full"
+                      [showClear]="true">
+                <ng-template pTemplate="option" let-opt>
+                    <div class="gb-zone-option">
+                        <span class="gb-zone-option-dot" [style.background]="opt.couleur"></span>
+                        <span>{{ opt.label }}</span>
+                        <span class="gb-zone-option-type">{{ opt.type === 'etage' ? 'Étage' : 'Zone' }}</span>
+                    </div>
+                </ng-template>
+            </p-select>
         </div>
         <div class="gb-form-row">
             <label class="gb-form-label">Description</label>
@@ -259,7 +312,7 @@ import { BoxService } from '@/pages/service/box.service';
 .gb-row:last-child { border-bottom:none; }
 .gb-row td { padding:0.85rem 1rem; vertical-align:middle; font-size:0.875rem; }
 .gb-numero { font-weight:700; color:#0369a1; font-family:monospace; font-size:0.85rem; }
-.gb-etage-badge { display:inline-block; background:#f1f5f9; color:#475569; font-size:0.75rem; font-weight:600; padding:0.2rem 0.6rem; border-radius:6px; }
+.gb-etage-badge { display:inline-flex; align-items:center; gap:0.3rem; font-size:0.75rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:6px; }
 .gb-superficie { font-weight:600; color:#334155; }
 .gb-boutique-cell { display:flex; align-items:center; gap:0.4rem; }
 .gb-boutique-icon { color:#f59e0b; font-size:0.85rem; }
@@ -294,6 +347,12 @@ import { BoxService } from '@/pages/service/box.service';
 .gb-form-input:focus { border-color:#f59e0b; }
 
 
+.gb-zone-badge { display:inline-flex; align-items:center; gap:0.35rem; font-size:0.75rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:20px; border:1.5px solid; white-space:nowrap; }
+.gb-zone-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.gb-zone-option { display:flex; align-items:center; gap:0.5rem; }
+.gb-zone-option-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.gb-zone-option-type { margin-left:auto; font-size:0.68rem; color:#94a3b8; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+
 .gb-dialog-cancel { padding:0.55rem 1.1rem; background:white; border:1.5px solid #e2e8f0; border-radius:8px; font-size:0.875rem; font-weight:600; color:#475569; cursor:pointer; transition:all 0.15s; }
 .gb-dialog-cancel:hover { border-color:#94a3b8; }
 .gb-dialog-save { display:flex; align-items:center; gap:0.4rem; padding:0.55rem 1.1rem; background:#f59e0b; border:none; border-radius:8px; font-size:0.875rem; font-weight:700; color:#fff; cursor:pointer; transition:background 0.15s; }
@@ -313,7 +372,12 @@ export class GestionBox implements OnInit {
 
     showFormDialog = false;
     editingBox: any = null;
-    form = { numero: '', etage: 'RDC', superficie: null as number | null, statut: 'libre', description: '' };
+    form = { numero: '', etage_id: null as string | null, superficie: null as number | null, statut: 'libre', description: '', zone_id: null as string | null };
+
+    zoneOptions: { label: string; value: string; couleur: string; type: string }[] = [];
+    allZones:    { label: string; value: string; couleur: string; type: string; etage_id: string }[] = [];
+    etageList:   { label: string; value: string; couleur: string }[] = [];
+    etageFilterOptions: { label: string; value: string | null }[] = [];
 
     statutOptions = [
         { label: 'Libre',       value: 'libre' },
@@ -321,15 +385,9 @@ export class GestionBox implements OnInit {
         { label: 'En travaux',  value: 'en_travaux' }
     ];
 
-    etageOptions = [
-        { label: 'Tous les étages', value: null },
-        { label: 'RDC',             value: 'RDC' },
-        { label: 'Étage 1',         value: 'Étage 1' },
-        { label: 'Étage 2',         value: 'Étage 2' }
-    ];
-
     constructor(
         private boxService: BoxService,
+        private emplacementService: EmplacementService,
         private router: Router,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
@@ -337,6 +395,46 @@ export class GestionBox implements OnInit {
 
     ngOnInit() {
         this.loadBoxes();
+        this.loadZones();
+    }
+
+    loadZones() {
+        this.emplacementService.getAll().subscribe({
+            next: (data) => {
+                this.etageList = data
+                    .filter(e => e.type === 'etage')
+                    .map(e => ({ label: e.nom, value: e._id, couleur: e.couleur }));
+
+                this.etageFilterOptions = [
+                    { label: 'Tous les étages', value: null },
+                    ...this.etageList.map(e => ({ label: e.label, value: e.value }))
+                ];
+
+                this.allZones = data
+                    .filter(e => e.type === 'zone')
+                    .map(e => ({ label: e.nom, value: e._id, couleur: e.couleur, type: e.type, etage_id: e.etage_id?._id ?? e.etage_id }));
+
+                this.zoneOptions = [...this.allZones];
+            }
+        });
+    }
+
+    onEtageChange() {
+        this.form.zone_id = null;
+        if (this.form.etage_id) {
+            this.zoneOptions = this.allZones.filter(z => z.etage_id === this.form.etage_id);
+        } else {
+            this.zoneOptions = [...this.allZones];
+        }
+    }
+
+    onZoneChange() {
+        if (!this.form.zone_id) return;
+        const selectedZone = this.allZones.find(z => z.value === this.form.zone_id);
+        if (selectedZone?.etage_id) {
+            this.form.etage_id = selectedZone.etage_id;
+            this.zoneOptions = this.allZones.filter(z => z.etage_id === selectedZone.etage_id);
+        }
     }
 
     loadBoxes() {
@@ -349,12 +447,15 @@ export class GestionBox implements OnInit {
     applyFilters() {
         let result = [...this.boxes];
         if (this.selectedStatut) result = result.filter(b => b.statut === this.selectedStatut);
-        if (this.selectedEtage)  result = result.filter(b => b.etage === this.selectedEtage);
+        if (this.selectedEtage)  result = result.filter(b =>
+            b.etage_id?._id === this.selectedEtage || b.etage_id === this.selectedEtage
+        );
         if (this.searchTerm) {
             const t = this.searchTerm.toLowerCase();
             result = result.filter(b =>
                 b.numero?.toLowerCase().includes(t) ||
-                b.etage?.toLowerCase().includes(t) ||
+                b.etage_id?.nom?.toLowerCase().includes(t) ||
+                b.zone_id?.nom?.toLowerCase().includes(t) ||
                 b.boutique_id?.nom_boutique?.toLowerCase().includes(t)
             );
         }
@@ -372,19 +473,26 @@ export class GestionBox implements OnInit {
     // ── ADD / EDIT ──────────────────────────────────────────
     openAddDialog() {
         this.editingBox = null;
-        this.form = { numero: '', etage: 'RDC', superficie: null, statut: 'libre', description: '' };
+        this.form = { numero: '', etage_id: null, superficie: null, statut: 'libre', description: '', zone_id: null };
+        this.zoneOptions = [...this.allZones];
         this.showFormDialog = true;
     }
 
     openEditDialog(box: any) {
         this.editingBox = box;
+        const etageId = box.etage_id?._id ?? box.etage_id ?? null;
         this.form = {
             numero: box.numero,
-            etage: box.etage,
+            etage_id: etageId,
             superficie: box.superficie,
             statut: box.statut,
-            description: box.description || ''
+            description: box.description || '',
+            zone_id: box.zone_id?._id ?? null
         };
+        // Filtrer les zones selon l'étage du box
+        this.zoneOptions = etageId
+            ? this.allZones.filter(z => z.etage_id === etageId)
+            : [...this.allZones];
         this.showFormDialog = true;
     }
 

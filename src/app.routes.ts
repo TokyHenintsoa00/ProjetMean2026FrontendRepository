@@ -43,6 +43,8 @@ import { AjouterContrat } from '@/pages/administrateur/contrats/ajouterContrat';
 import { DetailContrat } from '@/pages/administrateur/contrats/detailContrat';
 import { MonContrat } from '@/pages/boutique/contrat/monContrat';
 import { GestionBox } from '@/pages/administrateur/gestionBox/gestionBox';
+import { GestionCategorie } from '@/pages/administrateur/gestionCategorie/gestionCategorie';
+import { GestionEmplacement } from '@/pages/administrateur/gestionEmplacement/gestionEmplacement';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing, canActivate:[publicGuard]},
@@ -100,7 +102,9 @@ export const appRoutes: Routes = [
             {path:'contrats', component:ListeContrats},
             {path:'contrats/ajouter', component:AjouterContrat},
             {path:'contrats/detail/:id', component:DetailContrat},
-            {path:'boxes', component:GestionBox}
+            {path:'boxes', component:GestionBox},
+            {path:'categories', component:GestionCategorie},
+            {path:'emplacements', component:GestionEmplacement}
         ]
     },
     { path: 'notfound', component: Notfound },

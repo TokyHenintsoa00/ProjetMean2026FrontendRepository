@@ -20,4 +20,24 @@ import { environment } from '@env/environment';
     getCategorieTree(): Observable<any> {
         return this.http.get(`${this.apiUrl}/tree`);
     }
+
+    // Toutes les catégories avec parent peuplé (admin)
+    getAllForAdmin(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/admin/all`);
+    }
+
+    // Créer une catégorie (admin)
+    createCategorie(data: { nom: string; parent?: string | null }): Observable<any> {
+        return this.http.post(`${this.apiUrl}/register/categorie`, data);
+    }
+
+    // Modifier une catégorie (admin)
+    updateCategorie(id: string, data: { nom: string; parent?: string | null }): Observable<any> {
+        return this.http.put(`${this.apiUrl}/update/${id}`, data);
+    }
+
+    // Supprimer une catégorie (admin)
+    deleteCategorie(id: string): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/delete/${id}`);
+    }
  }

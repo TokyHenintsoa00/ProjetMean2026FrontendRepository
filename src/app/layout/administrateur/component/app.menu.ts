@@ -461,6 +461,7 @@ export class AppMenu {
             {
                 label: 'Gestion des Box',
                 items: [
+                  { label: 'Emplacements',  icon: 'pi pi-map-marker', routerLink: ['/admin/home/emplacements'] },
                     { label: 'Boxes & Attribution', icon: 'pi pi-building', routerLink: ['/admin/home/boxes'] }
                 ]
             },
@@ -468,6 +469,13 @@ export class AppMenu {
                 label: 'Commandes',
                 items: [
                     { label: 'Toutes les commandes', icon: 'pi pi-shopping-bag', routerLink: ['/admin/home/commandes'] }
+                ]
+            },
+            {
+                label: 'Catalogue',
+                items: [
+                    { label: 'Catégories',    icon: 'pi pi-tags',       routerLink: ['/admin/home/categories'] },
+                    
                 ]
             },
             {
