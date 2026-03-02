@@ -21,7 +21,7 @@ import { PromotionService } from '@/pages/service/promotion.service';
             <div class="cl-header-inner">
 
                 <!-- Logo -->
-                <a routerLink="/client/accueil" class="cl-logo">
+                <a routerLink="/client/infoUser" class="cl-logo">
                     <i class="pi pi-shopping-bag cl-logo-icon"></i>
                     <span class="cl-logo-text">Centre<strong>Mall</strong></span>
                 </a>
@@ -31,6 +31,10 @@ import { PromotionService } from '@/pages/service/promotion.service';
                     <a routerLink="/client/accueil" routerLinkActive="cl-nav-active" class="cl-nav-link">
                         <i class="pi pi-home"></i>
                         <span>Accueil</span>
+                    </a>
+                    <a routerLink="/client/infoUser" routerLinkActive="cl-nav-active" class="cl-nav-link">
+                        <i class="pi pi-user"></i>
+                        <span>Mon profil</span>
                     </a>
                     <a routerLink="/client/catalogue" routerLinkActive="cl-nav-active" class="cl-nav-link">
                         <i class="pi pi-th-large"></i>
@@ -44,6 +48,12 @@ import { PromotionService } from '@/pages/service/promotion.service';
                         <i class="pi pi-list"></i>
                         <span>Mes Commandes</span>
                     </a>
+
+                    <a routerLink="/client/infoUser" routerLinkActive="cl-nav-active" class="cl-nav-link">
+                        <i class="pi pi-user"></i>
+                        <span>Mon profil</span>
+                    </a>
+
                 </nav>
 
                 <!-- Right actions -->
@@ -262,11 +272,14 @@ export class AppLayoutClient {
         private promotionService: PromotionService
     ) {
         this.profileItems = [
+            
             { label: 'Accueil', icon: 'pi pi-home', command: () => this.router.navigate(['/client/accueil']) },
+            { label: 'Mon profil', icon: 'pi pi-user', command: () => this.router.navigate(['/client/infoUser']) },
             { label: 'Catalogue', icon: 'pi pi-th-large', command: () => this.router.navigate(['/client/catalogue']) },
             { label: 'Promotions', icon: 'pi pi-percentage', command: () => this.router.navigate(['/client/promotions']) },
             { label: 'Mes Commandes', icon: 'pi pi-list', command: () => this.router.navigate(['/client/mes-commandes']) },
             { label: 'Panier', icon: 'pi pi-shopping-cart', command: () => this.router.navigate(['/client/panier']) },
+            
             { separator: true },
             { label: 'Déconnexion', icon: 'pi pi-sign-out', command: () => this.authService.logout() }
         ];

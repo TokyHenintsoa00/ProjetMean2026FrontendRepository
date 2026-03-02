@@ -17,6 +17,12 @@ export class UserService{
         });
     }
 
+    updateAvatar(formData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update/avatar/user`, formData, {
+        withCredentials: true  // envoie token_user automatiquement
+    });
+}
+
     updateToDisconnectAccount(credentials:{_id:string}):Observable<any>
     {
         return this.http.put(`${this.apiUrl}/account/desactive`, credentials, {
@@ -41,6 +47,12 @@ export class UserService{
         return this.http.delete(`${this.apiUrl}/delete/${user_id}`);
     }
 
+    
+    getUserById(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/getUser/byId`, {
+            withCredentials: true
+        });
+    }
     // signUp(credentials:{nom:string,prenom:string,dateNaissance:Date,role:string,telephone:string,email:string,pwd:string,avatar:null,rememberMe?:boolean}):Observable<any>
     // {
     //     return this.http.post(`${this.apiUrl}/register/user`, credentials,{
@@ -205,4 +217,6 @@ signUpByAddClientFormData(formData: FormData): Observable<any> {
         withCredentials: true
         });
     }
+
+    
 }

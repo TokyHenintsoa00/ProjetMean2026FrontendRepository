@@ -43,6 +43,7 @@ import { AjouterContrat } from '@/pages/administrateur/contrats/ajouterContrat';
 import { DetailContrat } from '@/pages/administrateur/contrats/detailContrat';
 import { MonContrat } from '@/pages/boutique/contrat/monContrat';
 import { ListeClientManager } from '@/pages/administrateur/gestionuser/ListeClientManager';
+import { InfoCompteUser } from '@/pages/client/gestionCompte/infoCompte';
 
 export const appRoutes: Routes = [
     {path:'',component:Landing},
@@ -66,7 +67,8 @@ export const appRoutes: Routes = [
             { path: 'promotions', component: PromotionsClient },
             { path: 'panier', component: Panier },
             { path: 'mes-commandes', component: MesCommandes },
-            { path: 'mes-commandes/:id', component: CommandeDetail, data: { mode: 'client' } }
+            { path: 'mes-commandes/:id', component: CommandeDetail, data: { mode: 'client' } },
+            { path: 'infoUser',component:InfoCompteUser}
         ]
     },
     {path: 'boutique/home',

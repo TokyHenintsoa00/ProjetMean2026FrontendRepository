@@ -219,6 +219,8 @@ import { HostListener } from '@angular/core';
 
           <!-- Items -->
           <ul class="dropdown-list">
+
+          
             <li class="dropdown-item" (click)="navigateToHome()">
               <i class="pi pi-home"></i>
               <span>Acceuil</span>
