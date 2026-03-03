@@ -105,7 +105,7 @@ export const appRoutes: Routes = [
             {path:'contrats', component:ListeContrats},
             {path:'contrats/ajouter', component:AjouterContrat},
             {path:'contrats/detail/:id', component:DetailContrat},
-            {path:'listeuser',component:ListeClientManager}
+            {path:'listeuser',component:ListeClientManager},
             {path:'boxes', component:GestionBox},
             {path:'categories', component:GestionCategorie},
             {path:'emplacements', component:GestionEmplacement}
