@@ -840,13 +840,14 @@ export class VoirAllBoutique implements OnInit {
                         }
                     }
 
-                    // Corriger le chemin du logo
                     let logoUrl = null;
-                    if (shop.logo && shop.logo.length > 0) {
-                        const originalUrl = shop.logo[0].url;
-                        // Remplacer /uploads/logoboutique/ par /uploads/logo/
-                        logoUrl = originalUrl.replace('/uploads/logoboutique/', '/uploads/logo/');
+                    if (shop.logo) {
+                        if (typeof shop.logo === 'string') {
+                        logoUrl = shop.logo; // URL Cloudinary directe ✅
+                    } else if (Array.isArray(shop.logo) && shop.logo.length > 0) {
+                        logoUrl = shop.logo[0].url;
                     }
+                }
                     
                     const mapped = {
                         _id: shop._id,
@@ -910,9 +911,9 @@ export class VoirAllBoutique implements OnInit {
     }
 
     getLogoUrl(boutique: any): string {
-        if (boutique.logo) {
-            return this.baseUrl + boutique.logo;
-        }
+    if (boutique.logo) {
+        return boutique.logo; // ✅ URL Cloudinary déjà complète, pas besoin de baseUrl
+    }
         return this.getPlaceholderImage();
     }
 
