@@ -841,14 +841,10 @@ export class VoirAllBoutique implements OnInit {
                     }
 
                     let logoUrl = null;
-<<<<<<< HEAD
-                    if (shop.logo && shop.logo.length > 0) {
-=======
                     if (shop.logo) {
                         if (typeof shop.logo === 'string') {
                         logoUrl = shop.logo; // URL Cloudinary directe ✅
                     } else if (Array.isArray(shop.logo) && shop.logo.length > 0) {
->>>>>>> 7f1ffec8e83337f6c3fcaba053be91100ad87821
                         logoUrl = shop.logo[0].url;
                     }
                 }
@@ -915,15 +911,9 @@ export class VoirAllBoutique implements OnInit {
     }
 
     getLogoUrl(boutique: any): string {
-<<<<<<< HEAD
-        if (boutique.logo) {
-            return boutique.logo;
-        }
-=======
     if (boutique.logo) {
         return boutique.logo; // ✅ URL Cloudinary déjà complète, pas besoin de baseUrl
     }
->>>>>>> 7f1ffec8e83337f6c3fcaba053be91100ad87821
         return this.getPlaceholderImage();
     }
 

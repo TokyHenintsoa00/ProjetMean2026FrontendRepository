@@ -63,7 +63,7 @@ import { CommandeService } from '@/pages/service/commande.service';
                         </div>
                         <div class="mc-card-meta">
                             <span class="mc-meta-label">TOTAL</span>
-                            <span class="mc-meta-val mc-total">{{ cmd.total | number:'1.2-2' }} DT</span>
+                            <span class="mc-meta-val mc-total">{{ cmd.total | number:'1.0-0' }} Ar</span>
                         </div>
                     </div>
                     <div class="mc-card-hdr-right">
