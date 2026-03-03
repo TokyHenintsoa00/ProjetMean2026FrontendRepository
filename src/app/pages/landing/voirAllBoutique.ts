@@ -840,12 +840,9 @@ export class VoirAllBoutique implements OnInit {
                         }
                     }
 
-                    // Corriger le chemin du logo
                     let logoUrl = null;
                     if (shop.logo && shop.logo.length > 0) {
-                        const originalUrl = shop.logo[0].url;
-                        // Remplacer /uploads/logoboutique/ par /uploads/logo/
-                        logoUrl = originalUrl.replace('/uploads/logoboutique/', '/uploads/logo/');
+                        logoUrl = shop.logo[0].url;
                     }
                     
                     const mapped = {
@@ -911,7 +908,7 @@ export class VoirAllBoutique implements OnInit {
 
     getLogoUrl(boutique: any): string {
         if (boutique.logo) {
-            return this.baseUrl + boutique.logo;
+            return boutique.logo;
         }
         return this.getPlaceholderImage();
     }
