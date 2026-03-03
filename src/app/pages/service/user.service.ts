@@ -73,10 +73,10 @@ export class UserService{
     }
 
 
-    resetPassword(credentials:{token:string,email:string,newPassword:string})
-    {
-        return this.http.post(`${this.apiUrl}/password/resetPassword`,credentials)
-    }    
+        // -- à ajouter --
+    resetPassword(data: { token: string; email: string; newPassword: string }) {
+        return this.http.post(`${this.apiUrl}/password/resetPassword`, data);
+    } 
 
     // Nouvelle méthode qui accepte directement FormData
     // insertion user par admin => pour faire une boutique
