@@ -49,10 +49,7 @@ import { PromotionService } from '@/pages/service/promotion.service';
                         <span>Mes Commandes</span>
                     </a>
 
-                    <a routerLink="/client/infoUser" routerLinkActive="cl-nav-active" class="cl-nav-link">
-                        <i class="pi pi-user"></i>
-                        <span>Mon profil</span>
-                    </a>
+                    
 
                 </nav>
 

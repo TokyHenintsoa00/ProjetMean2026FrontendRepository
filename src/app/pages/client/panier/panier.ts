@@ -496,40 +496,47 @@ export class Panier implements OnInit {
     }
 
     passerCommande() {
-        if (this.boutiqueEntries.length === 0) return;
-        this.ordering = true;
-        let completed = 0;
-        let errors = 0;
-        const total = this.boutiqueEntries.length;
+        try 
+        {
+            if (this.boutiqueEntries.length === 0) return;
+            this.ordering = true;
+            let completed = 0;
+            let errors = 0;
+            const total = this.boutiqueEntries.length;
 
-        for (const entry of this.boutiqueEntries) {
-            const body = {
-                boutique: entry.boutique_id,
-                lignes: entry.items.map(item => ({
-                    produit: item.produit_id,
-                    variante_id: item.variante_id,
-                    quantite: item.quantite
-                })),
-                adresse_livraison: this.adresseLivraison,
-                mode_retrait: this.modeRetrait
-            };
+            for (const entry of this.boutiqueEntries) {
+                const body = {
+                    boutique: entry.boutique_id,
+                    lignes: entry.items.map(item => ({
+                        produit: item.produit_id,
+                        variante_id: item.variante_id,
+                        quantite: item.quantite
+                    })),
+                    adresse_livraison: this.adresseLivraison,
+                    mode_retrait: this.modeRetrait
+                };
 
-            this.commandeService.createCommande(body).subscribe({
-                next: () => {
-                    completed++;
-                    if (completed + errors === total) this.onOrdersComplete(completed, errors);
-                },
-                error: (err) => {
-                    errors++;
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Erreur',
-                        detail: err.error?.message || `Erreur commande ${entry.boutique_nom}`
-                    });
-                    if (completed + errors === total) this.onOrdersComplete(completed, errors);
-                }
-            });
+                this.commandeService.createCommande(body).subscribe({
+                    next: () => {
+                        completed++;
+                        if (completed + errors === total) this.onOrdersComplete(completed, errors);
+                    },
+                    error: (err) => {
+                        errors++;
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Erreur',
+                            detail: err.error?.message || `Erreur commande ${entry.boutique_nom}`
+                        });
+                        if (completed + errors === total) this.onOrdersComplete(completed, errors);
+                    }
+                });
+            }    
+        } catch (error) {
+            console.log(error);
+            
         }
+        
     }
 
     private onOrdersComplete(completed: number, errors: number) {
