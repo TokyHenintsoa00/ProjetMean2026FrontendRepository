@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+﻿import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '@env/environment';
 
 @Injectable({ providedIn: 'root' })
 export class PromotionService {
-    private apiUrl = 'http://localhost:5000/promotion';
+    private apiUrl = `${environment.apiUrl}/promotion`;
 
     constructor(private http: HttpClient) {}
 

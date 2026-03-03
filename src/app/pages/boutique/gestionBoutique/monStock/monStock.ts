@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -51,7 +51,7 @@ interface StockRow {
             <!-- Produit -->
             <div class="flex flex-column gap-1">
                 <label class="font-semibold text-sm text-900">Produit <span class="text-red-500">*</span></label>
-                <p-select [options]="produits"
+                <p-select appendTo="body" [options]="produits"
                           [(ngModel)]="form.produit"
                           optionLabel="nom_produit"
                           placeholder="Sélectionner un produit"
@@ -73,7 +73,7 @@ interface StockRow {
             <!-- Variante -->
             <div class="flex flex-column gap-1">
                 <label class="font-semibold text-sm text-900">Variante <span class="text-red-500">*</span></label>
-                <p-select [options]="varianteOptions"
+                <p-select appendTo="body" [options]="varianteOptions"
                           [(ngModel)]="form.varianteId"
                           optionLabel="label" optionValue="value"
                           placeholder="Sélectionner une variante"
@@ -118,15 +118,11 @@ interface StockRow {
         </ng-template>
     </p-dialog>
 
-    <div class="card">
-        <!-- Header -->
-        <div class="flex items-center justify-between pb-4 border-bottom-1 surface-border mb-4">
-            <div class="flex items-center gap-3">
-                <i class="pi pi-warehouse text-4xl text-primary"></i>
-                <div>
-                    <div class="font-semibold text-2xl text-primary">Gestion du Stock</div>
-                    <p class="text-600 text-sm mt-1">Consultez le stock par variante</p>
-                </div>
+    <div class="page-container">
+        <div class="page-header">
+            <div>
+                <h2 class="page-title"><i class="pi pi-warehouse"></i> Gestion du Stock</h2>
+                <p class="page-subtitle">Consultez le stock par variante</p>
             </div>
             <button pButton label="Entrée en stock" icon="pi pi-plus"
                     (click)="openDialog()"></button>
@@ -135,7 +131,7 @@ interface StockRow {
         <!-- Filtre -->
         <div class="flex items-center gap-3 mb-4">
             <label class="font-semibold text-900 text-sm">Filtrer par produit :</label>
-            <p-select [options]="produitFilterOptions" [(ngModel)]="selectedFilter"
+            <p-select appendTo="body" [options]="produitFilterOptions" [(ngModel)]="selectedFilter"
                       optionLabel="label" optionValue="value"
                       placeholder="Tous les produits"
                       [showClear]="true"
@@ -151,8 +147,10 @@ interface StockRow {
         </div>
 
         <!-- Tableau -->
-        <p-table *ngIf="!loading" [value]="filteredRows"
+        <div class="table-card" *ngIf="!loading">
+        <p-table [value]="filteredRows"
                  [paginator]="true" [rows]="15"
+                 styleClass="custom-table"
                  [tableStyle]="{'min-width': '45rem'}"
                  [rowHover]="true"
                  [showCurrentPageReport]="true"
@@ -191,8 +189,33 @@ interface StockRow {
                 </tr>
             </ng-template>
         </p-table>
+        </div>
     </div>
-    `
+    `,
+    styles: [`
+:host {
+    --primary: #f59e0b; --primary-dark: #d97706; --card: #ffffff;
+    --text-900: #0f172a; --text-600: #475569; --text-400: #94a3b8;
+    --border: #e2e8f0; --border-100: #f8fafc;
+    --shadow: 0 1px 3px rgba(15,23,42,0.06), 0 4px 12px rgba(15,23,42,0.04);
+    --radius: 1rem;
+}
+.page-container { padding: 2rem; }
+.page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; }
+.page-title { font-size:1.75rem; font-weight:700; color:var(--text-900); display:flex; align-items:center; gap:0.75rem; margin:0; }
+.page-title i { color:var(--primary); font-size:1.5rem; }
+.page-subtitle { color:var(--text-600); font-size:0.875rem; margin:0.25rem 0 0; }
+.table-card { background:var(--card); border-radius:var(--radius); border:1px solid var(--border); box-shadow:var(--shadow); overflow:hidden; }
+::ng-deep .custom-table .p-datatable-thead > tr > th { background:var(--border-100) !important; color:var(--text-600) !important; font-size:0.75rem !important; font-weight:600 !important; text-transform:uppercase !important; letter-spacing:0.05em !important; padding:0.875rem 1rem !important; border-bottom:1px solid var(--border) !important; border-right:none !important; border-top:none !important; border-left:none !important; }
+::ng-deep .custom-table .p-datatable-tbody > tr { background:#fff !important; color:var(--text-900) !important; transition:background 0.15s; }
+::ng-deep .custom-table .p-datatable-tbody > tr:hover { background:#fefce8 !important; }
+::ng-deep .custom-table .p-datatable-tbody > tr > td { padding:1rem !important; border-bottom:1px solid var(--border-100) !important; border-right:none !important; border-left:none !important; border-top:none !important; }
+::ng-deep .custom-table .p-paginator { background:var(--border-100) !important; border-top:1px solid var(--border) !important; padding:0.75rem 1.5rem !important; border-bottom:none !important; border-left:none !important; border-right:none !important; }
+::ng-deep .custom-table .p-paginator .p-paginator-pages .p-paginator-page { color:var(--text-600) !important; border-radius:0.375rem; font-weight:500; }
+::ng-deep .custom-table .p-paginator .p-paginator-pages .p-paginator-page.p-highlight { background:var(--primary) !important; color:#fff !important; }
+::ng-deep .p-button:not(.p-button-text):not(.p-button-outlined):not(.p-button-link) { background:var(--primary) !important; border-color:var(--primary) !important; color:#fff !important; }
+::ng-deep .p-button:not(.p-button-text):not(.p-button-outlined):not(.p-button-link):enabled:hover { background:var(--primary-dark) !important; border-color:var(--primary-dark) !important; }
+    `]
 })
 export class MonStock implements OnInit {
 

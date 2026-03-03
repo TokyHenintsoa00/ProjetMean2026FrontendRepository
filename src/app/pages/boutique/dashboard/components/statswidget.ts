@@ -29,7 +29,7 @@ import { ProduitService } from '@/pages/service/produit.service';
             <div class="flex justify-between mb-4">
                 <div>
                     <span class="block text-muted-color font-medium mb-4">Chiffre d'affaires</span>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ chiffreAffaires | number:'1.2-2' }} DT</div>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ chiffreAffaires | number:'1.2-2' }} AR</div>
                 </div>
                 <div class="flex items-center justify-center bg-orange-100 dark:bg-orange-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                     <i class="pi pi-dollar text-orange-500 text-xl!"></i>
@@ -63,7 +63,7 @@ import { ProduitService } from '@/pages/service/produit.service';
             <div class="flex justify-between mb-4">
                 <div>
                     <span class="block text-muted-color font-medium mb-4">Ticket moyen</span>
-                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ ticketMoyen | number:'1.2-2' }} DT</div>
+                    <div class="text-surface-900 dark:text-surface-0 font-medium text-xl">{{ ticketMoyen | number:'1.2-2' }} AR</div>
                 </div>
                 <div class="flex items-center justify-center bg-purple-100 dark:bg-purple-400/10 rounded-border" style="width: 2.5rem; height: 2.5rem">
                     <i class="pi pi-chart-line text-purple-500 text-xl!"></i>

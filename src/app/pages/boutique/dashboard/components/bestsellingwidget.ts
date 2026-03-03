@@ -42,7 +42,7 @@ interface TopProduit {
                             </div>
                             <div class="text-right ml-3 flex-shrink-0">
                                 <div class="font-semibold text-surface-900 dark:text-surface-0">{{ p.quantite }} unités</div>
-                                <div class="text-xs text-muted-color">{{ p.ca | number:'1.2-2' }} DT</div>
+                                <div class="text-xs text-muted-color">{{ p.ca | number:'1.2-2' }} AR</div>
                             </div>
                         </div>
                         <div class="w-full bg-surface-200 dark:bg-surface-600 rounded-full" style="height: 6px;">

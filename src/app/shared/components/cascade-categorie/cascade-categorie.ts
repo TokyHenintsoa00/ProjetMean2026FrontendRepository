@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+﻿import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
@@ -20,7 +20,7 @@ export interface CategorieNode {
                 {{ i === 0 ? 'Categorie' : 'Sous-categorie ' + i }}
                 <span *ngIf="i > 0" class="text-500 font-normal">(optionnel)</span>
             </label>
-            <p-select
+            <p-select appendTo="body"
                 [options]="level.options"
                 [(ngModel)]="level.selected"
                 optionLabel="nom"

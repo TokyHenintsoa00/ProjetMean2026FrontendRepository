@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -40,7 +40,7 @@ import { BoxService } from '@/pages/service/box.service';
                     <i class="pi pi-file-edit"></i>
                     {{ isEdit ? 'Modifier le contrat' : 'Nouveau contrat' }}
                 </h1>
-                <p class="page-subtitle">{{ isEdit ? 'Modifiez les informations du contrat' : 'Renseignez les informations du contrat de location' }}</p>
+                <p class="page-subtitle">{{ isEdit ? 'Modifiez les informations du contrat' : preselectedBox ? 'Box ' + preselectedBox.numero + ' pré-sélectionné — renseignez les informations du contrat' : 'Renseignez les informations du contrat de location' }}</p>
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@ import { BoxService } from '@/pages/service/box.service';
             <div class="fields-row">
                 <div class="field">
                     <label class="field-label">Boutique <span class="required">*</span></label>
-                    <p-select
+                    <p-select appendTo="body"
                         [options]="boutiques"
                         [(ngModel)]="form.boutique_id"
                         optionLabel="nom_boutique" optionValue="_id"
@@ -64,7 +64,7 @@ import { BoxService } from '@/pages/service/box.service';
                 </div>
                 <div class="field">
                     <label class="field-label">Box / Emplacement</label>
-                    <p-select
+                    <p-select appendTo="body"
                         [options]="boxes"
                         [(ngModel)]="form.box_id"
                         optionLabel="label" optionValue="_id"
@@ -130,7 +130,7 @@ import { BoxService } from '@/pages/service/box.service';
                 </div>
                 <div class="field">
                     <label class="field-label">Devise</label>
-                    <p-select [options]="devises" [(ngModel)]="form.loyer.devise"
+                    <p-select appendTo="body" [options]="devises" [(ngModel)]="form.loyer.devise"
                         optionLabel="label" optionValue="value" styleClass="w-full"></p-select>
                 </div>
                 <div class="field">
@@ -159,7 +159,7 @@ import { BoxService } from '@/pages/service/box.service';
             <div class="fields-row">
                 <div class="field">
                     <label class="field-label">Statut du contrat</label>
-                    <p-select [options]="statutOptions" [(ngModel)]="form.statut"
+                    <p-select appendTo="body" [options]="statutOptions" [(ngModel)]="form.statut"
                         optionLabel="label" optionValue="value" styleClass="w-full"></p-select>
                 </div>
                 <div class="field checkbox-field" style="justify-content:flex-end;">
@@ -269,6 +269,7 @@ export class AjouterContrat {
     editId: string | null = null;
     boutiques: any[] = [];
     boxes: any[] = [];
+    preselectedBox: any = null;
 
     form = {
         boutique_id: '',
@@ -309,6 +310,8 @@ export class AjouterContrat {
         if (state?.contrat) {
             this.isEdit = true;
             this.prefill(state.contrat);
+        } else if (state?.box) {
+            this.preselectedBox = state.box;
         }
     }
 
@@ -322,6 +325,11 @@ export class AjouterContrat {
                     ...b,
                     label: `${b.numero} — ${b.etage}${b.superficie ? ' (' + b.superficie + ' m²)' : ''}`
                 }));
+                if (this.preselectedBox) {
+                    this.form.box_id     = this.preselectedBox._id;
+                    this.form.box_numero = this.preselectedBox.numero;
+                    this.form.box_etage  = this.preselectedBox.etage;
+                }
             }
         });
     }

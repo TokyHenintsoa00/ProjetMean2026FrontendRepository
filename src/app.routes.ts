@@ -27,7 +27,7 @@ import { viewDetailDemandeBoutique } from '@/pages/administrateur/gestionBoutiqu
 import { VoirAllBoutique } from '@/pages/landing/voirAllBoutique';
 import { resetPassword } from '@/pages/auth/resetPassword';
 import { VisiteBoutique } from '@/pages/landing/VisiteBoutique';
-import { authGuard } from '@/guards/auth.guard';
+import { authGuard, clientGuard, boutiqueGuard, adminGuard, publicGuard } from '@/guards/auth.guard';
 import { AppLayoutClient } from '@/layout/client/component/app.layout';
 import { Catalogue } from '@/pages/client/catalogue/catalogue';
 import { Panier } from '@/pages/client/panier/panier';
@@ -44,11 +44,14 @@ import { DetailContrat } from '@/pages/administrateur/contrats/detailContrat';
 import { MonContrat } from '@/pages/boutique/contrat/monContrat';
 import { ListeClientManager } from '@/pages/administrateur/gestionuser/ListeClientManager';
 import { InfoCompteUser } from '@/pages/client/gestionCompte/infoCompte';
+import { GestionBox } from '@/pages/administrateur/gestionBox/gestionBox';
+import { GestionCategorie } from '@/pages/administrateur/gestionCategorie/gestionCategorie';
+import { GestionEmplacement } from '@/pages/administrateur/gestionEmplacement/gestionEmplacement';
 
 export const appRoutes: Routes = [
-    {path:'',component:Landing},
+    {path:'',component:Landing, canActivate:[publicGuard]},
     {path:'membre/client',component:LandingClient},
-    {path:'logIn',component:Login},
+    {path:'logIn',component:Login, canActivate:[publicGuard]},
     {path:'allboutique',component:VoirAllBoutique},
     {path:'administrator/logIn',component:LoginAdmin},
     {path:'visiteBoutique/:id',component:VisiteBoutique},
@@ -59,7 +62,7 @@ export const appRoutes: Routes = [
     // Espace client authentifié — catalogue, panier, commandes
     {path: 'client',
         component: AppLayoutClient,
-        canActivate: [authGuard],
+        canActivate: [clientGuard],
         children: [
             { path: '', redirectTo: 'accueil', pathMatch: 'full' },
             { path: 'accueil', component: AccueilClient },
@@ -73,7 +76,7 @@ export const appRoutes: Routes = [
     },
     {path: 'boutique/home',
         component: AppLayout,
-        canActivate: [authGuard],
+        canActivate: [boutiqueGuard],
         children: [
             { path: '', component: BoutiqueDashboard },
             { path:'mesProduits', component: MesProduits },
@@ -89,7 +92,7 @@ export const appRoutes: Routes = [
     {
         path:'admin/home',
         component:AppLayoutAdmin,
-        canActivate: [authGuard],
+        canActivate: [adminGuard],
         children:[
             {path:'',component: AdminDashboard},
             {path:'creationBoutique' , component: CreationBoutique},
@@ -103,6 +106,9 @@ export const appRoutes: Routes = [
             {path:'contrats/ajouter', component:AjouterContrat},
             {path:'contrats/detail/:id', component:DetailContrat},
             {path:'listeuser',component:ListeClientManager}
+            {path:'boxes', component:GestionBox},
+            {path:'categories', component:GestionCategorie},
+            {path:'emplacements', component:GestionEmplacement}
         ]
     },
     { path: 'notfound', component: Notfound },

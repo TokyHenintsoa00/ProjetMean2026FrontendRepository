@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -139,7 +139,7 @@ import { PaiementService } from '@/pages/service/paiement.service';
             <div class="card-actions">
                 <button pButton type="button" icon="pi pi-pencil" label="Modifier"
                     class="action-edit" (click)="goEdit()"></button>
-                <p-select [options]="statutOptions" [(ngModel)]="newStatut"
+                <p-select appendTo="body" [options]="statutOptions" [(ngModel)]="newStatut"
                     optionLabel="label" optionValue="value"
                     placeholder="Changer le statut" styleClass="statut-select"
                     (onChange)="changeStatut($event.value)">
@@ -340,12 +340,12 @@ import { PaiementService } from '@/pages/service/paiement.service';
             </div>
             <div class="d-field">
                 <label class="d-label">Mode de paiement</label>
-                <p-select [options]="modeOptions" [(ngModel)]="pForm.mode_paiement"
+                <p-select appendTo="body" [options]="modeOptions" [(ngModel)]="pForm.mode_paiement"
                     optionLabel="label" optionValue="value" styleClass="w-full"></p-select>
             </div>
             <div class="d-field">
                 <label class="d-label">Statut</label>
-                <p-select [options]="payStatutOptions" [(ngModel)]="pForm.statut"
+                <p-select appendTo="body" [options]="payStatutOptions" [(ngModel)]="pForm.statut"
                     optionLabel="label" optionValue="value" styleClass="w-full"></p-select>
             </div>
             <div class="d-field">

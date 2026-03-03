@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { DividerModule } from 'primeng/divider';
 import { BoutiqueService } from '@/pages/service/boutique.service';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-accueil-client',
@@ -35,13 +36,13 @@ import { BoutiqueService } from '@/pages/service/boutique.service';
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-6">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="text-white text-sm font-medium">Nouveau centre commercial</span>
+                    <span class="text-white text-sm font-medium">m1p13mean-Toky-Zo</span>
                 </div>
 
                 <!-- Title -->
                 <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6 animate-fade-in">
                     <span class="text-white">Bienvenue dans</span>
-                    <span class="block text-white">Notre Centre Commercial</span>
+                    <span class="block text-white">m1p13mean-Toky-Zo</span>
                 </h1>
 
                 <!-- Description -->
@@ -121,7 +122,7 @@ import { BoutiqueService } from '@/pages/service/boutique.service';
                         <div class="boutique-card">
                             <!-- Logo -->
                             <div class="logo-container">
-                                <img [src]="boutique.logo ? baseUrl + boutique.logo : fallbackLogo"
+                                <img [src]="boutique.logo ? boutique.logo : fallbackLogo"
                                      [alt]="boutique.nom_boutique"
                                      class="boutique-logo"
                                      (error)="onImageError($event)" />
@@ -293,7 +294,7 @@ export class AccueilClient implements OnInit, OnDestroy {
     private lastTimestamp = 0;
     private readonly itemWidth = 320 + 40; // card width + gap
 
-    baseUrl = 'http://localhost:5000';
+    baseUrl = environment.apiUrl;
     fallbackLogo = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/%3E%3Ctext fill=%22%23999%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2224%22%3ELogo%3C/text%3E%3C/svg%3E';
 
     constructor(
@@ -321,7 +322,7 @@ export class AccueilClient implements OnInit, OnDestroy {
                     }
                     let logoUrl = null;
                     if (shop.logo && shop.logo.length > 0) {
-                        logoUrl = shop.logo[0].url.replace('/uploads/logoboutique/', '/uploads/logo/');
+                        logoUrl = shop.logo[0].url;
                     }
                     return {
                         _id: shop._id,

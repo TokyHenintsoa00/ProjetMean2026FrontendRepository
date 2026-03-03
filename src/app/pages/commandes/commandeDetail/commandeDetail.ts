@@ -54,7 +54,7 @@ import { CommandeService } from '@/pages/service/commande.service';
         <div class="inv-header">
             <div class="inv-brand">
                 <i class="pi pi-shopping-bag"></i>
-                <span>CentreMall</span>
+                <span>m1p13mean-Toky-Zo</span>
             </div>
             <div class="inv-title-block">
                 <div class="inv-title">FACTURE</div>
@@ -183,7 +183,7 @@ import { CommandeService } from '@/pages/service/commande.service';
 
         <!-- ─── INVOICE FOOTER ─── -->
         <div class="inv-footer">
-            <span>CentreMall — Merci de votre confiance</span>
+            <span>m1p13mean-Toky-Zo — Merci de votre confiance</span>
             <span>Document généré le {{ today | date:'dd/MM/yyyy HH:mm' }}</span>
         </div>
     </div>

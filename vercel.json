@@ -1,4 +1,7 @@
 {
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist/sakai-ng/browser",
+    "framework": null,
     "rewrites": [
         {
             "source": "/:path*",

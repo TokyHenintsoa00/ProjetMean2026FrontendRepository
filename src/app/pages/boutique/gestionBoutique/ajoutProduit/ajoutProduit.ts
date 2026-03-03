@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+﻿import { Component } from "@angular/core";
 import { MessageService } from "primeng/api";
 import { UserService } from "@/pages/service/user.service";
 import { Router } from "@angular/router";
@@ -70,7 +70,7 @@ import { StatusService } from "@/pages/service/status.service";
                                 <label for="category" class="font-semibold text-900">
                                     Catégorie produit <span class="text-red-500">*</span>
                                 </label>
-                                <p-select 
+                                <p-select appendTo="body" 
                                     id="category"
                                     [options]="categories" 
                                     [(ngModel)]="produit.categorie"

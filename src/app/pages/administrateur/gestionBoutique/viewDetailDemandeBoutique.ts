@@ -1,4 +1,4 @@
-import { BoutiqueService } from "@/pages/service/boutique.service";
+﻿import { BoutiqueService } from "@/pages/service/boutique.service";
 import { UserService } from "@/pages/service/user.service";
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
@@ -18,6 +18,7 @@ import { ToastModule } from "primeng/toast";
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-infoplusBoutique',
@@ -474,7 +475,7 @@ export class viewDetailDemandeBoutique {
     userData: any = null;
     boutique: any = null;
     loading: boolean = true;
-    baseUrl = "http://localhost:5000";
+    baseUrl = environment.apiUrl;
 
     constructor(
         private route: ActivatedRoute,
@@ -576,7 +577,7 @@ export class viewDetailDemandeBoutique {
                         email: shop.manager_id.email || '',
                         telephone: shop.manager_id.numero_telephone || 'Non renseigné',
                         avatar: shop.manager_id.avatar?.length
-                            ? `${this.baseUrl}${shop.manager_id.avatar[0].url}` : null,
+                            ? shop.manager_id.avatar[0].url : null,
                         isActive: shop.manager_id.is_active,
                         createdAt: shop.manager_id.createdAt || null
                     };

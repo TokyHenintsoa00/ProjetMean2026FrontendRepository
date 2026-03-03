@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -95,7 +95,7 @@ import { CommandeService } from '@/pages/service/commande.service';
                                     <i class="pi pi-file-pdf"></i>
                                 </button>
                                 @if (getAvailableStatuts(cmd.statut).length > 0) {
-                                    <p-select [options]="getAvailableStatuts(cmd.statut)"
+                                    <p-select appendTo="body" [options]="getAvailableStatuts(cmd.statut)"
                                               [(ngModel)]="cmd._newStatut"
                                               (onChange)="changeStatut(cmd)"
                                               placeholder="Changer"

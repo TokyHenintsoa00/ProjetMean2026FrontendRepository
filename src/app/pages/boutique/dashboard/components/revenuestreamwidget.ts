@@ -40,7 +40,7 @@ import { CommandeService } from '@/pages/service/commande.service';
         <div class="grid grid-cols-3 gap-3 mb-5">
             <div class="text-center p-3 rounded-lg bg-surface-100 dark:bg-surface-700">
                 <div class="text-muted-color text-sm mb-1">CA période</div>
-                <div class="text-xl font-bold text-surface-900 dark:text-surface-0">{{ caPeriode | number:'1.0-0' }} DT</div>
+                <div class="text-xl font-bold text-surface-900 dark:text-surface-0">{{ caPeriode | number:'1.0-0' }} AR</div>
                 <div [class]="caVariation >= 0 ? 'text-green-500 text-xs mt-1' : 'text-red-500 text-xs mt-1'">
                     <i [class]="caVariation >= 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
                     {{ caVariation >= 0 ? '+' : '' }}{{ caVariation | number:'1.0-0' }}% vs préc.
@@ -53,7 +53,7 @@ import { CommandeService } from '@/pages/service/commande.service';
             </div>
             <div class="text-center p-3 rounded-lg bg-surface-100 dark:bg-surface-700">
                 <div class="text-muted-color text-sm mb-1">Ticket moyen</div>
-                <div class="text-xl font-bold text-surface-900 dark:text-surface-0">{{ ticketMoyen | number:'1.0-0' }} DT</div>
+                <div class="text-xl font-bold text-surface-900 dark:text-surface-0">{{ ticketMoyen | number:'1.0-0' }} AR</div>
                 <div class="text-muted-color text-xs mt-1">par commande</div>
             </div>
         </div>
@@ -172,7 +172,7 @@ export class RevenueStreamWidget implements OnInit, OnDestroy {
         this.chartData = {
             labels,
             datasets: [{
-                label: 'CA (DT)',
+                label: 'CA (AR)',
                 data,
                 fill: true,
                 borderColor: primary,
@@ -187,7 +187,7 @@ export class RevenueStreamWidget implements OnInit, OnDestroy {
             maintainAspectRatio: false,
             plugins: {
                 legend: { display: false },
-                tooltip: { callbacks: { label: (ctx: any) => ` ${(ctx.raw as number).toFixed(2)} DT` } }
+                tooltip: { callbacks: { label: (ctx: any) => ` ${(ctx.raw as number).toFixed(2)} AR` } }
             },
             scales: {
                 x: { ticks: { color: textMuted, maxRotation: 0, font: { size: 11 } }, grid: { color: 'transparent' } },

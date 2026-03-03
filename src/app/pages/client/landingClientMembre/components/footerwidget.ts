@@ -26,7 +26,7 @@ import { Router, RouterModule } from '@angular/router';
                                 />
                             </g>
                         </svg>
-                        <h4 class="font-medium text-3xl text-surface-900 dark:text-surface-0">SAKAI</h4>
+                        <h4 class="font-medium text-3xl text-surface-900 dark:text-surface-0">m1p13mean-Toky-Zo</h4>
                     </a>
                 </div>
 
@@ -65,6 +65,12 @@ import { Router, RouterModule } from '@angular/router';
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="text-center py-4 border-t border-surface-200 dark:border-surface-700 text-sm text-surface-500 dark:text-surface-400">
+            © 2026 m1p13mean-Toky-Zo &nbsp;|&nbsp;
+            <span class="font-semibold">RAMANALINARIVO TOKY</span>
+            &nbsp;·&nbsp;
+            <span class="font-semibold">RAKOTOASIMBOLA ZO ANJA NY AINA</span>
         </div>
     `
 })

@@ -1,4 +1,4 @@
-// import { Component } from "@angular/core";
+﻿// import { Component } from "@angular/core";
 // import { MessageService } from "primeng/api";
 // import { UserService } from "@/pages/service/user.service";
 // import { Router } from "@angular/router";
@@ -239,7 +239,7 @@
 //                                 <label for="category" class="font-semibold text-900">
 //                                     Catégorie du boutique <span class="text-red-500">*</span>
 //                                 </label>
-//                                 <p-select 
+//                                 <p-select appendTo="body" 
 //                                     id="category"
 //                                     [options]="categories" 
 //                                     [(ngModel)]="boutique.categorie"
@@ -1342,7 +1342,7 @@
 
 //                 <div class="field-group">
 //                     <label class="field-label">Catégorie <span class="required">*</span></label>
-//                     <p-select [options]="categories" [(ngModel)]="boutique.categorie" name="categorie"
+//                     <p-select appendTo="body" [options]="categories" [(ngModel)]="boutique.categorie" name="categorie"
 //                         optionLabel="name" optionValue="value" placeholder="Sélectionnez une catégorie"
 //                         styleClass="w-full styled-select">
 //                     </p-select>
@@ -2863,7 +2863,7 @@ interface Horaire {
 
                 <div class="field-group">
                     <label class="field-label">Catégorie <span class="required">*</span></label>
-                    <p-select [options]="categories" [(ngModel)]="boutique.categorie" name="categorie"
+                    <p-select appendTo="body" [options]="categories" [(ngModel)]="boutique.categorie" name="categorie"
                         optionLabel="name" optionValue="value" placeholder="Sélectionnez une catégorie"
                         styleClass="w-full styled-select">
                     </p-select>
